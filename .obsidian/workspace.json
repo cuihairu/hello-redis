@@ -1,0 +1,191 @@
+{
+  "main": {
+    "id": "8c6de6b15bdd5a8e",
+    "type": "split",
+    "children": [
+      {
+        "id": "a4151b56debae33b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "68f3701e63a3323a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/SUMMARY.md",
+                "mode": "source",
+                "source": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "68a72228cdb3bf52",
+    "type": "split",
+    "children": [
+      {
+        "id": "cf2771aa7faa583c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d89dab67e4185ca6",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "263d425b75164eeb",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "80b2ca085e0df2b3",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "57a06146892bef6e",
+    "type": "split",
+    "children": [
+      {
+        "id": "2f2452c31e748325",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c1ec21b3a1e467a4",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "src/SUMMARY.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "49a9ec6f8db3d6ed",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "src/SUMMARY.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "7c76601d749d4264",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "2c52672e04dcfc77",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "src/SUMMARY.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false
+    }
+  },
+  "active": "68f3701e63a3323a",
+  "lastOpenFiles": [
+    "book/ayu-highlight.css",
+    "book/404.html",
+    "book/appendix/references.html",
+    "book/appendix/index.html",
+    "book/appendix/faq.html",
+    "book/appendix/command-reference.html",
+    "book/appendix",
+    "book/redis-compatible/valkey.html",
+    "src/redis-compatible/valkey.md",
+    "book/clipboard.min.js",
+    "book/css/variables.css",
+    "book/css/print.css",
+    "src/use-cases/likes.md",
+    "src/use-cases/check-ins.md",
+    "src/use-cases/clock-ins.md",
+    "src/basics/zset/zrem.md",
+    "src/basics/zset/zadd.md",
+    "src/basics/zset/zrange.md",
+    "src/basics/zset/other-commands.md",
+    "src/basics/hyperloglog/pfcount.md",
+    "src/basics/hyperloglog/pfadd.md",
+    "src/basics/hyperloglog/other-commands.md",
+    "src/basics/geospatial/other-commands.md",
+    "src/basics/geospatial/georadius.md",
+    "src/basics/geospatial/geoadd.md",
+    "src/basics/string/set.md",
+    "src/basics/string/other-commands.md",
+    "src/basics/string/get.md",
+    "src/basics/hash/other-commands.md",
+    "src/basics/hash/hset.md",
+    "src/basics/hash/hget.md",
+    "src/basics/list/other-commands.md",
+    "src/basics/list/lpush.md",
+    "src/basics/list/rpop.md",
+    "src/basics/list/rpush.md",
+    "src/basics/list/lpop.md",
+    "book/FontAwesome/fonts/fontawesome-webfont.svg",
+    "book/favicon.svg",
+    "book/favicon.png"
+  ]
+}
