@@ -13,9 +13,9 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/SUMMARY.md",
+                "file": "src/basics/other.md",
                 "mode": "source",
-                "source": true
+                "source": false
               }
             }
           }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/SUMMARY.md",
+                "file": "src/basics/other.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "src/SUMMARY.md",
+                "file": "src/basics/other.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "src/SUMMARY.md"
+                "file": "src/basics/other.md"
               }
             }
           }
@@ -146,46 +146,46 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "68f3701e63a3323a",
+  "active": "d89dab67e4185ca6",
   "lastOpenFiles": [
-    "basics/other.md",
-    "src/SUMMARY.md",
-    "use-cases/rate-limiting/api.md",
-    "use-cases/rate-limiting/strategies.md",
-    "use-cases/rate-limiting",
-    "src/use-cases/rate-limiting.md",
-    "use-cases/distributed-locks/distributed-systems.md",
-    "use-cases/distributed-locks/implementation.md",
-    "use-cases/distributed-locks",
-    "use-cases/distributed-locks.md",
-    "use-cases/geolocation-services/location-based.md",
-    "use-cases/geolocation-services/storage-query.md",
-    "use-cases/geolocation-services",
-    "use-cases/geolocation-services.md",
-    "use-cases/chat-system/real-time-chat.md",
-    "use-cases/chat-system/message-storage.md",
-    "use-cases/chat-system",
-    "use-cases/chat-system.md",
-    "use-cases/ranking-and-counting/counters.md",
-    "use-cases/ranking-and-counting/ranking.md",
-    "use-cases/ranking-and-counting",
-    "use-cases/ranking-and-counting.md",
-    "use-cases/task-queue/async-tasks.md",
-    "use-cases/task-queue/design.md",
-    "use-cases/task-queue",
-    "use-cases/task-queue.md",
-    "use-cases/real-time-analysis/dashboard.md",
-    "use-cases/real-time-analysis/data-processing.md",
-    "use-cases/real-time-analysis",
-    "use-cases/real-time-analysis.md",
-    "use-cases/session-management/authentication.md",
-    "use-cases/session-management/best-practices.md",
-    "use-cases/session-management",
-    "use-cases/session-management.md",
-    "use-cases/cache",
-    "use-cases",
+    "book/redis-compatible",
+    "book/basics/zset",
+    "book/basics/string",
+    "book/basics/streams",
+    "book/basics/set",
+    "book/basics/list",
+    "book/basics/hyperloglog",
+    "book/basics/hash",
+    "book/basics/geospatial",
+    "book/basics/bitmap",
+    "book/appendix",
     "book/FontAwesome/fonts/fontawesome-webfont.svg",
     "book/favicon.svg",
-    "book/favicon.png"
+    "book/favicon.png",
+    "src/basics/other.md",
+    "src/basics/other.md",
+    "src/basics/geospatial.md",
+    "src/basics/geospatial.md",
+    "src/basics/bitmap/other-commands.md",
+    "src/basics/bitmap.md",
+    "src/basics/bitmap/setbit.md",
+    "src/basics/bitmap/getbit.md",
+    "src/basics/bitmap.md",
+    "src/use-cases/task-queue/design.md",
+    "src/use-cases/task-queue/async-tasks.md",
+    "src/use-cases/session-management/best-practices.md",
+    "src/use-cases/session-management/authentication.md",
+    "src/use-cases/real-time-analysis/data-processing.md",
+    "src/use-cases/real-time-analysis/dashboard.md",
+    "src/use-cases/rate-limiting/strategies.md",
+    "src/use-cases/rate-limiting/api.md",
+    "src/use-cases/ranking-and-counting/ranking.md",
+    "src/use-cases/ranking-and-counting/counters.md",
+    "src/use-cases/ranking-and-counting/ranking.md",
+    "src/use-cases/ranking-and-counting/counters.md",
+    "src/use-cases/geolocation-services/storage-query.md",
+    "src/use-cases/geolocation-services/location-based.md",
+    "src/use-cases/geolocation-services/storage-query.md",
+    "src/use-cases/geolocation-services/location-based.md"
   ]
 }
