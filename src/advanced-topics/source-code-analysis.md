@@ -1,1 +1,37 @@
-# Redis源码分析
+## Redis源码分析
+
+源码分析部分将深入探讨Redis的内部实现，帮助读者理解Redis的工作原理和优化策略。这一部分包括对Redis核心组件和关键功能的详细分析，提供对Redis源码的深度解析。
+
+### [Redis源码分析](source-code-analysis/README.md)
+- [Redis整体架构](source-code-analysis/architecture.md)
+    - [Redis架构概述](source-code-analysis/architecture/overview.md)
+    - [主要组件和模块](source-code-analysis/architecture/components.md)
+- [内存管理](source-code-analysis/memory-management.md)
+    - [内存分配和释放机制](source-code-analysis/memory-management/allocating.md)
+    - [内存优化策略](source-code-analysis/memory-management/optimization.md)
+- [数据结构与算法](source-code-analysis/data-structures.md)
+    - [Redis数据结构概述](source-code-analysis/data-structures/overview.md)
+    - [具体数据结构实现](source-code-analysis/data-structures/implementation.md)
+- [持久化机制](source-code-analysis/persistence.md)
+    - [RDB持久化实现](source-code-analysis/persistence/rdb.md)
+    - [AOF持久化实现](source-code-analysis/persistence/aof.md)
+- [网络协议](source-code-analysis/network-protocol.md)
+    - [Redis协议概述](source-code-analysis/network-protocol/protocol-overview.md)
+    - [具体实现细节](source-code-analysis/network-protocol/implementation.md)
+- [命令处理流程](source-code-analysis/command-processing.md)
+    - [命令解析](source-code-analysis/command-processing/parsing.md)
+    - [命令执行](source-code-analysis/command-processing/execution.md)
+- [多线程与并发控制](source-code-analysis/multithreading.md)
+    - [线程模型](source-code-analysis/multithreading/model.md)
+    - [并发控制机制](source-code-analysis/multithreading/concurrency.md)
+- [模块系统](source-code-analysis/modules.md)
+    - [模块系统概述](source-code-analysis/modules/overview.md)
+    - [自定义模块的实现](source-code-analysis/modules/implementation.md)
+- [Redis集群实现](source-code-analysis/cluster.md)
+    - [集群架构](source-code-analysis/cluster/architecture.md)
+    - [数据分片与复制](source-code-analysis/cluster/sharding-replication.md)
+- [性能优化](source-code-analysis/performance.md)
+    - [性能瓶颈分析](source-code-analysis/performance/bottlenecks.md)
+    - [优化策略](source-code-analysis/performance/strategies.md)
+
+这个部分将深入Redis的源码，分析其实现细节，为读者提供对Redis核心机制和优化技术的深入理解。
