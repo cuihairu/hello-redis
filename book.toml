@@ -3,3 +3,13 @@ authors = ["cuihairu"]
 language = "en"
 multilingual = false
 src = "src"
+title = "Hello Redis"
+
+[preprocessor.katex]
+after = ["links"]
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
+[output.html]
+additional-js = ["js/mermaid.min.js", "js/mermaid-init.js"]
