@@ -23,7 +23,7 @@ GEOADD key longitude latitude member
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 添加地理位置数据
 def add_location(key, longitude, latitude, member):

@@ -52,7 +52,7 @@ Redis 哨兵模式（Sentinel）是用于管理主从复制的高可用性解决
 - **配置自动故障转移**：
   哨兵会在主节点故障时自动进行故障转移。可以通过 `sentinel failover-timeout` 设置故障转移的超时时间：
   ```plaintext
-  sentinel failover-timeout 180000
+  sentinel failover-timeout mymaster 180000
   ```
 
 **优点**：
@@ -84,7 +84,7 @@ Redis 集群模式（Cluster）是 Redis 提供的分布式高可用性解决方
   ```
 
 - **节点分片**：
-  使用 `redis-trib.rb` 工具（或 `redis-cli --cluster` 命令）来初始化和管理集群。
+  使用 `redis-cli --cluster` 命令来初始化和管理集群（例如 `redis-cli --cluster create <ip>:<port> ... --cluster-replicas 1`）。旧版本（Redis 4.x）中的 `redis-trib.rb` 工具已弃用，在 Redis 5.0 及以后的版本中已被移除。
 
 **优点**：
 - 可扩展性：支持数据分片和水平扩展。

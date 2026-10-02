@@ -40,7 +40,7 @@ ZRANGE ba:z:board -2 -1
 # 反向取分数最高的两名
 ZRANGE ba:z:board 0 1 REV WITHSCORES
 
-# 按分数区间取成员，(90 表示不含 90 分
+# 按分数区间取成员，"(90" 表示不含 90 分
 ZRANGE ba:z:board (90 100 BYSCORE WITHSCORES
 
 # 按分数区间反向取，并只取前两个

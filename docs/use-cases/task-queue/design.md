@@ -45,7 +45,7 @@ redis-server
 import redis
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def add_task(task_data):
     redis_client.lpush('task_queue', task_data)
@@ -64,7 +64,7 @@ import redis
 import time
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def process_task(task):
     print(f"Processing task: {task}")

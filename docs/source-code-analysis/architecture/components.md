@@ -26,13 +26,20 @@ Redis 的源码并不庞大（8.0 中 `src/` 下约百余个 `.c` 文件），�
 $ redis-cli -p 6399 command count
 (integer) 265
 $ redis-cli -p 6399 command info set
-1) 1) "set"
-   2) (integer) 1
-   3) 1) write
-   2) denyoom
-   3) fast
-   ...
+set
+-3
+write
+denyoom
+1
+1
+1
+@write
+@string
+@slow
+...
 ```
+
+输出依次是命令名、arity（`-3` 表示至少 3 个元素）、标志位、参数数量与命令组（`@write`、`@string`）。
 
 ## 底层数据结构
 
@@ -54,21 +61,23 @@ $ redis-cli -p 6399 command info set
 | 惰性释放 | src/lazyfree.c | `freeObjAsync()`、`emptyDbAsync()` |
 
 ```bash
-$ redis-cli -p 6399 config get appendfsync aof-use-rdb-preamble save
+$ redis-cli -p 6399 config get save
+1) "save"
+2) ""
+$ redis-cli -p 6399 config get appendfsync
 1) "appendfsync"
 2) "everysec"
-3) "aof-use-rdb-preamble"
-4) "yes"
-5) "save"
-6) ""
+$ redis-cli -p 6399 config get aof-use-rdb-preamble
+1) "aof-use-rdb-preamble"
+2) "yes"
 ```
 
-上例显示该实例 `save` 为空字符串，即自动 RDB 快照条件被关闭，只能手动触发 `BGSAVE`。
+上例显示该实例 `save` 为空字符串，即自动 RDB 快照条件被关闭，只能手动触发 `BGSAVE`；`appendfsync` 保持默认的每秒同步，`aof-use-rdb-preamble` 默认开启。
 
 ## 运维与安全
 
-- **配置**：src/config.c，`CONFIG GET/SET` 的实现；
-- **持久化运维**：src/debug.c、src/rdb.c（`redis-check-rdb` 由 rdb.c 的命令行入口提供）、`redis-check-aof` 工具；
+- **配置**：src/config.c，`CONFIG GET/SET` 的实现；src/debug.c 提供 `DEBUG` 命令（默认受 `enable-debug-command` 限制）；
+- **持久化运维**：`redis-check-rdb`（src/redis-check-rdb.c）与 `redis-check-aof`（src/redis-check-aof.c）两个离线工具；
 - **访问控制**：src/acl.c；
 - **集群与复制**：src/replication.c、src/cluster.c、src/cluster_legacy.c（8.0 拆分）、src/sentinel.c；
 - **模块系统**：src/module.c；
@@ -79,11 +88,12 @@ $ redis-cli -p 6399 config get appendfsync aof-use-rdb-preamble save
 ```bash
 $ redis-cli -p 6399 info keyspace
 # Keyspace
-db0:keys=3,expires=0,avg_ttl=0,subexpiry=0
+db0:keys=87,expires=1,avg_ttl=3423934,subexpiry=0
 $ redis-cli -p 6399 info commandstats | head -4
 # Commandstats
-cmdstat_sethexint:calls=1,usec=30,usec_per_call=30.00,rejected_calls=0,failed_calls=0
-...
+cmdstat_sunionstore:calls=7,usec=66,usec_per_call=9.43,rejected_calls=0,failed_calls=0
+cmdstat_zrem:calls=21,usec=150,usec_per_call=7.14,rejected_calls=0,failed_calls=1
+cmdstat_zrevrange:calls=6,usec=49,usec_per_call=8.17,rejected_calls=0,failed_calls=0
 ```
 
 `INFO` 的每个 section 都对应一组源码：`persistence` 来自 rdb.c/aof.c 的状态字段，`commandstats` 来自 `call()` 中的统计累加，`clients` 来自 networking.c 的连接列表，`memory` 来自 zmalloc.c 的累计变量。

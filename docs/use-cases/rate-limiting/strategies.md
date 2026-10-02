@@ -15,7 +15,7 @@
    ```python
    import redis
 
-   redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+   redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
    def is_rate_limited(user_id, limit=100, window=60):
        key = f"rate_limit:{user_id}"
@@ -40,7 +40,7 @@
    import time
    import uuid
 
-   redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+   redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
    def is_rate_limited(user_id, limit=100, window=60):
        key = f"rate_limit:{user_id}"
@@ -66,7 +66,7 @@
    import redis
    import time
 
-   redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+   redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
    def is_rate_limited(user_id, rate=10, capacity=100):
        # rate: 每分钟漏出的请求数；capacity: 桶的最大容量
@@ -75,8 +75,8 @@
 
        data = redis_client.hgetall(key)
        if data:
-           last_time = int(data[b"last_time"])
-           level = float(data[b"level"])
+           last_time = int(data["last_time"])
+           level = float(data["level"])
            # 根据经过的时间，按速率漏出相应数量的请求
            level = max(0.0, level - rate * (now - last_time) / 60)
        else:
@@ -108,7 +108,7 @@
    import redis
    import time
 
-   redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+   redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
    def is_rate_limited(user_id, rate=10, capacity=100):
        # rate: 每分钟补充的令牌数；capacity: 桶的最大容量

@@ -88,7 +88,6 @@ BITFIELD bb:bitmap:bf INCRBY i5 0 1
 # 1) (integer) 15
 BITFIELD bb:bitmap:bf INCRBY i5 0 1
 # 1) (integer) -16        # 5 位有符号整数在 15 之后回绕到 -16
-
 BITFIELD bb:bitmap:ovf SET u4 0 15
 # 1) (integer) 0
 BITFIELD bb:bitmap:ovf OVERFLOW FAIL INCRBY u4 0 1
@@ -107,7 +106,7 @@ BITFIELD bb:bitmap:ovf INCRBY u4 0 1
 BITFIELD bb:bitmap:ro SET u8 0 202
 # 1) (integer) 0
 BITFIELD_RO bb:bitmap:ro GET u8 0
-# 1) (integer) 202
+# 1) (integer) 202        # 与 BITFIELD GET u8 0 的结果一致
 ```
 
 #### 小结

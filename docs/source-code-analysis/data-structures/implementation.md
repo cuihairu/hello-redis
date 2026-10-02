@@ -1,63 +1,112 @@
-### 数据结构实现
+# 具体数据结构实现
 
-#### 概述
+## 概述
 
-本节深入介绍 Redis 核心底层数据结构的具体实现细节，包括 SDS、dict、listpack、quicklist、intset 和 skiplist。这些结构是 Redis 高性能和内存高效的技术基础，其实现代码分别位于 `src/sds.c`、`src/dict.c`、`src/listpack.c`、`src/quicklist.c`、`src/intset.c` 以及 `src/t_zset.c`（skiplist 部分）。
+本节深入五种核心底层结构的源码实现：sds、dict、listpack、quicklist、skiplist，最后简要说明 intset 与 rax。每种结构都给出关键数据结构定义、核心函数与可直接运行的验证命令。以下代码引用基于 Redis 8.0 源码。
 
-#### 关键实现要点
+## sds：简单动态字符串
 
-**1. SDS（Simple Dynamic String） - `src/sds.c`**
+src/sds.c、src/sds.h。sds 在 char 指针前面放一个 header，header 按字符串长度分成 5 档，短字符串不浪费内存：
 
-SDS 是 Redis 对 C 字符串的替代实现，解决了 C 字符串缺乏长度信息、二进制不安全、频繁重分配等问题。
+```c
+struct sdshdr8 {
+    uint8_t len;      /* 已使用长度 */
+    uint8_t alloc;    /* 不含头和结尾 \0 的总分配长度 */
+    unsigned char flags;
+    char buf[];
+};
+```
 
-- **结构设计**：SDS 由头部（记录 `len`、`alloc` 等信息）和字符数组组成。不同长度的字符串可能使用不同的头部类型，以优化内存布局。
-- **二进制安全**：SDS 使用长度字段（`len`）而不是 `'\0'` 来判断字符串结束，因此可以安全地存储任意二进制数据（如图片、序列化内容等）。
-- **动态扩展**：当字符串需要增长时，`sdsMakeRoomFor()` 会根据预分配策略分配额外空间，减少未来的内存重分配次数，提升性能。
-- **常用操作**：`sdsnew()`、`sdscat()`、`sdscpy()`、`sdslen()` 等函数均在 `src/sds.c` 中实现，广泛应用于命令解析、键名、值存储等场景。
+5 种 header（sdshdr5/8/16/32/64）中，sdshdr5 把长度压缩进 flags 字段（长度上限 31 字节），其余 4 种的区别只是 len 与 alloc 的位宽（8/16/32/64 位）。这样带来三个性质：
 
-**2. dict（Hash Table） - `src/dict.c`**
+- `sdslen()` 是 O(1)（src/sds.h 内联函数，直接读 header）；
+- `sdsavail()` 能知道剩余空间，`sdscatlen()` 追加前先检查是否需要扩容；
+- 二进制安全，`buf` 中间可以出现 `\0`。
 
-dict 是 Redis 最通用的哈希表实现，被用于键空间（数据库）、哈希类型、集合类型等多个场景。
+关键函数：`sdsnewlen()`（创建）、`sdscatlen()`（追加）、`sdsfree()`（释放）、`sdsrange()`（裁剪）。
 
-- **基本结构**：dict 由哈希表数组（`ht[0]`、`ht[1]`）、大小、掩码、已使用节点数等字段组成。每个哈希表节点（`dictEntry`）包含键、值和指向下一个节点的指针（用于解决哈希冲突）。
-- **哈希冲突处理**：采用链地址法（chaining）处理冲突。同一个桶中的节点通过链表连接。
-- **渐进式 rehash**：当哈希表负载过高或过低时，需要扩容或缩容。Redis 的渐进式 rehash 避免了一次性迁移大量节点导致的长时间阻塞。相关函数包括 `_dictRehashStep()`、`dictNext()`、`dictExpand()` 等。rehash 过程中，数据会逐步从 `ht[0]` 迁移到 `ht[1]`，查找、插入、删除等操作会在两个表之间进行处理。
-- **哈希函数**：dict 支持自定义哈希函数。对于字符串键，通常使用 MurmurHash2 或类似的高效哈希算法，以减少冲突概率。
+## dict：渐进式 rehash 哈希表
 
-**3. listpack - `src/listpack.c`**
+src/dict.c、src/dict.h。核心结构同时持有两张表：
 
-listpack 是一种紧凑的序列化列表结构，用于替代 ziplist，在内存效率和访问性能方面进行了优化。
+```c
+typedef struct dict {
+    dictEntry **ht_table[2];
+    unsigned long ht_used[2];
+    long rehashidx;   /* rehashidx == -1 表示不在 rehash 中 */
+    ...
+} dict;
+```
 
-- **紧凑存储**：listpack 将所有元素连续存储在一块内存中，不使用额外的指针（相比传统链表），大幅减少内存开销和碎片。
-- **元素编码**：listpack 支持存储字符串和整数。每个元素前面都有编码信息（entry header），用于记录元素的类型、长度或数值大小，从而实现变长编码。
-- **访问操作**：支持正向和反向遍历、按索引查找（`lpGet()`、`lpIndex()`）、插入（`lpInsert()`）、删除（`lpDelete()`）等操作。由于是连续内存，随机访问需要线性扫描（O(N)），但对于小型列表（元素数量较少）而言性能足够优秀。
-- **应用场景**：listpack 广泛用于小型 Hash、List、ZSET 的底层编码，在元素数量较小时能提供极高的内存效率。
+扩容由 `dictExpand()` 触发，真正的搬移分散在 `dictRehash(d, n)` 中：每次最多搬 n 个非空桶（`serverCron` 与常规操作路径分别以时间片和单步方式推进，`_dictRehashStepIfNeeded()` 保证每次键空间操作只搬一小步）。rehash 期间查找会先查 ht_table[0] 再查 ht_table[1]，新增一律进入 ht_table[1]。缩容走 `dictResize()`，逻辑相同。
 
-**4. quicklist / quicklist2 - `src/quicklist.c`**
+`dictScan()` 的实现也很巧妙：利用表大小为 2 的幂的特性做“反向二进制迭代”，保证扩缩容过程中不会漏掉元素。键空间、过期表、命令表、订阅关系全部建立在 dict 之上。
 
-quicklist 是列表类型（List）的主要底层实现，结合了链表的顺序性和压缩结构的内存效率。
+## listpack：紧凑列表
 
-- **结构设计**：quicklist 是一个双向链表，每个链表节点（`quicklistNode`）包含一个指向 listpack（或压缩数据）的指针。多个 listpack 节点通过链表连接起来，形成一个整体的有序序列。
-- **平衡设计**：这种设计避免了单个大 listpack 的连续内存压力过大，也避免了纯链表的指针开销过多。通过控制每个节点的最大元素数（`list-max-listpack-size` 配置相关），可以在内存压缩和访问局部性之间进行调优。
-- **操作效率**：头部和尾部的插入删除非常高效（O(1)），范围查询（LRANGE）可以跨越多个节点进行遍历。Redis 7+ 引入的 quicklist2 在内部表示和性能上进一步优化了这一结构。
+src/listpack.c、src/listpack.h。listpack 是一块连续内存：总字节数 + 元素序列 + 结尾标记，每个元素自带长度与编码（小整数直接内联，字符串按长度分档）。7.0 起它全面取代 ziplist，节点中不记录前驱长度，因此没有级联更新问题。
 
-**5. intset - `src/intset.c`**
+核心函数：`lpNew()` 分配、`lpAppend()` / `lpAppendInteger()` / `lpPrepend()` 追加、`lpInsert()` 任意位置插入、`lpGet()` / `lpGetValue()` 读取、`lpNext()` / `lpPrev()` / `lpFirst()` / `lpLast()` 遍历、`lpLength()` 统计。哈希（字段名与值交替）、有序集合（成员与 score 交替）、字符串集合（纯元素）的小数据形态都以这种连续 listpack 保存：
 
-intset 是专门用于存储整数集合的紧凑数据结构。
+```bash
+$ redis-cli -p 6399 hset bc:i1 f1 v1 f2 v2
+(integer) 2
+$ redis-cli -p 6399 object encoding bc:i1
+listpack
+$ redis-cli -p 6399 hlen bc:i1
+(integer) 2
+```
 
-- **紧凑数组**：intset 使用连续的内存数组存储整数元素，所有元素按照升序排列，且不包含重复元素。
-- **编码升级**：intset 支持多种整数编码（int16、int32、int64）。当插入的整数超出当前编码的表示范围时，会触发编码升级（upgrade），将整个数组转换为更大宽度的编码格式。编码升级是一个 O(N) 的操作，但由于 intset 通常用于小型集合，这个开销是可接受的。
-- **操作特性**：查找使用二分查找（O(log N)），插入和删除在查找到位置后需要移动数组元素（O(N)）。intset 的设计目标是最大化内存效率，而不是追求极限的随机更新性能。
-- **应用场景**：仅当集合（Set）中的所有成员都是整数且数量较少时才会使用 intset。一旦条件不满足（出现非整数元素或元素数量超过阈值），会自动转换为基于 dict 的编码。
+## quicklist：链表套 listpack
 
-**6. skiplist（跳跃表） - `src/t_zset.c`**
+src/quicklist.c、src/quicklist.h。quicklist 是双向链表，每个节点是一个 listpack：
 
-跳跃表是有序集合（ZSET）的核心排序结构，用于支持按分值排序的操作。
+```c
+typedef struct quicklistNode {
+    struct quicklistNode *prev;
+    struct quicklistNode *next;
+    unsigned char *entry;   /* 指向 listpack */
+    size_t sz;              /* listpack 字节数 */
+    unsigned int count : 16;
+    unsigned int encoding : 2;  /* RAW=1 / LZF=2 */
+    unsigned int container : 2; /* PLAIN=1 / PACKED=2 */
+    ...
+} quicklistNode;
+```
 
-- **多层索引结构**：跳跃表由多层链表组成，每一层都是前一层的稀疏索引。底层是包含所有元素的有序链表，上层节点以一定概率（通常为 1/4 或 Redis 的实现所采用的概率）被提升到更高层，从而实现 O(log N) 平均时间复杂度的查找、插入和删除。
-- **ZSET 的组合设计**：Redis 的有序集合并非只使用 skiplist，而是将 skiplist 和 dict 组合使用。skiplist 维护元素按分值（score）和成员字典序的有序关系，用于范围查询（ZRANGE、ZRANGEBYSCORE、ZREVRANGE 等）；dict 则维护从成员（member）到分值（score）的映射，用于 O(1) 平均时间复杂度的点查询（ZSCORE）。这两个结构共享同一个元素节点（或指向相同的数据），避免了重复存储。
-- **实现位置**：跳跃表的节点、创建、插入、删除、查找等操作主要实现在 `src/t_zset.c` 中。Redis 的跳跃表实现经过优化，支持按范围遍历、反向遍历等操作，并能正确处理分值相同的元素（按成员字典序排序）。
+`quicklistPush()` 根据插入位置选择 `quicklistPushHead()` 或 `quicklistPushTail()`，插入前用 `_quicklistNodeAllowInsert()` 判断目标节点是否还能装下——阈值来自 `list-max-listpack-size`（负值表示字节上限，-1 为 4KB、-2 为 8KB）。装不下就新开节点；中间节点还可按 `list-compress-depth` 用 LZF 压缩（encoding 变为 LZF）。
 
-### 小结
+```bash
+$ redis-cli -p 6399 rpush bc:i2 a b c
+(integer) 3
+$ redis-cli -p 6399 object encoding bc:i2
+listpack
+$ redis-cli -p 6399 llen bc:i2
+(integer) 3
+```
 
-Redis 的底层数据结构实现体现了精巧的工程设计。SDS 提供了高效安全的字符串操作，dict 通过渐进式 rehash 在性能和可用性之间取得平衡，listpack 和 intset 以极致的内存压缩换取小规模数据的高效存储，quicklist 则平衡了顺序访问与内存布局，而 skiplist+dict 的组合则为有序集合提供了高效的排序与查找能力。这些结构共同支撑了 Redis 丰富的数据类型和卓越的性能表现。
+元素很少时整个 quicklist 只有一个 listpack 节点，因此编码仍显示 listpack；单节点超过 8KB 后才体现为多个节点的 quicklist。
+
+## skiplist：有序集合的索引
+
+src/t_zset.c。zset 的 skiplist 编码同时维护两个结构：跳表（`zskiplist`，负责按 score 范围查询）和 dict（负责成员到 score 的 O(1) 查询）。跳表节点层数由 `zslRandomLevel()` 按 1/4 概率逐层生成（`ZSKIPLIST_MAXLEVEL` 为上限），插入通过 `zslInsert()` 完成，`zslGetRank()`、范围遍历等都是 O(log N)。
+
+切换到 skiplist 编码发生在元素数超过 `zset-max-listpack-entries`（默认 128）或成员长度超过 `zset-max-listpack-value`（默认 64）时，由 `zsetConvert()` 完成：
+
+```bash
+$ redis-cli -p 6399 zadd bc:i3 1 a 2 b
+(integer) 2
+$ redis-cli -p 6399 object encoding bc:i3
+listpack
+$ redis-cli -p 6399 del bc:i3
+(integer) 1
+```
+
+## intset 与 rax
+
+- **intset**（src/intset.c）：有序整数数组，`intsetAdd()` 二分插入；遇到超出当前位宽的整数时 `intsetUpgradeAndAdd()` 整体升级（16 位到 64 位）。全整数且数量在 `set-max-intset-entries`（默认 512）内的集合用它，`OBJECT ENCODING` 显示 intset；
+- **rax**（src/rax.c）：基数树，`raxInsert()`、`raxSeek()` 支持路径压缩与范围迭代，Stream 的消息 ID 索引（`raxNew()` 建树）以及集群的部分统计都依赖它。
+
+## 小结
+
+这几种结构的取舍逻辑非常清晰：单值用 sds，映射关系用 dict（配合渐进式 rehash 防止长尾延迟），小规模序列用 listpack 省内存，大规模序列用 quicklist 兼顾两端操作与内存，排序需求用 skiplist 补 dict 的短板。阅读源码时建议按“结构定义 → 创建/插入 → 迭代/查找 → 释放”的顺序过每个文件，并用 `OBJECT ENCODING` 与 `MEMORY USAGE` 在真实实例上对照验证。

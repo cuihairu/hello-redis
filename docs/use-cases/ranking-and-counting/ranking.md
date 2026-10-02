@@ -16,7 +16,7 @@ Redis 的有序集合（`ZSET`）是实现排行榜的最常用的数据结构�
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 添加或更新分数
 def update_score(player_name, score):

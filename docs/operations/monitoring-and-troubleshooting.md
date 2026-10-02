@@ -24,17 +24,23 @@
 
    Redis Sentinel 提供了监控和故障转移的功能。它能够监控 Redis 实例的状态，并在检测到主节点故障时自动进行故障转移。
 
-   - **检查 Sentinel 状态**
+   - **检查主节点状态**
 
      ```bash
-     redis-cli -p <sentinel-port> sentinel master <master-name>
+     redis-cli -p <sentinel-port> SENTINEL MASTER <master-name>
      ```
 
-   - **获取 Sentinel 监控信息**
+   - **获取从节点信息**
 
      ```bash
-     redis-cli -p <sentinel-port> sentinel monitor <master-name>
+     redis-cli -p <sentinel-port> SENTINEL REPLICAS <master-name>
      ```
+
+    - **获取所有监控的主节点**
+
+      ```bash
+      redis-cli -p <sentinel-port> SENTINEL MASTERS
+      ```
 
 3. **Prometheus 与 Grafana**
 

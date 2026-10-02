@@ -1,299 +1,119 @@
 # Lua 与 Redis 的集成
 
-Redis 内置了 Lua 5.1 解释器，允许把一段逻辑直接放到服务器端执行。理解 Lua 运行环境与 Redis 的集成方式，是编写可靠脚本的前提。
+Redis 内置了 Lua 解释器，脚本通过 `EVAL`、`EVALSHA` 或 `FCALL` 命令在服务器端执行。要写出正确、高效的脚本，关键是理解"脚本如何拿到输入"、"脚本如何调用 Redis 命令"以及"两者的值如何互相转换"这三个问题。
 
-## 1. Lua 运行环境
+## 1. 输入参数：KEYS 与 ARGV
 
-脚本在 Redis 主线程中执行，因此脚本运行期间 Redis 不会响应其他命令。这一点既是脚本提供原子性的原因，也是编写脚本时必须注意的性能约束。
+调用脚本时，命令行上的参数被分为两部分：
 
-Redis 为脚本提供了两组特殊的全局变量：
-
-- `KEYS`：脚本被访问的键名数组。通过 `EVAL`/`EVALSHA` 的 `numkeys` 参数声明。
-- `ARGV`：除键名以外的全部参数数组，按出现顺序排列。
-
-以及一个 `redis` 表，包含所有可用的命令接口。
-
-### 1.1 KEYS 与 ARGV
+- `KEYS` 数组：脚本将要访问的 Redis 键名，对应命令中的 `numkeys` 参数。
+- `ARGV` 数组：其余的普通参数（值、限制、标记等）。
 
 ```bash
-EVAL script numkeys key [key ...] arg [arg ...]
+EVAL "return KEYS[1] .. '=' .. ARGV[1]" 1 user:1000 Alice
 ```
 
-在 Redis 7 及以上版本中，脚本访问 `numkeys` 声明之外的键会破坏集群模式的键路由约定，因此务必把所有要访问的键通过 `KEYS` 传入，把值通过 `ARGV` 传入。
+返回 `user:1000=Alice`。注意 `KEYS` 必须显式声明，原因有两个：
 
-```plaintext
-> EVAL "return {KEYS[1], KEYS[2], ARGV[1], ARGV[2]}" 2 k1 k2 v1 v2
-1) "k1"
-2) "k2"
-3) "v1"
-4) "v2"
+1. **集群兼容**：Redis 集群要求脚本只能访问 `KEYS` 中声明的键，否则脚本会在集群上执行失败。
+2. **路由依据**：集群模式下需要根据 `KEYS` 判断脚本应当发往哪个分片节点。
+
+错误示范（把键名放在 `ARGV` 中传入）：
+
+```bash
+EVAL "return redis.call('GET', ARGV[1])" 0 user:1000
 ```
 
-### 1.2 redis.call 与 redis.pcall
+单实例下这条命令能返回结果，但一旦迁移到集群就会因为"脚本访问了未声明的键"而报错。
 
-- `redis.call(cmd, arg...)`：执行命令。如果命令返回错误，会把错误作为 Lua 错误抛出并中止脚本执行。
-- `redis.pcall(cmd, arg...)`：执行命令并**捕获错误**，不会中止脚本。
+## 2. 调用 Redis 命令：redis.call 与 redis.pcall
 
-两者还支持若干可选参数，用于指定超时与只读模式：
-
-- `redis.call(cmd, {timeout=0, pcalls=0}, arg...)`：`timeout` 以毫秒为单位指定 `BUSY` 超时阈值，`pcalls` 开启伪随机模式。
-- `redis.setresp(depth)`：设置 `redis.call` 的回复转换深度，只接受 `2`（默认）或 `3`。`2` 会把嵌套结构转换成普通 Lua 数组（纯数字索引）；`3` 按 RESP3 类型转换，映射类回复会被包装进 `map` 字段等具名结构，因此访问方式与 `2` 不同。除非确实需要 RESP3 语义，否则应保持默认的 `2`，否则已有脚本很容易取不到值。
-
-`redis.pcall` 的返回值有两种形态，这是最容易写错的地方：
-
-| 情况 | 返回值 |
-| --- | --- |
-| 命令成功，结果非空 | 对应的 Lua 值（字符串、整数、数组或状态回复表） |
-| 命令成功，但结果为空（如 `GET` 不存在的键） | Lua 布尔值 `false` |
-| 命令真正报错（如 `WRONGTYPE`） | 带 `err` 字段的表 |
-
-因此判断错误时必须先检查类型：
+脚本内通过 `redis.call` 或 `redis.pcall` 执行任意 Redis 命令：
 
 ```lua
-local result = redis.pcall('INCR', KEYS[1])
+-- 设置键并返回结果
+redis.call('SET', KEYS[1], ARGV[1])
+
+-- 读取哈希字段
+local value = redis.call('HGET', KEYS[1], 'name')
+return value
+```
+
+两者区别在于**错误处理方式**：
+
+- `redis.call`：命令返回错误时，直接中断脚本并向客户端返回该错误。
+- `redis.pcall`：捕获错误，返回带 `err` 字段的 Lua 表，脚本可以继续执行。
+
+```lua
+local result = redis.pcall('GET', KEYS[1])
 if type(result) == 'table' and result.err then
-    return redis.error_reply('Error: ' .. result.err)
+    -- 命令执行出错，这里可以做降级处理
+    return 'error: ' .. result.err
 end
 return result
 ```
 
-如果直接写 `if result.err then`，当 `result` 是布尔值时会抛出 `attempt to index local 'result' (a boolean value)`。
+## 3. 值的相互转换
 
-### 1.3 其他 redis 表成员
+Redis 回复会被转换为 Lua 值：
 
-| 成员 | 作用 |
+| Redis 回复 | Lua 值 |
 | --- | --- |
-| `redis.status_reply(str)` | 返回简单状态回复（`+str`），成功时常用 `OK` |
-| `redis.error_reply(str)` | 返回错误回复（`-str`），需要提前中断时使用 |
-| `redis.sha1hex(str)` | 计算字符串的 SHA1，可用来校验传入的脚本 |
-| `redis.breakpoint()` / `redis.debug()` | 配合 `SCRIPT DEBUG` 使用 |
-| `redis.replicate_commands()` | 开启确定性命令以外的命令（Redis 3.2 起默认开启，Redis 5 起为唯一行为） |
-| `redis.set_repl(repl_mode)` | 控制命令是否复制到副本与 AOF |
-| `redis.log(loglevel, msg)` | 写入 Redis 日志，等价于 Lua 的 `print` |
+| 整数回复 | 数字（number） |
+| 批量字符串 | 字符串（string） |
+| 多条批量回复 | 数组（table），数组中的 nil 元素变为 `false` |
+| 状态回复 | 带 `ok` 字段的表，如 `{ok="OK"}` |
+| 错误回复 | `redis.call` 中断脚本 / `redis.pcall` 返回带 `err` 字段的表 |
+| 空回复（nil） | `false` |
 
-返回值的转换规则：
+脚本的返回值同样会被转换为 Redis 回复：
 
-- Redis 整数 → Lua 数字（double）
-- Redis 批量字符串 → Lua 字符串
-- Redis 数组 → Lua table
-- Redis 状态回复 → 带 `ok` 字段的 table
-- Redis 错误回复 → 带 `err` 字段的 table
-
-Lua 数字转回 Redis 时会丢失小数部分，返回值应为字符串或整数。
-
-## 2. 可用的 Lua 库
-
-Redis 脚本沙箱只开放了一部分标准库。以下函数可以直接使用：
-
-- `string`、`table`、`math`、`bit`
-- `cjson`（JSON 编解码，接口为 `cjson.encode` / `cjson.decode`）
-- `cmsgpack`（MessagePack 编解码，接口为 `cmsgpack.pack` / `cmsgpack.unpack`）
-- `os`（时间与日期相关函数，但**没有** `os.execute`）
-- 基础函数：`type`、`tonumber`、`tostring`、`pcall`、`error`、`assert`、`select`、`next`、`pairs`、`ipairs`、`rawequal`、`rawget`、`rawset`、`unpack`、`loadstring`、`setmetatable`、`getmetatable`、`collectgarbage`
-
-以下常见全局变量**不存在**，调用它们会报 `Script attempted to access nonexistent global variable 'xxx'`：
-
-- `print`（请改用 `redis.log`）
-- `dofile`、`loadfile`
-- `setfenv`、`getfenv`
-- `newproxy`
-- `io` 库（不能进行任何文件读写）
-- `require` / 模块加载机制
-
-没有 `io` 库意味着脚本完全无法访问文件系统，也无法发起网络请求，这是脚本沙箱的安全基础。
-
-## 3. 脚本的原子性与并发
-
-脚本执行期间，Redis 会把执行脚本期间发生的所有写命令缓冲起来，脚本结束后再统一传播给 AOF 和副本，而不是简单地"要么全做要么全不做"。
-
-这一点非常重要：
-
-- 脚本被 `SCRIPT KILL` 终止时，脚本在终止前已经产生的写入**会被保留**。
-- 脚本执行到一半**报错**时，同样不会回滚此前的写入，Redis 会带着错误继续执行脚本中剩余的调用（直到遇到真正的致命错误）。
-
-如果需要"全部成功或全部不执行"，应当改用 `MULTI`/`EXEC` 事务，并注意 `EXEC` 执行时某条命令运行出错并不会回滚其他命令——`MULTI` 只保证命令的顺序性和隔离性，不提供失败回滚。
-
-### 3.1 超时与 SCRIPT KILL
-
-`EVAL` 没有 `TIMEOUT` 选项。相关的阈值由 `busy-reply-threshold` 控制（默认 5000 毫秒，旧配置名 `lua-time-limit`）：
-
-```bash
-redis-cli CONFIG GET busy-reply-threshold
-```
-
-脚本运行时间超过阈值后，**其他客户端**的命令会收到：
-
-```plaintext
--BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.
-```
-
-脚本本身不会被自动终止。可用 `SCRIPT KILL` 终止，但仅当脚本尚未进行任何写入时才会成功：
-
-```plaintext
-> SCRIPT KILL
-OK
-```
-
-如果脚本已经写入过数据，`SCRIPT KILL` 会失败：
-
-```plaintext
-> SCRIPT KILL
-UNKILLABLE Sorry the script already executed write commands against the dataset. You can either wait the script termination or kill the server in a hard way using the SHUTDOWN NOSAVE command.
-```
-
-此时只能等待脚本自然结束，或用 `SHUTDOWN NOSAVE` 强行关闭实例。注意被 `SCRIPT KILL` 中断的脚本，此前已产生的写入仍然保留。
-
-## 4. 脚本缓存与 SHA1
-
-`EVAL` 在执行时会把脚本体一并缓存，并返回其 SHA1 校验和，后续可改用 `EVALSHA` 调用，省去脚本传输与编译。
-
-```bash
-redis-cli -p 6379 SCRIPT LOAD "return redis.call('SET', KEYS[1], ARGV[1])"
-# "d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37"
-
-redis-cli -p 6379 EVALSHA d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37 1 mykey myvalue
-# OK
-```
-
-如果 SHA1 不在缓存中，`EVALSHA` 返回 `NOSCRIPT`，此时客户端应回退到 `EVAL` 重新加载。
-
-管理缓存的相关命令：
-
-| 命令 | 作用 |
+| Lua 返回值 | Redis 回复 |
 | --- | --- |
-| `SCRIPT LOAD script` | 加载脚本并返回 SHA1 |
-| `SCRIPT EXISTS sha1 [sha1 ...]` | 检查脚本是否已缓存，返回 0/1 数组 |
-| `SCRIPT FLUSH [ASYNC \| SYNC]` | 清空脚本缓存，`SYNC` 为默认行为 |
+| 数字 | 整数回复（小数被截断，`return 3.7` 得到 `3`） |
+| 字符串 | 批量字符串回复 |
+| `true` | 整数回复 `1` |
+| `false` | nil 回复 |
+| 顺序数组 `{1,2,3}` | 多条批量回复 |
+| `{ok="OK"}` | 状态回复 `OK` |
+| `{err="..."}` 或调用 `error()` | 错误回复 |
 
-注意 `SCRIPT FLUSH` 在主从和集群环境下只清空当前节点。
+因此要注意两点：脚本内 `redis.call('SET', ...)` 拿到的是 `{ok="OK"}` 这样的状态表，直接把它 `return` 出去，客户端看到的是状态回复 `OK`；需要返回业务结果时应显式 `return` 具体的值。此外，Redis 回复没有浮点类型，需要精确小数时应自行格式化成字符串返回。
 
-## 5. 常见脚本模式
+## 4. 脚本的原子性与副作用
 
-### 5.1 滑动窗口限流
-
-利用 `INCR` 加 `EXPIRE` 实现固定窗口限流，键通过 `KEYS[1]` 传入，阈值与窗口通过 `ARGV` 传入：
-
-```lua
-local key = KEYS[1]
-local limit = tonumber(ARGV[1])
-local window = tonumber(ARGV[2])
-
-local current = redis.call('INCR', key)
-if current == 1 then
-    redis.call('EXPIRE', key, window)
-end
-
-if current > limit then
-    return 0
-end
-return 1
-```
-
-```plaintext
-> EVAL "..." 1 rate:user:1 3 60   # 1
-> EVAL "..." 1 rate:user:1 3 60   # 1
-> EVAL "..." 1 rate:user:1 3 60   # 1
-> EVAL "..." 1 rate:user:1 3 60   # 0
-```
-
-### 5.2 幂等去重
-
-用 `SET` 的 `NX` 选项加过期时间实现"抢占式去重"，比 `SETNX` + `EXPIRE` 两条命令更安全（原子完成）：
+- 脚本执行期间，服务器不会处理其他客户端发来的命令，脚本内多条命令对外表现为一个原子操作。
+- Redis 7.0 之前，脚本可能先执行 `MULTI/EXEC` 事务来复制"命令序列"；如今脚本一律按**效果复制（effects replication）**传播，即只复制脚本执行后产生的写命令，`redis.replicate_commands()` 保留但不再起作用。
+- 脚本执行完的写操作会立即生效且**不会回滚**：脚本中途出错时，已执行的写命令仍然保留。因此要在脚本中自行校验参数、先判断再写入。
 
 ```lua
-local ok = redis.call('SET', KEYS[1], ARGV[1], 'NX', 'EX', tonumber(ARGV[2]))
-if ok then
-    return 1
+-- 先校验参数，再写入，避免半途出错留下脏数据
+if ARGV[1] == nil or ARGV[1] == '' then
+    return redis.error_reply('value is required')
 end
-return 0
+redis.call('SET', KEYS[1], ARGV[1])
+return 'OK'
 ```
 
-### 5.3 乐观锁（CAS）
+## 5. 脚本与复制
 
-```lua
-local current = redis.call('GET', KEYS[1])
-if current == false then
-    redis.call('SET', KEYS[1], ARGV[1])
-    return 1
-end
-if current == ARGV[2] then
-    redis.call('SET', KEYS[1], ARGV[3])
-    return 1
-end
-return 0
-```
+- **单实例/主从**：脚本执行产生的写操作会被传播到副本。
+- **集群**：所有需要访问的键必须放在 `KEYS` 中并落在同一个槽位（可用哈希标签 `{user:1000}` 强制同槽）。
+- **写命令的确定性**：如需使用随机数（`math.random`）产生写入结果，应在脚本开始时调用 `math.randomseed` 并把随机结果记录下来，或者直接在客户端生成随机值再通过 `ARGV` 传入。
 
-比对失败时返回 0，由客户端决定重试或放弃。
+## 6. 辅助函数
 
-### 5.4 加锁
-
-```lua
-local lock = redis.call('SET', KEYS[1], ARGV[1], 'NX', 'EX', tonumber(ARGV[2]))
-if not lock then
-    return 0
-end
--- 临界区
-return 1
-```
-
-锁的释放必须校验持有者，避免误删他人持有的锁（见 5.5）。锁只适合放在单个 Redis 实例上，Redis Cluster 与主从异步复制都不保证分布式锁的强一致。
-
-### 5.5 带校验的安全释放
-
-```lua
-if redis.call('GET', KEYS[1]) == ARGV[1] then
-    return redis.call('DEL', KEYS[1])
-end
-return 0
-```
-
-### 5.6 分页遍历
-
-在脚本中遍历集合时必须设置上限，否则会长时间阻塞主线程：
-
-```lua
-local cursor = ARGV[1]
-local res = redis.call('SSCAN', KEYS[1], cursor, 'COUNT', 100)
-return res
-```
-
-## 6. 调试
-
-### 6.1 开启调试模式
-
-```plaintext
-> SCRIPT DEBUG YES
-> EVAL "local t = {} for i=1,3 do t[i] = redis.call('GET', KEYS[1] .. i) end return t" 2 k1 k2
--> local t = {}
--> for i=1,3 do
--> t[i] = redis.call('GET', KEYS[1] .. i)
-```
-
-调试模式是阻塞式的，会显著拖慢服务器，仅应在测试环境使用。
-
-### 6.2 排查 NOSCRIPT
-
-客户端缓存的 SHA1 可能因为 `SCRIPT FLUSH`、重启或主从切换而失效。健壮的客户端应当捕获 `NOSCRIPT` 后回退到 `EVAL`，并更新本地 SHA1。
-
-### 6.3 定位脚本报错
-
-脚本错误信息形如：
-
-```plaintext
-ERR user_script:1: attempt to index local 'result' (a boolean value)
-```
-
-其中 `user_script:1` 指明是脚本第 1 行。把脚本保存成文件后，可以用本地 `luac -p` 做语法检查：
+- `redis.sha1hex('任意字符串')`：返回 SHA1 十六进制值，可用于调试脚本缓存。
+- `redis.error_reply('message')` / `redis.status_reply('message')`：构造标准回复。
+- `redis.setresp(3)`：脚本内切换到 RESP3 协议解析回复，可拿到 map、double、bool 等类型。
+- `cjson.encode` / `cjson.decode`：在脚本中直接处理 JSON。
 
 ```bash
-luac -p myscript.lua
+EVAL "return redis.sha1hex('foo')" 0
 ```
 
-## 7. 编写规范
+返回 `0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33`。
 
-1. 只用 `KEYS` 访问键，只用 `ARGV` 传值，不要在脚本中拼接键名。
-2. 不要把用户输入直接拼进脚本文本，一律通过 `ARGV` 传入，避免脚本注入。
-3. 所有遍历（`SMEMBERS`、`HGETALL`、`LRANGE 0 -1`、`KEYS`）都要加数量上限，改用 `SSCAN`/`HSCAN`/`ZSCAN`/`SCAN`。
-4. 注意 `redis.call` 与 `redis.pcall` 的返回形态差异，判断 `err` 前先检查类型。
-5. 不要在脚本里做长时间的纯计算，脚本执行期间整个实例不可用。
-6. 高频调用的脚本务必用 `SCRIPT LOAD` + `EVALSHA`，并实现 `NOSCRIPT` 回退。
+## 7. 小结
+
+把 Redis 当成脚本的"运行时"来理解：`KEYS`/`ARGV` 是函数入参，`redis.call` 是函数体里的数据库访问层，返回值转换是序列化边界。遵循"键走 `KEYS`、值走 `ARGV`、先校验后写入、保持脚本简短"这四条原则，就能写出在单实例与集群下都稳定可用的 Lua 脚本。

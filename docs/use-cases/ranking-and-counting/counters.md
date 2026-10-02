@@ -10,7 +10,7 @@ Redis 的字符串（`STRING`）数据类型可以用来实现基本的计数器
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 增加计数器
 def increment_counter(counter_name):
@@ -46,7 +46,7 @@ import redis
 import time
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 添加请求到滑动窗口
 def add_request(window_name, timestamp):
@@ -82,7 +82,7 @@ clean_old_requests(window_name, current_time, window_size)
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 分布式计数器
 def distributed_counter(counter_name):
@@ -103,7 +103,7 @@ import redis
 from datetime import datetime
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 增加每日计数器
 def increment_daily_counter(counter_name):

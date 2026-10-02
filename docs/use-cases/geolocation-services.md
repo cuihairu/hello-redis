@@ -23,7 +23,7 @@ Redis 提供了一组 `GEO` 命令，用于存储和处理地理位置信息。�
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 添加地理位置数据
 def add_location(key, longitude, latitude, member):

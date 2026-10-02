@@ -21,17 +21,17 @@
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
 # 发送消息
 def send_message(chat_id, sender_id, message):
     redis_client.xadd(f"chat:{chat_id}", {
         'sender_id': sender_id,
         'message': message
-    })
+    }, id='*')
 
 # 接收消息
-def receive_messages(chat_id, last_id='$'):
+def receive_messages(chat_id, last_id='0'):
     return redis_client.xread({f"chat:{chat_id}": last_id}, count=10)
 ```
 
@@ -105,7 +105,7 @@ import time
 import threading
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 发送消息
 def send_message(chat_id, sender_id, message):

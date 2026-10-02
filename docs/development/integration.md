@@ -10,6 +10,22 @@ Redis 常用作数据库的缓存层，以提高读取速度，减少数据库�
 - **集成方式**：在应用程序中，先尝试从 Redis 缓存中读取数据，如果缓存未命中，再从数据库中读取数据并更新缓存。
 
 ```go
+package main
+
+import (
+    "context"
+    "time"
+
+    "github.com/go-redis/redis/v8"
+)
+
+var ctx = context.Background()
+
+// fetchDataFromDatabase 模拟从数据库获取数据
+func fetchDataFromDatabase(key string) string {
+    return "Data for " + key
+}
+
 func getFromCache(rdb *redis.Client, key string) string {
     value, err := rdb.Get(ctx, key).Result()
     if err == redis.Nil {
@@ -20,6 +36,8 @@ func getFromCache(rdb *redis.Client, key string) string {
     }
     return value
 }
+
+func main() {}
 ```
 
 #### 1.2 Redis 作为数据存储的补充
@@ -39,14 +57,29 @@ Redis 的发布/订阅（Pub/Sub）功能可以用作消息队列系统的替代
 - **集成方式**：使用 Redis 的 `PUBLISH` 和 `SUBSCRIBE` 命令进行消息发布和订阅。
 
 ```go
-// 发布消息
-rdb.Publish(ctx, "mychannel", "Hello, World!")
+package main
 
-// 订阅频道
-pubsub := rdb.Subscribe(ctx, "mychannel")
-ch := pubsub.Channel()
-for msg := range ch {
-    fmt.Println("Received message:", msg.Payload)
+import (
+    "context"
+    "fmt"
+
+    "github.com/go-redis/redis/v8"
+)
+
+var ctx = context.Background()
+
+func main() {
+    rdb := redis.NewClient(&redis.Options{Addr: "localhost:6379"})
+
+    // 发布消息
+    rdb.Publish(ctx, "mychannel", "Hello, World!")
+
+    // 订阅频道
+    pubsub := rdb.Subscribe(ctx, "mychannel")
+    ch := pubsub.Channel()
+    for msg := range ch {
+        fmt.Println("Received message:", msg.Payload)
+    }
 }
 ```
 
@@ -65,6 +98,22 @@ Redis 可以与搜索引擎（如 Elasticsearch）集成，用于增强搜索功
 - **集成方式**：在应用程序中，先查询 Redis 缓存，如果缓存未命中，则查询 Elasticsearch，并将结果缓存到 Redis。
 
 ```go
+package main
+
+import (
+    "context"
+    "time"
+
+    "github.com/go-redis/redis/v8"
+)
+
+var ctx = context.Background()
+
+// searchElasticsearch 模拟查询 Elasticsearch
+func searchElasticsearch(query string) string {
+    return "result of " + query
+}
+
 func searchWithCache(rdb *redis.Client, query string) string {
     cacheKey := "search:" + query
     result, err := rdb.Get(ctx, cacheKey).Result()
@@ -76,6 +125,8 @@ func searchWithCache(rdb *redis.Client, query string) string {
     }
     return result
 }
+
+func main() {}
 ```
 
 ### 4. Redis 与 Web 框架的集成

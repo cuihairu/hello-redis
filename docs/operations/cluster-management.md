@@ -99,12 +99,12 @@ redis-cli --cluster reshard <node-ip>:<port>
 
 - **节点故障**：当主节点出现故障时，Redis 集群会自动从从节点中选举出新的主节点。
 
-- **手动恢复**：如果自动故障转移失败，可以手动恢复故障节点。
+- **手动恢复**：如果自动故障转移失败，可以手动触发故障转移。
 
-  恢复节点命令示例：
+  手动故障转移命令示例（在从节点上执行）：
 
   ```bash
-  redis-cli --cluster failover <node-ip>:6379
+  redis-cli -c -h <node-ip> -p <node-port> CLUSTER FAILOVER
   ```
 
 ## 集群性能优化
@@ -115,7 +115,7 @@ redis-cli --cluster reshard <node-ip>:<port>
 
 ### 监控与调优
 
-使用 Redis 集群的监控工具（如 `Redis Sentinel`、`Prometheus`、`Grafana`）监控集群性能，并根据实际情况进行优化。
+使用 Redis 集群的监控工具（如 `Prometheus`、`Grafana`、`Redis CLI`）监控集群性能，并根据实际情况进行优化。
 
 ### 高可用性配置
 

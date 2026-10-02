@@ -33,7 +33,7 @@ from flask import Flask, request, jsonify
 import redis
 
 app = Flask(__name__)
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 @app.route('/submit_form', methods=['POST'])
 def submit_form():
@@ -64,7 +64,7 @@ import time
 import smtplib
 from email.mime.text import MIMEText
 
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def send_email(to_email, subject, body):
     msg = MIMEText(body)

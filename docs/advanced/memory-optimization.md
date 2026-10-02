@@ -47,8 +47,8 @@ maxmemory-policy allkeys-lru
 
 **2.3 使用适当的数据结构选项**
 
-- **哈希字段压缩**：Redis 4.0 及以后版本支持哈希字段的压缩（hash-max-ziplist-entries 和 hash-max-ziplist-value）。
-- **列表压缩**：Redis 4.0 及以后版本支持列表元素的压缩（list-max-ziplist-size 和 list-compress-depth）。
+- **哈希字段压缩**：当哈希的字段数和字段值都比较小时，Redis 会使用 listpack（旧版本为 ziplist）紧凑编码来存储哈希，可通过 `hash-max-listpack-entries` 和 `hash-max-listpack-value` 控制转换阈值（Redis 7.0 之前对应的配置名为 `hash-max-ziplist-entries` 和 `hash-max-ziplist-value`）。
+- **列表压缩**：列表在小体积时同样使用 listpack/ziplist 编码（`list-max-listpack-size`，旧名 `list-max-ziplist-size`）；对于较大的 quicklist 列表，还可以通过 `list-compress-depth`（Redis 5.0 起）用 LZF 压缩中间节点，两端节点保持未压缩以便快速访问。
 
 ```plaintext
 hash-max-ziplist-entries 512

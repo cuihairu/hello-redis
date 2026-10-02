@@ -2,47 +2,65 @@
 
 #### 概述
 
-Redis HyperLogLog 是一种基数估计算法，用于估算一个集合中不重复元素的数量。它的特点是空间占用极小（通常只需要 12KB），但估算结果具有一定的误差（标准误差约为 0.81%）。`PFADD` 命令用于向 HyperLogLog 中添加元素，用于构建要统计的集合。
+`PFADD` 用于向 HyperLogLog 结构中添加元素。HyperLogLog 是一种概率型数据结构，只记录"出现过哪些不同元素"这一统计特征，而不保存元素本身，因此可以用约 12KB 的固定内存估算上亿级别数据的基数（唯一元素个数）。
 
-#### 常用命令
+`PFADD` 是 HyperLogLog 的写入入口：键不存在时会自动创建，元素会被哈希后更新内部寄存器。
 
-##### `PFADD`
-
-- **功能**: 向 HyperLogLog 添加一个或多个元素
-- **语法**: `PFADD key element [element ...]`
-- **说明**:
-  - 将指定的元素添加到 HyperLogLog 结构中。
-  - 如果 `key` 不存在，会自动创建一个空的 HyperLogLog。
-  - 如果至少有一个元素被添加到了 HyperLogLog 的内部结构中，返回 `1`；否则返回 `0`（所有元素都已经被观察过，基数没有变化）。
-  - HyperLogLog 不是精确计数，而是近似基数估计。
-- **示例**:
-  ```plaintext
-  PFADD hll "a" "b" "c"
-  PFADD hll "c" "d"
-  ```
-
-#### 示例操作
+#### 语法与参数
 
 ```plaintext
-# 向 HyperLogLog 添加元素
-127.0.0.1:6399> PFADD visitors "user1"
-(integer) 1
-127.0.0.1:6399> PFADD visitors "user2" "user3"
-(integer) 1
-
-# 添加重复元素（基数不变）
-127.0.0.1:6399> PFADD visitors "user1"
-(integer) 0
-
-# 添加更多元素
-127.0.0.1:6399> PFADD visitors "user4" "user5" "user2"
-(integer) 1
-
-# 获取基数估计值
-127.0.0.1:6399> PFCOUNT visitors
-(integer) 5
+PFADD key [element [element ...]]
 ```
 
-### 小结
+- **`key`**：HyperLogLog 键。虽然底层是字符串类型，但只能通过 HyperLogLog 命令读写。
+- **`element`**：要添加的元素，可以是任意字符串，一次可以添加多个；也可以全部省略。
 
-`PFADD` 命令是 HyperLogLog 的添加操作，用于收集需要去重统计的元素。HyperLogLog 非常适合用于统计 UV（独立访客）、独立 IP 数等需要大规模去重但对精度要求不是绝对严格的场景。它的优势是极低的内存占用。
+**返回值**：整数。本次调用至少导致内部寄存器发生了变化（即可能带来了新的唯一元素）返回 1；没有任何变化返回 0。注意返回值不是"新增了几个元素"，它只能用来判断本次写入是否可能引入了新元素。
+
+#### 示例
+
+以下命令可以直接在 `redis-cli` 中执行，注释中为实测返回结果：
+
+```plaintext
+# 添加三个元素，键被自动创建
+PFADD bb:hll:uv u1 u2 u3
+# (integer) 1
+
+# 再次添加已存在的元素，寄存器无变化
+PFADD bb:hll:uv u1
+# (integer) 0
+
+# 添加新元素
+PFADD bb:hll:uv u4
+# (integer) 1
+
+# 查看当前的基数估算值
+PFCOUNT bb:hll:uv
+# (integer) 4
+
+# 不带任何元素调用是合法的，不会改变寄存器
+PFADD bb:hll:uv
+# (integer) 0
+```
+
+对持有普通字符串的键执行 `PFADD` 会报类型错误：
+
+```plaintext
+SET bb:hll:str v
+# OK
+PFADD bb:hll:str a
+# (error) WRONGTYPE Key is not a valid HyperLogLog string value.
+```
+
+#### 注意事项
+
+- **不是集合**：HyperLogLog 无法列出、删除或判断单个元素是否存在，只能得到基数估算值；需要精确去重请使用集合（Set）。
+- **估算精度**：标准误差约为 0.81%，即一百万的估算结果可能落在约 991900 到 1008100 之间；对大多数 UV 统计场景完全够用。
+- **内存固定**：无论放入多少元素，一个 HyperLogLog 键在稠密表示下固定占用约 12KB（小数据量时 Redis 会采用更省内存的稀疏表示，随元素增多自动升级）。
+- **元素内容不会泄露**：只记录哈希后的统计信息，适合用于统计而不适合存储业务数据。
+
+#### 相关页面
+
+- [PFCOUNT](./pfcount.md)：读取基数估算值。
+- [其他HyperLogLog命令](./other-commands.md)：`PFMERGE`。
+- 返回专题目录：[Redis HyperLogLog](../hyperloglog.md)。

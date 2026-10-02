@@ -29,7 +29,7 @@ cluster-enabled yes
 # 集群配置文件路径
 cluster-config-file nodes.conf
 
-# 节点间通信端口（通常是6379端口的后缀）
+# 节点故障判断的超时时间（毫秒）
 cluster-node-timeout 5000
 cluster-slave-validity-factor 10
 

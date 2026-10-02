@@ -1,9 +1,8 @@
 # 其他有序集合命令
 
-除了 `ZADD`、`ZRANGE`、`ZREM`，有序集合还提供分数查询、排名计算、增量更新、范围删除和集合运算等命令。下面列出最常用的 12 条。
+除了 `ZADD`、`ZRANGE`、`ZREM`，有序集合还提供分数查询、排名计算、增量更新、范围删除和集合运算等命令。下面列出最常用的 11 条。
 
 ## 1. ZSCORE
-
 - **功能**: 返回成员的分数。
 - **语法**: `ZSCORE key member`
 - **说明**: 成员或键不存在时返回 `nil`。
@@ -13,7 +12,6 @@
   ```
 
 ## 2. ZMSCORE
-
 - **功能**: 批量返回多个成员的分数。
 - **语法**: `ZMSCORE key member [member ...]`
 - **说明**: 按传入顺序返回，不存在的成员对应位置为 `nil`（Redis 6.2 起支持）。
@@ -23,7 +21,6 @@
   ```
 
 ## 3. ZCARD
-
 - **功能**: 返回有序集合的成员数量。
 - **语法**: `ZCARD key`
 - **说明**: 键不存在时返回 0，时间复杂度 O(1)。
@@ -33,7 +30,6 @@
   ```
 
 ## 4. ZCOUNT
-
 - **功能**: 统计分数区间内的成员数量。
 - **语法**: `ZCOUNT key min max`
 - **说明**: 区间为闭区间，端点加 `(` 表示开区间，支持 `+inf`、`-inf`。
@@ -43,27 +39,15 @@
   ```
 
 ## 5. ZRANK
-
 - **功能**: 返回成员按分数升序的排名（0 开始）。
 - **语法**: `ZRANK key member [WITHSCORE]`
-- **说明**: 成员不存在返回 `nil`；带 `WITHSCORE` 时同时返回分数（Redis 6.2 起支持）。
+- **说明**: 成员不存在返回 `nil`；带 `WITHSCORE` 时同时返回分数（Redis 7.2 起支持）；对称的降序排名命令是 `ZREVRANK`。
 - **示例**:
   ```plaintext
   ZRANK ba:z:board bob WITHSCORE
   ```
 
-## 6. ZREVRANK
-
-- **功能**: 返回成员按分数降序的排名。
-- **语法**: `ZREVRANK key member [WITHSCORE]`
-- **说明**: 排行榜"第几名"通常用它计算，第一名返回 0。
-- **示例**:
-  ```plaintext
-  ZREVRANK ba:z:board bob
-  ```
-
-## 7. ZINCRBY
-
+## 6. ZINCRBY
 - **功能**: 增加成员的分数。
 - **语法**: `ZINCRBY key increment member`
 - **说明**: `increment` 可为负数；成员不存在时先按 0 处理再加分，功能等价于 `ZADD key INCR ...`。
@@ -72,8 +56,7 @@
   ZINCRBY ba:z:board 5 bob
   ```
 
-## 8. ZPOPMIN
-
+## 7. ZPOPMIN
 - **功能**: 移除并返回分数最低的一个或多个成员。
 - **语法**: `ZPOPMIN key [count]`
 - **说明**: 返回"成员、分数"交替的数组，集合为空时返回空数组。
@@ -82,8 +65,7 @@
   ZPOPMIN ba:z:board 1
   ```
 
-## 9. ZPOPMAX
-
+## 8. ZPOPMAX
 - **功能**: 移除并返回分数最高的一个或多个成员。
 - **语法**: `ZPOPMAX key [count]`
 - **说明**: 与 `ZPOPMIN` 对称，适合取走当前最高分的场景。
@@ -92,8 +74,7 @@
   ZPOPMAX ba:z:board
   ```
 
-## 10. ZREMRANGEBYSCORE
-
+## 9. ZREMRANGEBYSCORE
 - **功能**: 删除分数在指定区间内的所有成员。
 - **语法**: `ZREMRANGEBYSCORE key min max`
 - **说明**: 端点支持 `(` 开区间写法，返回删除的成员数量，常用于延时队列的到期清理。
@@ -102,8 +83,7 @@
   ZREMRANGEBYSCORE ba:z:board 1 2
   ```
 
-## 11. ZREMRANGEBYRANK
-
+## 10. ZREMRANGEBYRANK
 - **功能**: 删除排名在指定下标区间内的所有成员。
 - **语法**: `ZREMRANGEBYRANK key start stop`
 - **说明**: 下标从 0 开始，支持负数从尾部倒数；例如 `ZREMRANGEBYRANK key 100 -1` 表示保留排名前 100 的成员、删除其余成员。
@@ -112,8 +92,7 @@
   ZREMRANGEBYRANK ba:z:board 100 -1
   ```
 
-## 12. ZUNIONSTORE
-
+## 11. ZUNIONSTORE
 - **功能**: 计算多个有序集合的并集并把结果存入 destination。
 - **语法**: `ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]`
 - **说明**: 第一个参数是参与运算的键数量；`WEIGHTS` 给每个集合配权重，`AGGREGATE` 指定分数聚合方式，默认 `SUM`，返回结果集的成员数量。

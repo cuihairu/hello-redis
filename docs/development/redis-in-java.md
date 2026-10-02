@@ -283,9 +283,7 @@ public class JedisPoolExample {
     public static void main(String[] args) {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMaxTotal(10);
-        try
-
- (JedisPool jedisPool = new JedisPool(poolConfig, "localhost", 6379)) {
+        try (JedisPool jedisPool = new JedisPool(poolConfig, "localhost", 6379)) {
             try (Jedis jedis = jedisPool.getResource()) {
                 jedis.set("key", "value");
                 String value = jedis.get("key");
@@ -298,26 +296,43 @@ public class JedisPoolExample {
 
 #### Lettuce 连接池
 
+Lettuce 的连接池功能依赖 `commons-pool2`，需要额外引入该依赖：
+
+```xml
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-pool2</artifactId>
+    <version>2.11.1</version>
+</dependency>
+```
+
 ```java
-import io.lettuce.core.resource.DefaultClientResources;
-import io.lettuce.core.resource.DefaultEventLoopGroupProvider;
-import io.lettuce.core.resource.DefaultEventLoopGroup;
-import io.lettuce.core.resource.DefaultFutureProvider;
-import io.lettuce.core.resource.DefaultThreadFactory;
-import io.lettuce.core.resource.ClientResources;
-import io.lettuce.core.resource.ClientResources.Builder;
-import io.lettuce.core.resource.DefaultFutureProvider;
-import io.lettuce.core.resource.DefaultThreadFactory;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.sync.RedisCommands;
+import io.lettuce.core.support.ConnectionPoolSupport;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 public class LettucePoolExample {
-    public static void main(String[] args) {
-        ClientResources clientResources = DefaultClientResources.create();
-        try (StatefulRedisConnection<String, String> connection = 
-             LettucePoolingClient.create("redis://localhost:6379", clientResources)) {
+    public static void main(String[] args) throws Exception {
+        RedisClient redisClient = RedisClient.create("redis://localhost:6379");
+
+        GenericObjectPoolConfig<StatefulRedisConnection<String, String>> poolConfig =
+                new GenericObjectPoolConfig<>();
+        poolConfig.setMaxTotal(10);
+
+        GenericObjectPool<StatefulRedisConnection<String, String>> pool =
+                ConnectionPoolSupport.createGenericObjectPool(() -> redisClient.connect(), poolConfig);
+
+        try (StatefulRedisConnection<String, String> connection = pool.borrowObject()) {
             RedisCommands<String, String> syncCommands = connection.sync();
             syncCommands.set("key", "value");
             String value = syncCommands.get("key");
             System.out.println("Retrieved value: " + value);
+        } finally {
+            pool.close();
+            redisClient.shutdown();
         }
     }
 }

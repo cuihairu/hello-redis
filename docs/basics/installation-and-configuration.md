@@ -40,7 +40,7 @@
 #### 在Windows上安装Redis
 
 1. **下载 Redis**
-   - 从 Redis 官方网站或 GitHub 上下载 Windows 版本的 Redis 安装包。
+   - Redis 官方没有提供 Windows 安装包：Windows 上通常通过 WSL 运行 Linux 版 Redis，或使用社区维护的 Windows 移植版（如 [MicrosoftArchive/redis](https://github.com/microsoftarchive/redis/releases)，下面步骤即针对该版本），两种方式详见[在 Windows 上安装 Redis](./installation-on-windows.md)。
 
 2. **安装 Redis**
    - 解压下载的压缩包，双击运行 `redis-server.exe` 启动 Redis 服务器。

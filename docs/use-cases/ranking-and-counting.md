@@ -23,7 +23,7 @@ Redis 是实现排行榜和计数器的理想工具，提供了高效的数据�
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 添加玩家得分
 redis_client.zadd('game_scores', {'player1': 100, 'player2': 200, 'player3': 150})
@@ -79,7 +79,7 @@ Redis 的 `INCR` 命令可以用来递增计数器的值。对于每个事件，
 
 ```python
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 增加计数器
 def increment_counter(counter_name):

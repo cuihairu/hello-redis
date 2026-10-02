@@ -1,36 +1,94 @@
-### 命令处理
+# 命令处理流程
 
-#### 1. 概述
+## 概述
 
-Redis 的命令处理是整个系统的核心工作流程之一，负责将客户端发送的协议数据解析成具体命令，并执行相应的操作。这个过程涉及 RESP 协议解析、命令查找、参数校验、权限检查、命令执行、传播以及回复发送等多个环节。
+一个 `GET bd:k` 从字节流到回复，要穿过 Redis 的整条主干：事件循环取事件、读缓冲、协议解析、命令表查找、前置检查、执行、传播与统计，最后回复写回。这条主干几乎全部集中在 `server.c`（`processCommand()`、`call()`）与 `networking.c`（读写事件）中。本章是总览，细节分别在《命令解析》与《命令执行》两章展开。
 
-命令处理的主要入口位于 `src/networking.c` 和 `src/server.c` 中。客户端请求首先由网络层读取并解析，然后传递给 `processCommand()`（`src/server.c`）进行处理，最后通过 `call()` 函数执行具体的命令处理函数。
+## 全流程步骤
 
-#### 2. 命令处理的整体流程
+1. **事件就绪**：`ae.c` 的 `aeMain()` -> `aeProcessEvents()` 通过 `aeApiPoll()`（epoll 实现在 `ae_epoll.c`）拿到可读事件，回调 `readQueryFromClient()`。
+2. **读入与解析**：数据进入 `c->querybuf`，`processMultibulkBuffer()`/`processInlineBuffer()` 切出 `argv`（每项是一个 `robj` 字符串对象）。
+3. **命令查找**：`processCommand()` 调用 `lookupCommand()`（`server.c` 约 3306 行）在 `server.commands` 字典中匹配；字典内容来自 `commands.def` 生成的 `redisCommandTable[]`，每条包含处理函数、arity、flags、key 规格与 ACL 类别。
+4. **前置检查**：认证、`CLIENT PAUSE` 暂停状态、内存上限与驱逐、 arity、只读副本拒绝写、`MULTI` 排队、ACL 权限、脚本/事务上下文等。任一不通过即直接回错。
+5. **执行**：进入 `call()`（`server.c` 约 3635 行），`c->cmd->proc(c)` 真正执行；同时驱动统计、慢日志、延迟监控与传播。
+6. **传播**：`call()` 内部把命令写入 AOF 缓冲并 `replicationFeedSlaves()` 同步给副本，`alsoPropagate()`/`afterCommand()` 处理命令执行期间产生的额外命令（如 EXPIRE 触发的 DEL）。
+7. **回复**：`addReply*` 填充输出缓冲；`beforeSleep` 阶段 `handleClientsWithPendingWritesUsingThreads()` 写回客户端。
 
-Redis 的命令处理流程大致可以分为以下几个步骤：
+## 命令表长什么样
 
-1. **连接建立**：客户端通过 TCP 或 Unix 域套接字连接到 Redis，`acceptTcpHandler()`（`src/networking.c`）创建客户端对象并注册读事件。
-2. **请求读取**：当数据可读时，`readQueryFromClient()`（`src/networking.c`）从套接字读取数据到客户端的输入缓冲区。
-3. **协议解析**：读取的数据按照 RESP 协议格式进行解析。对于 RESP2 的多行命令（multibulk），解析由 `processMultibulkBuffer()`（`src/networking.c`）完成，提取出命令名称和参数数组。
-4. **命令查找与校验**：解析得到的命令数组传递给 `processCommand()`（`src/server.c`）。该函数首先查找命令表（`redisCommandTable`）获取对应的命令结构，然后进行 arity（参数数量）、flags、认证、ACL 等校验。
-5. **命令执行**：校验通过后，调用 `call()`（`src/server.c`）执行命令。`call()` 会处理脏计数（`server.dirty++`）、命令传播（AOF/replicas）、键空间通知等副作用，然后调用命令的处理函数（`c->cmd->proc()`）。
-6. **结果回复**：命令处理函数通过 `addReply()` 系列函数（`src/networking.c`）将结果写入客户端的输出缓冲区，随后由事件循环触发写事件将响应发送给客户端。
+命令表在 `server.c` 中以 `extern struct redisCommand redisCommandTable[]` 引用（定义在生成的 `commands.def`）。用 `COMMAND` 子命令可以直接观察元数据：
 
-#### 3. 关键数据结构与函数
+```bash
+$ redis-cli -p 6399 command count
+265
 
-命令处理过程中涉及的关键要点包括：
+$ redis-cli -p 6399 command info get
+get
+2
+readonly
+fast
+1
+1
+1
+@read
+@string
+@fast
+...
+```
 
-- **RESP 协议**：Redis 使用 RESP（REdis Serialization Protocol）作为客户端-服务器通信协议。RESP2 支持简单字符串（+）、错误（-）、整数（:）、大块字符串（$）和数组（*）；RESP3 在此基础上扩展了更多类型。协议协商通过 `HELLO` 命令实现。
-- **命令表**：`redisCommandTable` 位于 `src/server.c`，包含所有内置命令的定义。每个条目是 `struct redisCommand`，记录了命令名、处理函数指针、参数个数要求（arity）、命令标志（flags）等信息。
-- **命令标志（flags）**：命令标志决定了命令的行为特性，例如 `CMD_WRITE` 表示写命令（会修改数据）、`CMD_READONLY` 表示只读、`CMD_FAST` 表示执行快速、`CMD_DENYOOM` 表示在内存不足时仍可执行等。这些标志在 `call()` 中用于决定是否需要传播、是否触发通知等逻辑。
-- **脏计数与传播**：当写命令执行后，会增加服务器的脏计数（`server.dirty++`），用于判断是否需要触发 RDB 保存或 AOF 重写等操作。同时，`propagate()`（`src/server.c`）负责将命令传播到 AOF 文件和所有副本（replicas）。
-- **键空间通知**：`notifyKeyspaceEvent()`（`src/server.c`）在键被修改、过期等事件发生时发送通知，用于支持 `KEYSPACE`、`KEYEVENT` 通道的发布订阅机制。
+输出依次是命令名、arity（2 表示恰好两个参数）、flags、首键下标、末键下标、步长，以及 ACL 类别（`@read @string @fast`）。`COMMAND LIST` 可按模式过滤，`COMMAND GETKEYS` 能验证 key 提取规则：
 
-#### 4. I/O 线程对命令处理的影响
+```bash
+$ redis-cli -p 6399 command getkeys mset bd:a 1 bd:b 2
+bd:a
+bd:b
+$ redis-cli -p 6399 command getkeys eval "return 1" 2 bd:x bd:y
+bd:x
+bd:y
+```
 
-需要特别注意的是：Redis 的命令执行本身始终在主线程中进行。自 Redis 6 引入的 `io-threads` 只负责并行化套接字的读取（read）和写入（write）操作。也就是说，I/O 线程可以同时读取多个客户端的请求数据并解析成命令，但实际调用 `call()` 执行命令的操作仍由主线程串行完成。这一设计保证了命令执行的原子性和确定性，同时提升了网络吞吐量。
+这些 key 规格正是集群模式判断"该命令应路由到哪个节点"的依据。
 
-### 小结
+## 前置检查与错误反馈
 
-Redis 的命令处理流程是一个清晰的管道式设计：网络 I/O → RESP 解析 → 命令查找与校验 → `call()` 执行 → 副作用处理（传播、通知、脏计数）→ 响应发送。这个流程的每个环节都经过精心设计，在保持简单性的同时实现了高性能和可靠性。理解命令处理流程是深入分析 Redis 各种数据类型命令实现的关键基础。
+`processCommand()` 的检查顺序决定了常见报错的先后：未认证时只允许 `AUTH`/`HELLO`/`QUIT` 等；OOM 状态下拒绝写命令（`-OOM command not allowed when used memory > 'maxmemory'`）；只读副本上拒绝写（`-READONLY You can't write against a read only replica.`）；找不到命令时报错并尽力给出最接近的命令名。集群模式下若槽不归本节点管，`processCommand()` 返回 `-MOVED <slot> <ip:port>`，由客户端完成重定向。
+
+## 执行与统计
+
+`call()` 用 flags（`CMD_CALL_FULL` 等）控制副作用开关，核心动作包括：
+
+- `monotonic` 时钟计时，写入 `INFO commandstats` 的 `usec_per_call`；
+- 超过 `slowlog-log-slower-than`（默认 10000 微秒）则 `slowlogPushEntryIfNeeded()` 入慢日志；
+- `latencyAddSample()` 记录延迟事件（阈值 `latency-monitor-threshold`）；
+- `dirty` 计数与 `replicationFeedSlaves()` 传播；
+- `COMMAND COUNT`、`INFO stats` 的 `total_commands_processed` 在这里递增。
+
+实测一个慢命令的痕迹：
+
+```bash
+$ redis-cli -p 16390 debug sleep 0.05        # 自建实例，enable-debug-command yes
+OK
+$ redis-cli -p 16390 slowlog get 1
+1
+1790906194
+50093
+debug
+sleep
+0.05
+127.0.0.1:40740
+```
+
+依次为：条目 id、Unix 时间戳、耗时 50093（微秒）、命令及参数、来源地址。50093 微秒超过了 10000 微秒的阈值，因此被记录。
+
+## 观察整条链路的常用命令
+
+```bash
+redis-cli -p 6399 info stats | grep -E 'total_commands_processed|instantaneous_ops_per_sec'
+redis-cli -p 6399 info commandstats | head -8
+redis-cli -p 6399 client info          # 当前连接最近执行的命令（cmd= 字段）
+redis-cli -p 6399 slowlog get 3
+```
+
+## 小结
+
+命令处理流程是一条严格串行的流水线：事件驱动读入 -> 解析 -> 查表 -> 检查 -> `call()` 执行 -> 传播 -> 回复。所有"为什么这个命令被拒绝""为什么这条命令没有写进 AOF"的问题，答案都在 `processCommand()` 与 `call()` 的这条路径上。理解它之后，才能进一步讨论多线程 I/O、阻塞命令与事务这些"主干上的分叉"。

@@ -2,53 +2,61 @@
 
 #### 概述
 
-`PFCOUNT` 命令用于获取 HyperLogLog 的基数估计值，也就是集合中不重复元素的近似数量。它是 HyperLogLog 的查询命令，通常与 `PFADD` 配合使用。
+`PFCOUNT` 用于返回一个或多个 HyperLogLog 键的基数估算值，即"出现过多少个不同的元素"。单个键返回该键自己的估算值；传入多个键时返回它们合并后的估算值（相当于先做并集再计数），且不会创建或修改任何键。
 
-#### 常用命令
-
-##### `PFCOUNT`
-
-- **功能**: 获取 HyperLogLog 的基数估计值
-- **语法**: `PFCOUNT key [key ...]`
-- **说明**:
-  - 返回存储在 `key` 中的 HyperLogLog 的近似基数。
-  - 如果指定了多个 `key`，会先将多个 HyperLogLog 合并（类似于 `PFMERGE` 的效果），然后返回合并后的近似基数。
-  - 如果键不存在，返回 `0`。
-  - 误差率约为 0.81%，适合对精确度要求不是 100% 的统计场景。
-- **示例**:
-  ```plaintext
-  PFCOUNT hll
-  PFCOUNT hll1 hll2
-  ```
-
-#### 示例操作
+#### 语法与参数
 
 ```plaintext
-# 添加元素并统计基数
-127.0.0.1:6399> PFADD page1 "ip1" "ip2" "ip3" "ip1"
-(integer) 1
-127.0.0.1:6399> PFCOUNT page1
-(integer) 3
-
-# 添加更多不重复元素
-127.0.0.1:6399> PFADD page1 "ip4" "ip5"
-(integer) 1
-127.0.0.1:6399> PFCOUNT page1
-(integer) 5
-
-# 统计空的 HyperLogLog
-127.0.0.1:6399> PFCOUNT empty_hll
-(integer) 0
-
-# 多个 key 的合并统计
-127.0.0.1:6399> PFADD day1 "u1" "u2" "u3"
-(integer) 1
-127.0.0.1:6399> PFADD day2 "u3" "u4" "u5"
-(integer) 1
-127.0.0.1:6399> PFCOUNT day1 day2
-(integer) 5
+PFCOUNT key [key ...]
 ```
 
-### 小结
+- **`key`**：一个或多个 HyperLogLog 键。不存在的键按空 HyperLogLog 处理，基数为 0。
 
-`PFCOUNT` 命令用于获取 HyperLogLog 的近似去重计数。它既可以统计单个 HyperLogLog 的基数，也可以合并多个 HyperLogLog 并统计总基数，这在按天、按小时统计 UV 并需要合并总 UV 的场景中特别实用。虽然不是精确值，但在大数据量下的高效性和低内存占用是其核心优势。
+**返回值**：基数估算值（整数）。
+
+#### 示例
+
+以下命令可以直接在 `redis-cli` 中执行，注释中为实测返回结果：
+
+```plaintext
+# 先写入一些数据
+PFADD bb:hll:uv u1 u2 u3
+# (integer) 1
+PFADD bb:hll:uv u1
+# (integer) 0
+
+# 单键：返回去重后的估算值，重复的 u1 只算一次
+PFCOUNT bb:hll:uv
+# (integer) 3
+
+# 不存在的键返回 0
+PFCOUNT bb:hll:missing
+# (integer) 0
+
+# 多键：返回并集的估算值
+PFADD bb:hll:uv2 u1 u5 u6
+# (integer) 1
+PFCOUNT bb:hll:uv bb:hll:uv2
+# (integer) 5
+```
+
+多键版本会自动处理不同键之间的重复元素：上面的结果 5 是 `{u1, u2, u3, u5, u6}` 的基数，`u1` 在两个键中都出现，但只被统计一次。把同一个键写多次也不影响结果：
+
+```plaintext
+PFCOUNT bb:hll:uv bb:hll:uv bb:hll:uv2
+# (integer) 5
+```
+
+#### 注意事项
+
+- **估算值，不是精确值**：标准误差约 0.81%，且对同一数据多次调用 `PFCOUNT` 得到的是同一个缓存结果，不会波动。
+- **单键读取是只读的**：`PFCOUNT key` 只影响客户端，不修改键的内部数据，可以放心在只读副本上执行。
+- **多键读取有副作用**：官方文档明确指出，多键的 `PFCOUNT` 执行过程中可能会修改这些 HyperLogLog 的内部表示（缓存中间计算结果、必要时转换编码），因此多键版本不能视为只读命令，也不宜在只读副本上执行。
+- **内存开销固定**：一个 HyperLogLog 在稠密表示下固定占用约 12KB，估算的元素越多，这一"性价比"越高；统计几十个元素反而不如直接用集合。
+- **语义对比**：多键 `PFCOUNT` 与 `PFMERGE` 到一个临时键再 `PFCOUNT` 的结果一致，但前者不落盘、开销更小。
+
+#### 相关页面
+
+- [PFADD](./pfadd.md)：向 HyperLogLog 添加元素。
+- [其他HyperLogLog命令](./other-commands.md)：`PFMERGE`。
+- 返回专题目录：[Redis HyperLogLog](../hyperloglog.md)。

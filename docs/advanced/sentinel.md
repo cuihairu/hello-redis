@@ -29,7 +29,7 @@ sentinel down-after-milliseconds mymaster 5000
 sentinel failover-timeout mymaster 10000
 sentinel parallel-syncs mymaster 1
 
-# 哨兵实例的选举配置
+# 主节点的密码认证（主节点配置了 requirepass 时必填）
 sentinel auth-pass mymaster <master-password>
 ```
 
@@ -54,17 +54,17 @@ redis-server /path/to/sentinel.conf --sentinel
 
 #### 4. 常见命令
 
-- **查看哨兵状态**：
+- **查看主节点状态**：
   ```plaintext
-  SENTINEL sentinel master mymaster
+  SENTINEL MASTER mymaster
   ```
   这个命令返回主节点的状态信息。
 
-- **获取哨兵实例的状态**：
+- **获取从节点信息**：
   ```plaintext
-  SENTINEL slaves mymaster
+  SENTINEL REPLICAS mymaster
   ```
-  这个命令返回所有从节点的信息。
+  这个命令返回所有从节点的信息（Redis 5.0+ 使用 REPLICAS 替代 SLAVES）。
 
 - **手动故障转移**：
   ```plaintext

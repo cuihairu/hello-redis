@@ -1,69 +1,112 @@
-### 命令执行
+# 命令执行
 
-#### 概述
+## 概述
 
-命令解析完成后，Redis 会将提取出的命令名称和参数数组传递给命令执行层。命令执行的核心入口是 `processCommand()`（`src/server.c`），最终通过 `call()` 函数调用具体命令的处理函数。这个过程不仅负责执行命令本身，还需要处理权限校验、参数校验、副作用（脏计数、传播、通知）、事务、发布订阅等诸多逻辑。
+`call()`（`server.c` 约 3635 行）是 Redis 的"执行中枢"：所有命令——包括模块命令与 Lua 脚本——最终都通过它运行。它不只调用处理函数，还统一负责计时、统计、慢日志、延迟采样与主从/AOF 传播。读源码时抓住 `call()` 的 flags 机制，就抓住了"执行一个命令到底发生多少件事"。
 
-每个内置命令都有对应的处理函数定义在各自的命令实现文件中，例如字符串命令在 `src/t_string.c`，哈希命令在 `src/t_hash.c`，列表命令在 `src/t_list.c`，集合在 `src/t_set.c`，有序集合在 `src/t_zset.c`，键管理命令在 `src/db.c` 等。
+## call() 的骨架
 
-#### 关键流程与实现要点
-
-**1. 命令查找与校验（processCommand）**
-
-`processCommand()`（`src/server.c`）是命令执行的总控函数，其主要步骤如下：
-
-- **命令查找**：根据 `argv[0]`（命令名称），在命令表 `redisCommandTable` 中查找对应的 `redisCommand` 结构。如果未找到，则返回 `-ERR unknown command`。
-- **参数校验（arity）**：检查命令所需的参数数量。`cmd->arity` 表示命令期望的参数个数（包括命令名本身）。如果 `arity >= 0`，则要求 `argc == arity`；如果 `arity < 0`，则表示命令至少需要 `-(arity)` 个参数。
-- **连接与权限校验**：检查客户端是否已通过认证（`AUTH`）、是否符合 ACL（访问控制列表）权限、是否在事务中等状态。
-- **只读/写命令校验**：对于处于只读模式（replica）或配置了只读限制的场景，`CMD_WRITE` 标志的命令可能会被拒绝执行。
-- **其他校验**：如集群模式下的键所在槽位校验、内存不足时对某些命令的限制（`CMD_DENYOOM` 标志）等。
-
-校验通过后，`processCommand()` 会调用 `call()` 函数执行命令。
-
-**2. 命令执行（call 函数）**
-
-`call()`（`src/server.c`）是实际执行命令的核心函数。它在执行命令处理函数之前和之后负责处理各种副作用：
-
-- **监视器（Monitor）处理**：如果有监视器客户端，记录当前命令的执行信息。
-- **脏计数更新**：对于写命令（带有 `CMD_WRITE` 标志），会增加服务器的脏计数 `server.dirty++`。这个计数用于判断是否需要触发 RDB 快照保存（`bgsave`）或 AOF 重写等持久化操作。
-- **命令传播（propagate）**：对于需要传播的写命令，`call()` 会调用 `propagate()`（`src/server.c`）将命令追加到 AOF 文件，并将命令发送给所有连接的副本（replicas）。传播的时机和方式取决于命令标志和当前上下文（如是否在事务中、是否是 Lua 脚本执行等）。
-- **键空间通知**：在键被修改、过期、删除等操作发生时，调用 `signalModifiedKey()` 和 `notifyKeyspaceEvent()`（`src/server.c`）向订阅了 `__keyspace@<db>__` 或 `__keyevent@<db>__` 通道的客户端发送通知。
-- **调用命令处理函数**：最终执行 `c->cmd->proc(c)`，即调用命令表中注册的具体处理函数。处理函数通过客户端对象 `c` 获取命令参数（`c->argv`、`c->argc`）和数据库等上下文信息。
-- **统计信息更新**：更新命令执行统计（如调用次数、总执行时间等），这些信息可通过 `INFO commandstats` 查看。
-
-```plaintext
-processCommand(c)
-  ├─> 查找命令表
-  ├─> 检查 arity、认证、ACL、flags
-  └─> call(c, CMD_CALL_FULL)
-
-call(c, flags)
-  ├─> 处理 monitor、stats
-  ├─> 如果是写命令：server.dirty++
-  ├─> propagate() 传播到 AOF 和 replicas
-  ├─> signalModifiedKey() / notifyKeyspaceEvent()
-  ├─> c->cmd->proc(c)  执行具体命令
-  └─> 处理后续统计和通知
+```c
+void call(client *c, int flags) {
+    ...
+    c->cmd->proc(c);                       /* 真正执行 */
+    ...
+    if (flags & CMD_CALL_STATS) { ... }    /* commandstats 计时 */
+    if (flags & CMD_CALL_SLOWLOG) slowlogPushEntryIfNeeded(...);
+    if (flags & CMD_CALL_STATS) latencyAddSample(...);
+    if (flags & CMD_CALL_PROPAGATE) { /* AOF + 副本 */ }
+    ...
+}
 ```
 
-**3. 命令处理函数的实现**
+flags 由 `processCommand()` 传入，最常见的组合是 `CMD_CALL_FULL`（统计+慢日志+延迟+传播全开）。几个关键点：
 
-各类型命令的处理函数遵循一定的模式：
+- **执行前后的上下文**：`call()` 之前 `c->cmd`、`c->argc/argv` 已就绪；执行后 `commandProcessed()` 负责重置客户端、更新主从复制偏移。
+- **传播目标**：写命令通过 `replicationFeedSlaves()`（`replication.c`）发给副本，并写入 AOF 缓冲（`propagateNow()`）；命令执行过程中"衍生"的命令（如过期触发的 DEL、`EXPIRE` 语义展开）用 `alsoPropagate()` 排队，在 `afterCommand()`（约 3900 行）里统一落盘，保证原子性与顺序一致。
+- **脏数据计数**：`server.dirty` 变化用于触发 RDB 保存条件；键空间通知（`notifyKeyspaceEvent()`）也在这里发出。
 
-- **参数获取**：从 `client->argv[1...]` 获取参数（`argv[0]` 是命令名）。
-- **键操作**：大部分命令需要操作数据库中的键。Redis 通过 `lookupKey()`、`setKey()`、`dbAdd()`、`dbDelete()` 等数据库操作函数（定义于 `src/db.c`）来读写键空间。
-- **对象操作**：键值对以 `robj`（Redis Object）形式存储。命令需要根据对象的类型和编码进行相应处理，相关函数位于 `src/object.c`。
-- **结果回复**：命令执行完成后，使用 `addReply()`、`addReplyString()`、`addReplyLongLong()`、`addReplyBulk()` 等函数（`src/networking.c`）向客户端输出缓冲区写入响应结果。
+## 统计与可观测性
 
-例如，字符串的 `GET` 命令（在 `src/t_string.c` 中实现的 `getCommand()`）会查找键对应的值对象，检查类型是否为字符串，然后将值以 bulk string 形式回复给客户端。
+每条命令的耗时都进入 `INFO commandstats`（本地实测样例）：
 
-**4. 事务、脚本与特殊情况**
+```text
+cmdstat_get:calls=1,usec=8,usec_per_call=8.00,rejected_calls=0,failed_calls=0
+cmdstat_rpush:calls=145,usec=1935,usec_per_call=13.34,rejected_calls=0,failed_calls=0
+```
 
-- **事务（MULTI/EXEC）**：在事务状态下，命令不会立即执行，而是被放入事务队列，待 `EXEC` 时批量执行。相关逻辑在 `src/multi.c` 中处理。
-- **Lua 脚本（EVAL/EVALSHA）**：脚本执行是原子性的，在脚本运行期间，Redis 会进入特殊模式，避免其他命令干扰。脚本引擎相关代码位于 `src/script.c` 和 `src/eval.c`。
-- **订阅/发布（PUB/SUB）**：发布订阅命令的执行逻辑与普通键空间操作不同，主要在 `src/pubsub.c` 中实现。
-- **阻塞命令**：某些命令（如 `BLPOP`、`BRPOP`、`XREAD BLOCK` 等）在条件不满足时会阻塞客户端，而不是立即返回结果。阻塞处理逻辑在 `src/blocked.c` 中实现。
+`rejected_calls`/`failed_calls` 区分"被前置检查拒绝"与"执行中报错"，排查客户端误用时非常有用。全局吞吐看 `INFO stats`：
 
-### 小结
+```text
+total_commands_processed:44878
+instantaneous_ops_per_sec:22104
+```
 
-Redis 的命令执行是一个严谨而高效的过程。`processCommand()` 负责全面的校验和准备工作，`call()` 则统一处理所有命令的副作用（脏计数、传播、通知），确保了系统行为的一致性。具体命令处理函数则专注于业务逻辑的实现。通过这种清晰的分层设计，Redis 能够在保持单线程执行简单性的同时，正确处理事务、复制、持久化、通知等复杂的系统特性。理解这一执行流程，对于分析任何 Redis 命令的源码实现都至关重要。
+## 慢日志：slowlog.c
+
+执行时间超过 `slowlog-log-slower-than`（默认 10000 微秒，实测 `CONFIG GET slowlog-log-slower-than` 为 10000）的命令由 `slowlogPushEntryIfNeeded()`（`slowlog.c` 约 103 行）记入环形队列，长度受 `slowlog-max-len`（默认 128）限制：
+
+```bash
+$ redis-cli -p 16390 config get slowlog-log-slower-than slowlog-max-len
+slowlog-log-slower-than
+10000
+slowlog-max-len
+128
+$ redis-cli -p 16390 debug sleep 0.02      # 自建实例
+OK
+$ redis-cli -p 16390 slowlog len
+2
+$ redis-cli -p 16390 slowlog get 2
+1
+1790906194
+50093
+debug
+sleep
+0.05
+127.0.0.1:40740
+
+0
+1790906194
+20089
+debug
+sleep
+0.02
+127.0.0.1:40724
+```
+
+慢日志记录的是"命令对象本身 + 耗时 + 客户端地址"，不复制参数大对象，因此自身开销极小。
+
+## 延迟监控：latency.c
+
+`call()` 结束后 `latencyAddSample(event, latency)`（`latency.c` 约 63 行）按事件名（如 `command`）聚合样本，超过 `latency-monitor-threshold` 才记录，可通过 `LATENCY LATEST/HISTORY/DOCTOR` 查询：
+
+```bash
+$ redis-cli -p 16390 config set latency-monitor-threshold 100
+OK
+$ redis-cli -p 16390 debug sleep 0.2
+OK
+$ redis-cli -p 16390 latency latest
+command
+1790906205
+200
+200
+```
+
+事件名不止 `command`，还有 `fork`、`aof-fsync` 等，由各子系统自行上报，是定位毛刺的第一入口。
+
+## 事务中的执行：MULTI/EXEC
+
+`MULTI` 把客户端置为 `CLIENT_MULTI`，后续命令不再立即执行，而是 `queueMultiCommand()`（`multi.c` 约 40 行）追加到 `c->mstate.commands` 队列并回复 `QUEUED`；`EXEC` 在 `execCommand()`（约 128 行）中逐条以相同的 `call()` 路径执行。本地实测：
+
+```text
+MULTI        ->  +OK
+SET bd:tx 1  ->  +QUEUED
+INCR bd:tx   ->  +QUEUED
+GET bd:tx    ->  +QUEUED
+EXEC         ->  *3\r\n+OK\r\n:2\r\n$1\r\n2\r\n
+```
+
+入队阶段的错误（如 arity 不对）会让 `EXEC` 直接放弃：实测先 `GET`（无参数）入队返回错误，再 `EXEC` 得到 `-EXECABORT Transaction discarded because of previous errors.`。执行阶段的错误（如 `INCR` 一个字符串键）不会回滚已执行的命令——Redis 事务没有回滚语义。
+
+## 小结
+
+`call()` 是一个"带副作用的函数调用器"：执行函数本体只是其中一步，统计、慢日志、延迟采样与传播同样重要。排查性能问题时的三层证据——`INFO commandstats`（平均耗时）、`SLOWLOG GET`（最慢样本）、`LATENCY LATEST`（事件级毛刺）——全部由这同一段代码产生，因此三者之间天然可以相互印证。

@@ -18,7 +18,7 @@ import redis
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
-cache = redis.StrictRedis(host='localhost', port=6379, db=0)
+cache = redis.Redis(host='localhost', port=6379, db=0)
 
 @app.route('/product/<product_id>')
 def product(product_id):
@@ -53,7 +53,7 @@ import redis
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-cache = redis.StrictRedis(host='localhost', port=6379, db=0)
+cache = redis.Redis(host='localhost', port=6379, db=0)
 
 @app.route('/user/<user_id>')
 def user_info(user_id):
@@ -93,7 +93,7 @@ import redis
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
-cache = redis.StrictRedis(host='redis-server', port=6379, db=0)
+cache = redis.Redis(host='redis-server', port=6379, db=0)
 
 @app.route('/data/<data_id>')
 def data(data_id):

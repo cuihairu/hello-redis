@@ -25,7 +25,8 @@ AOF（Append-Only File）日志是 Redis 提供的另一种持久化机制，旨
 
 - **命令**：
   - `BGREWRITEAOF`：启动 AOF 文件重写过程。Redis 会在后台生成一个新的 AOF 文件，并将其替代旧的 AOF 文件。
-  - `AOF`：用于管理 AOF 文件的命令。可以用 `redis-cli` 工具进行查看和管理。
+  - `INFO persistence`：查看 AOF 与 RDB 持久化的运行状态（如 `aof_enabled`、`aof_rewrite_in_progress`）。
+  - `CONFIG SET appendonly yes`：在运行中动态开启 AOF（无需重启 Redis）。
 
 - **AOF 重写过程**：
   1. Redis 会在后台启动一个新的进程来执行 AOF 文件重写。

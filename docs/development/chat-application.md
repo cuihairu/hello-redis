@@ -54,32 +54,31 @@ app.use(express.static('public'));
 
 io.on('connection', (socket) => {
     console.log('A user connected');
-    
+
     // Join a room
-    socket.on('joinRoom', (room) => {
+    socket.on('joinRoom', async (room) => {
         socket.join(room);
         console.log(`User joined room: ${room}`);
-        
+
         // Load chat history
-        redisClient.lrange(`chat:${room}`, 0, -1, (err, messages) => {
-            if (err) {
-                console.error('Error loading chat history:', err);
-                return;
-            }
+        try {
+            const messages = await redisClient.lRange(`chat:${room}`, 0, -1);
             messages.forEach((message) => {
                 socket.emit('chatMessage', JSON.parse(message));
             });
-        });
+        } catch (err) {
+            console.error('Error loading chat history:', err);
+        }
     });
 
     // Handle chat message
-    socket.on('chatMessage', (data) => {
+    socket.on('chatMessage', async (data) => {
         const { room, message, user } = data;
         const messageData = JSON.stringify({ message, user });
-        
+
         // Save message to Redis list
-        redisClient.rpush(`chat:${room}`, messageData);
-        
+        await redisClient.rPush(`chat:${room}`, messageData);
+
         // Broadcast message to room
         io.to(room).emit('chatMessage', { message, user });
     });
@@ -89,9 +88,14 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
-});
+// node-redis 4.x 及以上版本需要先建立连接，再开始监听请求
+(async () => {
+    await redisClient.connect();
+
+    server.listen(3000, () => {
+        console.log('Server is running on http://localhost:3000');
+    });
+})();
 ```
 
 #### 3. 前端实现

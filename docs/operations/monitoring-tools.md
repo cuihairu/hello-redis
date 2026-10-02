@@ -45,10 +45,10 @@
 - **检查 Sentinel 状态**
 
   ```bash
-  redis-cli -p <sentinel-port> sentinel monitor <master-name>
+  redis-cli -p <sentinel-port> sentinel sentinels <master-name>
   ```
 
-  查看 Sentinel 对主节点的监控信息。
+  查看监控同一主节点的其他 Sentinel 实例的状态。
 
 ### 3. Prometheus 与 Grafana
 

@@ -1,59 +1,79 @@
-### RDB 持久化
+# RDB持久化实现
 
-#### 概述
+## 概述
 
-RDB（Redis Database Backup）是 Redis 的快照持久化机制，它在指定的时间点将内存中的数据库状态以二进制格式保存到磁盘文件中。RDB 文件是一个紧凑的二进制文件，包含了所有键值对的数据结构信息，便于跨版本传输和快速恢复。
+RDB 是 Redis 的全量持久化：把某一时刻内存中的所有数据序列化成一个紧凑的二进制文件（默认 `dump.rdb`）。实现集中在 src/rdb.c，写入与加载各占一半代码。它的核心机制是 `fork()` + 写时复制（COW）：主进程只负责 fork，真正的序列化在子进程中完成，服务几乎不中断。本节按触发、写入、文件格式、加载四段拆解源码。
 
-RDB 相关的核心实现位于 `src/rdb.c`。Redis 提供了 `SAVE` 和 `BGSAVE` 两个命令来创建 RDB 快照，以及通过配置 `save` 参数实现自动触发。
+## 触发路径
 
-#### 关键流程与实现要点
+三个入口最终都汇聚到同一个函数：
 
-**1. RDB 的触发方式**
+1. **自动触发**：`serverCron()`（src/server.c）遍历 `server.saveparams`，当 `save <seconds> <changes>` 的条件满足（如 `save 900 1` 表示 900 秒内至少 1 次修改）且距上次成功快照超过阈值时，调用 `rdbSaveBackground()`；
+2. **手动触发**：`BGSAVE` 命令直接调用 `rdbSaveBackground()`；`SAVE` 则在主线程内同步执行 `rdbSave()`，期间不能处理其他命令；
+3. **内部场景**：主从全量同步、`SHUTDOWN`（配置了 save 时）等也会生成 RDB。
 
-RDB 快照可以通过以下方式触发：
+```bash
+$ redis-cli -p 6399 config get save
+1) "save"
+2) ""
+$ redis-cli -p 6399 lastsave
+(integer) 1790903507
+```
 
-- **`SAVE` 命令**：同步保存。在主线程中执行 `rdbSave()`，将当前数据库状态写入 RDB 文件。此过程中主线程会阻塞，期间无法处理客户端请求。
-- **`BGSAVE` 命令**：后台异步保存。调用 `rdbSaveBackground()`，通过 `fork()` 创建子进程，由子进程调用 `rdbSave()` 完成快照保存。主线程不阻塞，可以继续处理命令请求。
-- **自动触发**：通过配置文件中的 `save` 指令设置触发条件。例如 `save 900 1` 表示如果 900 秒内发生至少 1 次写操作，则自动触发 `BGSAVE`。这些条件的检查在 `serverCron()`（`src/server.c`）中周期性执行。
+`save` 为空表示该实例关闭了自动快照；`lastsave` 返回上次成功快照的 Unix 时间戳。
 
-**2. RDB 的保存流程（BGSAVE）**
+## 后台保存流程
 
-`BGSAVE` 是最常用的触发方式，其主要流程如下：
+`rdbSaveBackground()`（src/rdb.c）的关键步骤：
 
-1. **检查状态**：如果已经有 `BGSAVE` 或 `BGREWRITEAOF` 正在执行，Redis 会根据情况拒绝或排队（具体行为取决于版本和配置）。
-2. **fork 子进程**：调用 `fork()` 创建子进程。fork 之后，父子进程拥有相同的内存空间。
-3. **子进程保存**：子进程调用 `rdbSave()`（`src/rdb.c`），遍历所有数据库（`server.db` 数组），将每个键值对按照 RDB 格式序列化写入临时 RDB 文件。
-4. **写时复制（COW）**：在子进程保存快照的过程中，主线程仍可能继续执行写命令修改数据。由于操作系统的写时复制机制，当主线程修改某个内存页时，该页会被复制一份，子进程仍然看到 fork 时刻的内存快照，从而保证了快照的一致性。
-5. **完成与替换**：子进程保存完成后，会向主线程发送信号或通过管道通知完成。主线程接收到通知后，将临时文件原子性地替换为正式的 RDB 文件（`.rdb`），并更新相关的统计信息（如上次保存时间 `server.lastsave`）。
+1. `redisFork(CHILD_TYPE_RDB)` 创建子进程，父子进程从此共享物理内存页；
+2. 子进程把全局状态标记为 `CHILD_TYPE_RDB`，调用 `dismissMemoryInChild()` 释放自己不再使用的内存（如客户端缓冲区副本，见 src/server.c），然后执行 `rdbSave()`；
+3. `rdbSave()` 先写临时文件 `temp-<pid>.rdb`，序列化由 `rdbSaveRio()` 完成，成功后 `rename()` 原子替换正式文件；
+4. 子进程通过管道向父进程上报 COW 大小（`sendChildCowInfo(CHILD_INFO_TYPE_RDB_COW_SIZE, "RDB")`），父进程据此更新 `INFO persistence` 中的 `current_cow_size`、`rdb_last_cow_size`；
+5. 父进程的 `serverCron()` 通过 `waitpid()` 收割子进程，记录 `rdb_last_bgsave_status`。
 
-**3. RDB 文件格式**
+COW 的代价体现在 `INFO persistence`：`current_fork_perc`、`current_cow_size` 反映 fork 与复制开销。数据集越大、写入越多，COW 放大的内存越多。
 
-RDB 是一个二进制文件，具有特定的格式结构。其主要组成部分包括：
+## 文件格式
 
-- **文件头**：包含魔数（Magic String，如 `REDIS`）和 Redis 版本信息，用于校验文件有效性。
-- **数据库数据**：按数据库编号依次保存每个数据库中的键值对。对于每个数据库，先记录数据库编号，然后记录该数据库中的键空间内容。
-- **键值对序列化**：每个键值对以 `robj` 的形式序列化，包括键（字符串）、值的类型、底层编码以及实际数据。RDB 会根据对象的类型和编码选择最紧凑的序列化方式。
-- **过期时间**：如果键设置了过期时间（`EXPIRE`、`PEXPIRE`），RDB 文件中会额外记录过期时间信息（秒级或毫秒级）。
-- **文件尾**：包含 CRC64 校验码和结束标记，用于验证文件的完整性。
+RDB 文件是 opcode 序列，开头是 magic 串 `REDIS` 加 4 位数字的版本号（`snprintf(magic,...,"REDIS%04d",RDB_VERSION)`，8.0 中 `RDB_VERSION` 为 12，见 src/rdb.h），主体依次包含：
 
-RDB 的序列化和反序列化逻辑主要由 `src/rdb.c` 中的 `rdbSaveObject()`、`rdbLoadObject()` 等函数实现。
+- `RDB_OPCODE_AUX`（250）：辅助字段，如 `redis-ver`、`aof-preamble`；
+- `RDB_OPCODE_SELECTDB`（254）：切换数据库编号；
+- `RDB_OPCODE_RESIZEDB`（251）：键数量与带过期键数量提示，便于预分配；
+- `RDB_OPCODE_EXPIRETIME_MS`（252）/ `EXPIRETIME`（253）：后续键的过期时间；
+- `RDB_OPCODE_IDLE`（248）/ `RDB_OPCODE_FREQ`（249）：LRU 空闲时间与 LFU 频次；
+- 键值对本身：键为字符串，值由 `rdbSaveObject()` 按类型与编码写入，长字符串可用 LZF 压缩；
+- `RDB_OPCODE_EOF`（255）：文件结束标记；
+- 最后 8 字节是 CRC64 校验和（`rdbSaveRio()` 中 `memrev64ifbe(&cksum)` 后写入）。
 
-**4. RDB 的加载流程**
+`rdb_checksum yes`（默认）时写入并校验 CRC64，编译产物中的 `redis-check-rdb`（源码 src/redis-check-rdb.c）可以离线检查任意 RDB 文件，把文件名作为参数即可（不带参数时打印用法）：
 
-Redis 启动时，如果存在 RDB 文件（且未启用 AOF 或 AOF 文件不可用时），会加载 RDB 文件以恢复数据集：
+```bash
+$ redis-check-rdb
+Usage: redis-check-rdb <rdb-file-name>
+```
 
-- **加载入口**：在服务器初始化过程中，`loadDataFromDisk()`（`src/server.c`）会根据配置决定加载 RDB 还是 AOF。加载 RDB 时调用 `rdbLoad()`（`src/rdb.c`）。
-- **文件校验**：`rdbLoad()` 首先校验文件头、版本和 CRC64 校验码，确保文件完整且兼容。
-- **数据恢复**：按照 RDB 格式逐步解析数据库和键值对，将数据恢复到内存中的数据库结构中。恢复过程中会重建 `robj` 对象和底层数据结构。
-- **阻塞主线程**：RDB 加载是在服务器启动阶段同步执行的，会阻塞主线程直到加载完成。因此，对于大数据集，RDB 加载可能需要较长时间。
+## 加载流程
 
-**5. RDB 的优缺点与优化**
+启动时 `main()` 调用 `rdbLoad()`（src/rdb.c），内部用 `rdbLoadRio()` 循环读取 opcode 并重建键空间。加载期间 `INFO persistence` 的 `loading:1`，进度字段 `loading_total_bytes`、`loading_loaded_bytes`、`loading_start_time` 依次填充；`rdb_last_load_keys_loaded` 记录载入的键数。版本号校验在 `rdbLoadRio()` 中：小于 1 或大于当前 `RDB_VERSION` 的文件直接报错拒绝，其余（即不高于当前版本的）都可以读取。
 
-- **优点**：RDB 文件紧凑、体积小，适合备份和灾难恢复；加载速度通常比 AOF 快得多，特别适合大数据集的快速恢复。
-- **缺点**：RDB 是周期性快照，无法做到实时持久化。如果在两次 `BGSAVE` 之间服务器崩溃，期间的写入数据可能会丢失。
-- **性能考虑**：`fork()` 操作虽然高效，但在大内存实例中仍可能导致短暂的延迟。写时复制（COW）在快照期间如果主线程有大量写操作，会产生额外的内存页复制，可能导致内存使用暂时上升。
-- **压缩**：可以通过 `rdbcompression yes` 启用 RDB 压缩，减少磁盘占用，但会增加 CPU 开销。
+## 使用要点
 
-### 小结
+- 快照间隔决定了丢失窗口：`save 900 1` 最坏情况丢约 15 分钟数据；
+- fork 延迟与数据集大小正相关，`INFO stats` 的 `latest_fork_usec` 可量化；
+- COW 可能瞬时翻倍内存，大实例要在低峰期触发 `BGSAVE`；
+- 单文件特性使 RDB 非常适合异地灾备与版本回滚，传输前可校验 CRC64。
 
-RDB 是 Redis 持久化的基石之一，通过子进程快照的方式在不阻塞主线程的前提下保存数据状态。其二进制格式紧凑高效，适合备份和快速恢复。理解 `rdbSave()`、`rdbLoad()`、fork 与写时复制等关键机制，有助于合理配置 RDB 的触发策略，并在数据丢失风险和性能开销之间做出合适的权衡。
+```bash
+$ redis-cli -p 6399 info stats | grep latest_fork_usec
+latest_fork_usec:0
+$ redis-cli -p 6399 info persistence | grep -E '^(rdb_changes_since_last_save|rdb_last_bgsave_status|rdb_last_save_time)'
+rdb_changes_since_last_save:5942
+rdb_last_bgsave_status:ok
+rdb_last_save_time:1790903507
+```
+
+## 小结
+
+RDB 的实现要点可以压缩成一句话：**用 fork 换取一致性快照，用 COW 换取在线服务不中断，用紧凑二进制加 CRC64 换取小体积与完整性**。源码阅读建议从 `rdbSaveBackground()` 进入，顺序过 `rdbSave()` → `rdbSaveRio()` → 各 `rdbSave*Object()`，再对称地看 `rdbLoad()` → `rdbLoadRio()` → 各 `rdbLoad*Object()`，即可覆盖全部实现。

@@ -1,55 +1,75 @@
-### 数据结构
+# 数据结构与算法
 
-#### 1. 概述
+## 概述
 
-Redis 的强大之处在于它提供了丰富的数据类型，而这些数据类型的高性能实现依赖于一套精心设计的底层数据结构。Redis 并非直接使用操作系统提供的通用数据结构，而是根据内存效率、访问性能和实际使用场景，定制化实现了多种底层结构。
+Redis 对外暴露的是五种基础类型（string、list、hash、set、zset）加上 stream、bitmap、hyperloglog、geo 等扩展，内部则由一套精心挑选的数据结构支撑。理解它们的关键在于分清两个层次：**底层结构**（sds、dict、listpack、quicklist、skiplist、intset、rax）与**对象编码**（src/object.c 中 `robj` 的 encoding 字段）。本节给出全景图与阅读入口。
 
-Redis 的数据结构体系主要由两层构成：**对象系统（Redis Object）** 和**底层编码（encoding）**。键和值都以 `robj`（Redis Object）形式表示，`robj` 包含了类型（type）、编码方式（encoding）、引用计数（refcount）、指向底层数据的指针等信息。这种设计使得同一种数据类型可以根据元素数量或大小选择最合适的底层编码，从而在性能和内存占用之间取得平衡。
+## 底层数据结构清单
 
-#### 2. Redis 对象系统
+| 结构 | 源码文件 | 关键函数 | 特点 |
+| --- | --- | --- | --- |
+| sds 动态字符串 | src/sds.c、src/sds.h | `sdsnewlen()`、`sdscatlen()`、`sdslen()` | 二进制安全，O(1) 长度，头部分级（sdshdr5/8/16/32/64） |
+| dict 哈希表 | src/dict.c、src/dict.h | `dictExpand()`、`dictRehash()`、`dictScan()` | 链地址法，渐进式 rehash |
+| listpack | src/listpack.c | `lpNew()`、`lpAppend()`、`lpInsert()`、`lpGet()` | 连续内存的紧凑列表，7.0 起取代 ziplist |
+| quicklist | src/quicklist.c、src/quicklist.h | `quicklistCreate()`、`quicklistPush()` | 双向链表套 listpack 节点，支持 LZF 压缩 |
+| 跳表 | src/t_zset.c | `zslCreate()`、`zslInsert()`、`zslRandomLevel()` | 有序集合的有序索引，平均 O(log N) |
+| intset | src/intset.c | `intsetAdd()`、`intsetFind()`、`intsetUpgradeAndAdd()` | 有序整数数组，按需升级位宽 |
+| rax 基数树 | src/rax.c | `raxNew()`、`raxInsert()`、`raxSeek()` | Stream 的消息索引、集群槽位统计等 |
 
-Redis 对象系统的核心实现在 `src/object.c` 和 `src/server.h` 中：
+## 对象编码：类型的实现细节
 
-- **`robj` 结构**：代表一个 Redis 对象，统一了所有数据类型的表示方式。它包含 `type`（REDIS_STRING、REDIS_LIST、REDIS_SET、REDIS_ZSET、REDIS_HASH 等）、`encoding`（底层编码方式）、`lru`（LRU 信息）、`refcount`（引用计数）和 `ptr`（指向底层数据结构的指针）。
-- **引用计数（reference counting）**：用于内存管理和对象共享。当对象被引用时 `refcount++`，不再引用时 `refcount--`，当 `refcount == 0` 时对象会被释放。这种机制避免了不必要的内存拷贝，在某些场景下也能实现对象复用。
-- **编码多态（encoding polymorphism）**：同一个数据类型可以有多种底层编码方式。例如，字符串（String）可以编码为 `OBJ_ENCODING_RAW`（SDS）、`OBJ_ENCODING_EMBSTR`（嵌入式 SDS）或 `OBJ_ENCODING_INT`（整数）；列表（List）可以使用 `OBJ_ENCODING_LISTPACK` 或 `OBJ_ENCODING_QUICKLIST` 等。
+`robj`（src/object.c）持有 type 与 encoding 两个字段，`TYPE` 返回前者，`OBJECT ENCODING` 返回后者。同一类型可以在编码之间自动切换，这是 Redis 省内存的核心手段：
 
-#### 3. 核心底层数据结构
+- string：int、embstr（小于等于 44 字节，`OBJ_ENCODING_EMBSTR_SIZE_LIMIT`）、raw；
+- list：listpack（元素少且小时）、quicklist；
+- hash：listpack、hashtable；
+- set：intset、listpack（小字符串集合，`set-max-listpack-entries` 控制）、hashtable；
+- zset：listpack、skiplist。
 
-Redis 的主要底层数据结构包括：
+```bash
+$ redis-cli -p 6399 set bc:d1 12345
+OK
+$ redis-cli -p 6399 object encoding bc:d1
+int
+$ redis-cli -p 6399 hset bc:d2 f1 v1
+(integer) 1
+$ redis-cli -p 6399 object encoding bc:d2
+listpack
+```
 
-| 数据结构 | 源文件 | 作用 |
-|---|---|---|
-| **SDS（Simple Dynamic String）** | `src/sds.c`, `src/sds.h` | Redis 的动态字符串实现，替代了 C 字符串，支持二进制安全、动态扩展和长度预分配。 |
-| **dict（Hash Table）** | `src/dict.c`, `src/dict.h` | 通用哈希表实现，用于实现键空间（database）、哈希类型（Hash）、集合类型（Set）等，支持渐进式 rehash。 |
-| **listpack** | `src/listpack.c`, `src/listpack.h` | 紧凑的列表压缩结构，用于存储小型列表、哈希和有序集合的元素，具有更高的内存效率。 |
-| **ziplist（legacy）** | `src/ziplist.c`, `src/ziplist.h` | 较早的压缩列表实现，在 Redis 7.x 中部分场景被 listpack 取代或作为兼容存在。 |
-| **quicklist / quicklist2** | `src/quicklist.c` | 列表（List）类型的底层实现，将多个 listpack（或节点）链接起来，兼顾顺序访问和内存效率。 |
-| **intset** | `src/intset.c`, `src/intset.h` | 整数集合，用于存储只包含整数元素的小型集合（Set），在元素数量较少且全为整数时节省内存。 |
-| **skiplist** | `src/t_zset.c`（与 zset 一起实现） | 跳跃表，用于有序集合（Sorted Set/ZSET）的有序结构，支持范围查询和 O(log N) 的插入/删除。 |
-| **HyperLogLog 表示** | `src/hll.c` | HyperLogLog 基数估计算法的实现，使用稀疏（sparse）和稠密（dense）两种表示方式。 |
-| **geohash** | `src/geohash.c` | 地理坐标编码，用于 GEO 类型的实现（GEO 底层基于 ZSET + geohash）。 |
+## 算法层面的看点
 
-#### 4. 数据类型与底层编码映射
+- **渐进式 rehash**（src/dict.c 的 `dictRehash()`）：扩容时同时保留新旧两张表（`d->ht_table[0]`、`d->ht_table[1]`），每次操作搬移固定数量的桶，避免长阻塞；
+- **跳表的概率分层**（src/t_zset.c 的 `zslRandomLevel()`）：以幂次定律随机生成层数，实现简单且常数小；
+- **intset 的位宽升级**（src/intset.c 的 `intsetUpgradeAndAdd()`）：从 int16 到 int64 自动升级，避免预先浪费内存；
+- **quicklist 的节点拆分与压缩**（src/quicklist.c 的 `_quicklistNodeAllowInsert()`）：以 `list-max-listpack-size` 控制节点大小，两端中间节点可选 LZF 压缩；
+- **rax 的路径压缩**（src/rax.c）：前缀共享 + 压缩节点，适合消息 ID 这种长且相近的 key。
 
-不同数据类型根据数据规模和特征选择不同的底层编码：
+## 用命令验证编码
 
-- **String**：`OBJ_ENCODING_INT`（整数值）、`OBJ_ENCODING_EMBSTR`（短字符串，≤ 44 字节左右）、`OBJ_ENCODING_RAW`（一般 SDS）。
-- **List**：`OBJ_ENCODING_LISTPACK`、`OBJ_ENCODING_QUICKLIST`（Redis 7+ 常用的实现方式）。
-- **Hash**：当元素较少且值较小时使用 `OBJ_ENCODING_LISTPACK`，元素增多时会转换为 `OBJ_ENCODING_HT`（基于 dict）。
-- **Set**：当所有元素都是整数且数量较少时使用 `OBJ_ENCODING_INTSET`，否则使用 `OBJ_ENCODING_HT`（基于 dict）。
-- **ZSET（Sorted Set）**：元素较少时使用 `OBJ_ENCODING_LISTPACK`（同时保存成员和值），元素较多时使用 `OBJ_ENCODING_SKIPLIST`（跳表 + dict 的组合，以支持 O(1) 按成员查找分值）。
-- **Stream**：底层基于 listpack 和基数树（radix tree）索引实现，相关逻辑主要在 `src/t_stream.c` 中。
+`OBJECT ENCODING` 是最直接的观测入口，配合 `MEMORY USAGE` 能量化每种编码的内存差异：
 
-#### 5. 设计思想
+```bash
+$ redis-cli -p 6399 sadd bc:d3 1 2 3
+(integer) 3
+$ redis-cli -p 6399 object encoding bc:d3
+intset
+$ redis-cli -p 6399 rpush bc:d4 a b c
+(integer) 3
+$ redis-cli -p 6399 object encoding bc:d4
+listpack
+$ redis-cli -p 6399 memory usage bc:d4
+(integer) 64
+$ redis-cli -p 6399 del bc:d1 bc:d2 bc:d3 bc:d4
+(integer) 4
+```
 
-Redis 的数据结构设计体现了以下思想：
+需要注意：编码切换是单向的，从 listpack 升级到 hashtable 后即使删掉元素也不会回退；另外 `OBJECT ENCODING` 的返回值集合随版本演进，7.0 之后不会再看到 ziplist。
 
-- **内存优化优先**：通过紧凑编码（listpack、intset、embstr）减少内存开销，特别适合小数据集。
-- **性能与内存的动态平衡**：采用编码转换（encoding conversion）机制，在数据量变化时自动切换到更合适的底层编码。
-- **渐进式操作**：例如 dict 的渐进式 rehash（`_dictRehashStep`、`dictNext`）避免了大哈希表重建时的长时间阻塞。
-- **二进制安全**：所有字符串处理都基于 SDS，支持存储任意二进制数据（如图片、序列化对象等）。
+## 阅读建议
 
-### 小结
+按“先对象层、后结构层”的顺序读源码效率最高：先看 src/object.c 的 `createObject()` 与各 `create*Object()` 工厂函数，弄清编码字段取值；再顺着具体命令（如 src/t_hash.c 的 `hashTypeSet()`）观察它在不同编码下的分支；最后深入结构实现（src/dict.c、src/listpack.c）。这样每读一个结构都能立刻对应到可观测的命令行为。
 
-Redis 的数据结构体系是其高性能和多样化功能的基础。通过对象系统将类型抽象与底层编码解耦，再结合针对性的底层数据结构（SDS、dict、listpack、quicklist、skiplist、intset 等），Redis 能够根据不同场景自动优化内存和性能。这种设计既保证了 API 的简洁性，又实现了极致的效率。理解这些数据结构的实现细节，有助于更好地理解 Redis 各种数据类型的行为特征和性能瓶颈。
+## 小结
+
+Redis 的数据结构体系是“类型系统 + 多编码 + 底层结构”的三明治：上层类型对用户稳定，中间编码按数据规模自动切换，底层结构各自承担最优场景。掌握 `OBJECT ENCODING` 与源码中编码常量的对应关系，就掌握了阅读 8.0 源码数据结构部分的地图。

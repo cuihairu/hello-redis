@@ -16,7 +16,7 @@ GEORADIUS key longitude latitude radius m|km|ft|mi [WITHCOORD] [WITHDIST] [WITHH
 - **`longitude` / `latitude`**：圆心的经度和纬度。
 - **`radius`**：半径数值，配合后面的单位使用。
 - **`m|km|ft|mi`**：距离单位，分别是米、千米、英尺、英里。
-- **`WITHDIST`**：同时返回成员与圆心的距离，距离值会保留两位小数。
+- **`WITHDIST`**：同时返回成员与圆心的距离（实测输出保留 4 位小数）。
 - **`WITHCOORD`**：同时返回成员的经纬度坐标。
 - **`WITHHASH`**：同时返回成员的 GeoHash 编码整数（即有序集合的分数）。
 - **`COUNT count`**：最多返回 count 个成员；加 `ANY` 时不保证是最近的，而是返回先找到的 count 个，速度更快。

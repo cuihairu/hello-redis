@@ -35,10 +35,10 @@ Redis Streams是一个适用于实时数据流处理的数据结构。它支持�
 import redis
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
 def add_event(event_type, data):
-    redis_client.xadd('events', {'type': event_type, 'data': data})
+    redis_client.xadd('events', {'type': event_type, 'data': data}, id='*')
 
 def get_events(start='0', end='+'):
     return redis_client.xrange('events', min=start, max=end)
@@ -58,7 +58,7 @@ Redis的Sorted Sets（有序集合）可以用于实时数据的聚合和排序�
 import redis
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def add_user_score(user_id, score):
     redis_client.zincrby('user_scores', score, user_id)
@@ -82,7 +82,7 @@ print(get_top_users())
 import redis
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def add_log_entry(log_message):
     redis_client.lpush('logs', log_message)
@@ -106,7 +106,7 @@ import redis
 import time
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def log_request():
     timestamp = int(time.time())

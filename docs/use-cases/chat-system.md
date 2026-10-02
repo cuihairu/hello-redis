@@ -27,7 +27,7 @@
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 注册用户
 def register_user(user_id, user_info):
@@ -97,7 +97,7 @@ def get_chat_history(chat_id):
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 用户管理
 def register_user(user_id, user_info):

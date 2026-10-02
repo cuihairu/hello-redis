@@ -17,7 +17,7 @@
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 添加商家位置数据
 def add_store(key, longitude, latitude, store_name):

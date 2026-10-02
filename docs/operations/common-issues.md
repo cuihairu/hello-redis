@@ -90,10 +90,10 @@
   redis-cli -c cluster info
   ```
 
-- **重新分配槽**: 如果槽分配不均，可以使用 `redis-cli -c cluster reshard` 命令重新分配槽。
+- **重新分配槽**: 如果槽分配不均，可以使用 `redis-cli --cluster reshard` 命令重新分配槽。
   
   ```bash
-  redis-cli -c cluster reshard
+  redis-cli --cluster reshard <node-ip>:<port>
   ```
 
 - **检查网络连接**: 确保集群节点之间的网络连接正常，没有延迟或丢包问题。
@@ -103,11 +103,13 @@
 **问题描述**: Redis 配置无法生效或导致意外行为。
 
 **解决方法**:
-- **检查配置文件**: 确保配置文件语法正确，并且所有配置项符合要求。使用 `redis-server` 命令测试配置文件。
+- **检查配置文件**: `redis-server` 启动时会加载并校验配置文件，配置项有误时启动会失败并在日志中报出具体原因，可以先前台启动验证：
   
   ```bash
-  redis-server /path/to/redis.conf --test-memory
+  redis-server /path/to/redis.conf --port 6380
   ```
+  
+  启动成功说明配置文件语法正确（确认无误后按 `Ctrl+C` 退出即可）。运行中的实例也可以用 `CONFIG GET <parameter>` 查看当前生效的配置值。
 
 - **重启 Redis 实例**: 配置更改后，需要重启 Redis 实例以使配置生效。
 

@@ -16,7 +16,7 @@ pip install redis
 import redis
 
 # 创建 Redis 客户端
-client = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
+client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
 # 测试连接
 print(client.ping())  # 应返回 True，表示连接成功
@@ -115,7 +115,7 @@ print(members_in_range)  # 输出: ['member1', 'member2']
 import redis
 
 def get_from_cache(key):
-    client = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
+    client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
     value = client.get(key)
     if value:
         return value
@@ -136,7 +136,7 @@ import redis
 import threading
 
 def subscriber():
-    client = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
+    client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
     pubsub = client.pubsub()
     pubsub.subscribe('channel')
     for message in pubsub.listen():
@@ -144,7 +144,7 @@ def subscriber():
             print(f"Received message: {message['data']}")
 
 def publisher():
-    client = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
+    client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
     client.publish('channel', 'Hello, Redis!')
 
 # 启动订阅者线程
@@ -162,7 +162,7 @@ publisher()
 import redis
 
 pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
-client = redis.StrictRedis(connection_pool=pool)
+client = redis.Redis(connection_pool=pool)
 ```
 
 以上是 Python 中使用 Redis 的一些基本操作和应用示例。`redis-py` 提供了丰富的 API 和功能，可以支持大多数 Redis 操作，适用于各种应用场景。

@@ -38,7 +38,7 @@ import os
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # 用于加密会话数据
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
+redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
 # 用户注册
 @app.route('/register', methods=['POST'])
@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
 #### 安全考虑
 
-- **密码加密**：确保密码在存储和传输过程中使用加密算法进行保护。
+- **密码加密**：确保密码在存储和传输过程中使用加密算法进行保护。存储密码时应使用加盐的慢哈希算法（如 bcrypt、scrypt 或 Argon2），而不是直接使用 SHA-256 这类快速哈希。
 - **会话ID的生成**：使用强随机数生成会话ID，以防止会话预测攻击。
 - **会话过期**：合理设置会话的过期时间，以减少会话被滥用的风险。
 - **HTTPS**：使用HTTPS协议保护会话数据在传输过程中的安全。

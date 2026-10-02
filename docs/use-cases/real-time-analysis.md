@@ -29,7 +29,7 @@ import redis
 import time
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def log_request():
     timestamp = int(time.time())  # 当前时间戳
@@ -59,7 +59,7 @@ print(get_requests(60))
 import redis
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def record_user_action(user_id, item_id, score):
     redis_client.zadd(f'user:{user_id}:recommendations', {item_id: score})
@@ -83,7 +83,7 @@ print(get_recommendations('user123'))
 import redis
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def set_user_features(user_id, features):
     redis_client.hset(f'user:{user_id}:features', mapping=features)
@@ -106,7 +106,7 @@ print(get_user_features('user123'))
 import redis
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def add_traffic_data(page, visitor_id):
     redis_client.xadd('page_visits', {'page': page, 'visitor_id': visitor_id})

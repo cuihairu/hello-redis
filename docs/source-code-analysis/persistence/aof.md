@@ -1,67 +1,81 @@
-### AOF 持久化
+# AOF持久化实现
 
-#### 概述
+## 概述
 
-AOF（Append-Only File）是 Redis 的另一种持久化机制，它通过记录服务器执行的所有写命令来持久化数据。与 RDB 的时间点快照不同，AOF 以追加日志的方式记录数据变更，使得 Redis 可以在重启时通过重新执行 AOF 文件中的所有命令来精确地恢复数据集。
+AOF（Append Only File）把每条写命令以 RESP 文本形式追加到日志文件，重启时重放命令即可恢复数据。相比 RDB 的周期快照，它的丢失窗口由 fsync 策略决定，最坏只丢 1 秒。实现集中在 src/aof.c，7.0 重构为 multi-part AOF（base + 增量 + manifest）。本节沿“写入 → 落盘 → 重写 → 恢复”的顺序拆解源码。
 
-AOF 的核心实现位于 `src/aof.c`。Redis 支持多种 `appendfsync` 策略来平衡数据安全性和性能，并且自 Redis 7 起引入了多部分 AOF（Multi-part AOF）和 RDB-AOF 混合持久化（通过 `aof-use-rdb-preamble` 控制）等特性。
+## 写入链路：从命令到 aof_buf
 
-#### 关键流程与实现要点
+写命令执行成功后，`call()`（src/server.c）通过 `propagate()`（内部是 `propagateNow()`）把命令递交给 AOF，进入 `feedAppendOnlyFile()`（src/aof.c）：它把命令原样格式化成 RESP 协议文本（当前实现不做任何 AOF 专属转写，仅在目标数据库变化时自动补一条 `SELECT`；开启 `aof-timestamp-enabled` 时还会写入时间戳注释），追加到全局缓冲区 `server.aof_buf`（sds 类型，src/server.h）。
 
-**1. AOF 的工作流程**
+真正的落盘发生在 `beforeSleep()`：主线程每次回到事件循环等待前调用 `flushAppendOnlyFile(0)`，把 `aof_buf` 写入文件，并按 `appendfsync` 决定是否 fsync：
 
-AOF 的工作过程主要包括命令追加、文件写入与刷盘、文件重写和数据恢复四个阶段：
+- `AOF_FSYNC_ALWAYS`：写完立即 fsync，命令返回前保证落盘；
+- `AOF_FSYNC_EVERYSEC`：默认策略，由后台线程（src/bio.c 的 `BIO_AOF_FSYNC` 作业）每秒 fsync 一次，主线程发现上次 fsync 还在进行时会推迟写入（即 `aof_delayed_fsync` 计数的来源）；
+- `AOF_FSYNC_NO`：从不主动 fsync，交给操作系统刷盘。
 
-1. **命令追加**：当 AOF 功能启用时，所有写命令（带有 `CMD_WRITE` 标志的命令）在执行成功后，会被序列化为 RESP 格式，并通过 `feedAppendOnlyFile()`（`src/aof.c`）追加到 AOF 缓冲区（`server.aof_buf`）。
-2. **写入与刷盘（fsync）**：Redis 并非每次追加都立即写入磁盘，而是将缓冲区中的数据写入 AOF 文件的内核缓冲区，再根据 `appendfsync` 配置决定何时调用 `fsync()` 将数据强制刷到磁盘。这个过程与事件循环协调，通常在 `beforeSleep()`（`src/server.c`）等时机执行。
-3. **AOF 重写**：随着写命令不断累积，AOF 文件会变得越来越大。Redis 通过 `BGREWRITEAOF` 命令创建一个新的 AOF 文件，该文件只包含重建当前数据库状态所需的最小化命令集合，而不是包含所有历史命令。重写在后台子进程中进行，不阻塞主线程。
-4. **数据恢复**：Redis 启动时，如果启用了 AOF 且 AOF 文件存在，服务器会优先加载 AOF 文件（高于 RDB）。加载过程通过 `loadAppendOnlyFile()`（`src/aof.c`）逐条解析 AOF 中的命令并重新执行，以恢复数据集。
+```bash
+$ redis-cli -p 6399 config get appendfsync
+1) "appendfsync"
+2) "everysec"
+$ redis-cli -p 6399 config get appenddirname
+1) "appenddirname"
+2) "appendonlydir"
+$ redis-cli -p 6399 config get appendfilename
+1) "appendfilename"
+2) "appendonly.aof"
+$ redis-cli -p 6399 config get aof-load-truncated
+1) "aof-load-truncated"
+2) "yes"
+```
 
-**2. appendfsync 同步策略**
+## multi-part AOF：文件组织
 
-`appendfsync` 配置项决定了 AOF 的刷盘行为，对数据持久性和性能有重大影响：
+7.0 起 AOF 不再是单个文件，而是 `appenddirname`（默认 `appendonlydir`）目录下的一组文件：
 
-- **`always`**：每执行一次写命令，都会立即调用 `fsync()` 将 AOF 缓冲区刷到磁盘。这种策略能最大程度地保证数据不丢失（理论上只会丢失正在执行的最后一个命令），但由于每次都进行磁盘同步，性能开销非常大。
-- **`everysec`**：每秒钟执行一次 `fsync()` 刷盘。Redis 会在后台定期（通常每秒）将累积的 AOF 缓冲区数据刷到磁盘。这是 Redis 默认且最常用的策略，在性能和数据安全性之间取得了良好的平衡。采用此策略时，服务器崩溃最多可能丢失最近 1 秒的数据。
-- **`no`**：Redis 不主动调用 `fsync()`，而是完全交由操作系统决定何时将数据刷盘。性能最高，但数据丢失风险也最大（取决于操作系统的刷盘时机）。
+- `appendonly.aof.<seq>.base.rdb`：base 文件，是上次重写时刻的全量快照；`aof-use-rdb-preamble yes`（默认）时为 RDB 二进制格式，否则为 AOF 命令格式；
+- `appendonly.aof.<seq>.incr.aof`：增量文件，记录 base 之后的所有写命令；
+- `appendonly.aof.manifest`：清单，逐行描述当前有效的文件，例如：
 
-**3. AOF 重写（BGREWRITEAOF）**
+```
+file appendonly.aof.2.base.rdb seq 2 type b
+file appendonly.aof.3.incr.aof seq 3 type i
+```
 
-AOF 重写解决了 AOF 文件无限增长的问题，其核心思想是基于当前数据库状态生成最简命令序列。
+`type` 取值 b（base）、i（incremental）、h（history）。启动时 `aofLoadManifestFromDisk()` 解析清单，再由 `loadAppendOnlyFiles()` 依次加载 base 与全部 incr 文件；`openNewIncrAofForAppend()` 负责重写开始时切换到新的增量文件；`aofDelHistoryFiles()` 清理废弃文件。
 
-- **触发方式**：可以通过手动命令 `BGREWRITEAOF` 触发，也可以通过配置项 `auto-aof-rewrite-percentage` 和 `auto-aof-rewrite-min-size` 自动触发。自动触发条件在 `serverCron()` 中检查。
-- **后台重写流程**：`rewriteAppendOnlyFileBackground()`（`src/aof.c`）通过 `fork()` 创建子进程。子进程遍历当前数据库中的所有键，生成用于重建这些键的最简写命令（如 `SET`、`HMSET` 等），并将这些命令写入新的临时 AOF 文件。
-- **写时复制与增量缓冲**：在子进程重写期间，主线程可能继续执行写命令，导致当前数据库状态与子进程看到的快照不一致。为了解决这个问题，Redis 会将这期间产生的所有写命令同时追加到 **AOF 重写缓冲区（`server.aof_rewrite_buf_blocks`）** 中。
-- **重写完成**：子进程完成重写并写入临时文件后，会向主线程发送完成信号。主线程在收到信号后，会停止处理新命令的追加（短暂暂停），将 AOF 重写缓冲区中的所有增量命令追加到新生成的 AOF 文件中，然后原子性地替换旧的 AOF 文件，最后恢复正常的 AOF 追加流程。
+## AOF 重写
 
-这一机制确保了重写过程中产生的新数据也不会丢失，同时避免了阻塞主线程。
+AOF 会无限增长，重写用“当前数据集反推最小命令集”的方式压缩日志。`BGREWRITEAOF` 命令或自动条件（`auto-aof-rewrite-percentage` 相对 `aof_base_size` 的增长比例、`auto-aof-rewrite-min-size` 最小触发体积，检查逻辑在 `serverCron()` 中）都会走到 `rewriteAppendOnlyFileBackground()`（src/aof.c）：
 
-**4. 多部分 AOF（Multi-part AOF）**
+1. 父进程先调用 `openNewIncrAofForAppend()` 打开新的增量文件，此后新写入不再进入旧文件，而是直接追加到新 incr 文件；
+2. fork 子进程，由 `rewriteAppendOnlyFile()`（内部是 `rewriteAppendOnlyFileRio()`）遍历当前键空间生成新的 base 文件；
+3. 子进程完成后，父进程的 `backgroundRewriteDoneHandler()` 用新 base + 新 incr 构造临时 manifest，`rename()` 原子替换正式 manifest，再删除旧文件；
+4. 重写期间如果服务中断，旧 base + 旧 incr + 新 incr 仍然构成完整数据，因此整个过程是安全的。
 
-自 Redis 7 起，Redis 引入了多部分 AOF 机制，替代了传统的单一 AOF 文件结构。
+与 7.0 之前不同，父进程不再维护一份巨大的内存重写缓冲区，避免了重写期间的内存放大。
 
-- **文件组成**：多部分 AOF 由三个部分组成：
-  - **清单文件（Manifest）**：记录当前使用的 AOF 基础文件和增量文件的信息，类似于一个索引文件，确保文件的正确加载顺序。
-  - **基础文件（Base AOF）**：通常是经过重写生成的 AOF 文件，包含某个时间点的数据库状态命令序列。
-  - **增量文件（Incr AOF）**：记录自上次 AOF 重写或创建基础文件以来的所有增量写命令。
-- **优势**：这种结构使得 AOF 重写更加安全和灵活。重写时可以生成新的基础文件，而不是直接修改当前 AOF 文件，减少了复杂的文件操作风险。同时也便于管理和清理历史文件。
-- **实现细节**：多部分 AOF 的管理逻辑主要在 `src/aof.c` 中实现，清单文件的格式和处理也由相关函数负责。
+## 混合持久化与恢复
 
-**5. RDB-AOF 混合持久化**
+`aof-use-rdb-preamble yes`（默认）让 base 文件采用 RDB 格式：恢复时先用 `rdbLoadRio()` 加载 base，再重放 incr 文件中的命令，兼得 RDB 的加载速度与 AOF 的丢失窗口。加载由 `loadSingleAppendOnlyFile()` 处理命令部分，遇到不完整的尾部命令时受 `aof-load-truncated`（默认 yes）控制：允许截断加载并警告，否则启动失败。损坏的 AOF 可用离线工具 `redis-check-aof` 修复，它同时接受 manifest 与单个 aof 文件，`--fix` 会丢弃最后一个不完整的命令；不带参数时打印用法：
 
-通过 `aof-use-rdb-preamble` 配置项可以启用混合持久化模式。
+```bash
+$ redis-check-aof
+Usage: redis-check-aof [--fix|--truncate-to-timestamp $timestamp] <file.manifest|file.aof>
+```
 
-- **工作方式**：在混合模式下，当执行 `BGREWRITEAOF` 时，子进程生成的新 AOF 文件不是纯命令序列，而是以 RDB 快照（preamble）的二进制格式开头，后面跟随重写开始后的增量 AOF 命令。
-- **恢复优势**：重启时，Redis 可以先加载文件开头的 RDB 部分快速恢复大部分数据，然后再加载后续的增量 AOF 命令恢复最新的修改。这种方式结合了 RDB 的快速加载速度和 AOF 的数据精确性，在恢复效率和数据完整性之间取得了更好的平衡。
+## 运行时观测
 
-**6. AOF 加载与校验**
+```bash
+$ redis-cli -p 6399 info persistence | grep -E '^(aof_enabled|aof_rewrite_in_progress|aof_rewrite_scheduled|aof_last_bgrewrite_status)'
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_bgrewrite_status:ok
+```
 
-AOF 文件的加载通过 `loadAppendOnlyFile()`（`src/aof.c`）完成：
+该实例 AOF 未开启，因此看不到 `aof_current_size`、`aof_base_size`、`aof_pending_bio_fsync`、`aof_delayed_fsync` 等字段；开启后它们才会出现在 `INFO persistence` 中，分别表示当前文件大小、上次重写时 base 大小、等待后台 fsync 的作业数与被推迟的 fsync 次数。
 
-- **逐条解析**：AOF 文件是 RESP 格式的命令序列，加载器会逐行（或逐个 RESP 元素）解析命令，并调用 `processCommand()` 或等效的执行路径来重放命令。
-- **错误处理**：如果 AOF 文件在中间损坏，Redis 的默认行为是停止加载并报错，以避免加载不完整的数据。可以通过配置项控制是否在遇到错误时继续加载（但这可能导致数据不一致）。
-- **多部分 AOF 加载**：在多部分 AOF 模式下，加载器会首先读取清单文件，按顺序加载基础文件和所有增量文件，再进行命令重放。
+## 小结
 
-### 小结
-
-AOF 持久化通过记录写命令的方式提供了比 RDB 更精细的数据持久性保障。`everysec` 策略在大多数生产环境中是性能与安全性的合理平衡点。AOF 重写机制配合写时复制和重写缓冲区，解决了文件膨胀问题而不阻塞主线程。多部分 AOF 和 RDB-AOF 混合持久化进一步提升了 Redis 7+ 版本在持久化管理和恢复效率方面的可靠性。理解 `src/aof.c` 中的追加、刷盘、重写和加载流程，对于正确配置和优化 Redis 的持久化行为至关重要。
+AOF 实现的关键词是“缓冲 + 分频落盘 + 周期重写”：`aof_buf` 聚合命令、`beforeSleep` 统一刷写、`BIO_AOF_FSYNC` 把 fsync 移出主线程、multi-part 结构让重写变成一次纯粹的文件替换。阅读源码建议从 `feedAppendOnlyFile()` 进入写路径，从 `rewriteAppendOnlyFileBackground()` 进入重写路径，最后对照 `aof.c` 头部注释里给出的 manifest 示例理解文件切换时机。

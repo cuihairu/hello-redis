@@ -1,65 +1,81 @@
-### 数据结构概览
+# Redis数据结构概述
 
-#### 概述
+## 概述
 
-Redis 数据结构的概览从宏观角度介绍对象系统如何组织底层结构，以及各数据类型的整体实现思路。Redis 中的每个键值对都存储在数据库的键空间（keyspace）中，键是一个字符串（SDS 表示的 `robj`），值是任意一种 Redis 类型的 `robj`。
+Redis 对使用者暴露的是 `TYPE` 命令返回的五种基础类型，对内则由 `OBJECT ENCODING` 返回的一组底层编码实现。这种“一个类型对应多个编码”的设计是 Redis 内存与性能兼顾的关键：数据小的时候用紧凑的连续内存结构，数据大了自动切换到通用结构。本节梳理这两层模型，以及编码切换在源码中的触发点。
 
-Redis 对象（`robj`）定义于 `src/server.h`，其设计目的是将类型信息和编码信息抽象出来，使得命令处理层可以统一处理不同底层编码的对象，同时也为内存管理（引用计数）和 LRU 淘汰提供支持。
+## 类型与编码的对应关系
 
-#### 关键流程与实现要点
+| TYPE | 可能的 encoding | 底层实现 | 源码文件 |
+| --- | --- | --- | --- |
+| string | int / embstr / raw | long long / 连续内存的 sds / 独立 sds | src/object.c、src/sds.c |
+| list | listpack / quicklist | listpack 或 quicklist（其节点内是 listpack） | src/t_list.c、src/quicklist.c、src/listpack.c |
+| hash | listpack / hashtable | listpack 或 dict | src/t_hash.c、src/dict.c |
+| set | intset / listpack / hashtable | 有序整数数组 / listpack / dict | src/t_set.c |
+| zset | listpack / skiplist | listpack 或“跳表 + dict”组合 | src/t_zset.c |
+| stream | stream | rax + listpack | src/t_stream.c |
 
-**1. Redis 对象（robj）**
+用真实实例可以逐一验证：
 
-`robj` 是 Redis 的核心抽象：
+```bash
+$ redis-cli -p 6399 set bc:o1 100
+OK
+$ redis-cli -p 6399 type bc:o1
+string
+$ redis-cli -p 6399 object encoding bc:o1
+int
+```
 
-- **type**：标识对象类型（`OBJ_STRING`、`OBJ_LIST`、`OBJ_SET`、`OBJ_ZSET`、`OBJ_HASH`、`OBJ_STREAM`、`OBJ_MODULE` 等）。
-- **encoding**：标识底层编码方式（如 `OBJ_ENCODING_RAW`、`OBJ_ENCODING_INT`、`OBJ_ENCODING_HT`、`OBJ_ENCODING_LISTPACK`、`OBJ_ENCODING_SKIPLIST` 等）。
-- **refcount**：引用计数，用于对象共享和垃圾回收。当 `refcount` 减至 0 时，对象会被释放。
-- **lru**：记录对象最近被访问的时间，用于 LRU/LFU 内存淘汰策略的决策。
-- **ptr**：指向底层实际数据结构的指针。
+## 为什么要有多个编码
 
-对象的创建和管理主要通过 `src/object.c` 中的函数完成，如 `createObject()`、`makeObjectShared()`、`decrRefCount()`、`incrRefCount()` 等。
+以哈希为例，`HSET` 一个只有两个字段的哈希时使用 listpack：所有字段名和值连续存放在一块内存里，没有指针、没有哈希桶，内存开销接近数据本身。一旦字段数超过 `hash-max-listpack-entries`（默认 512）或单个值超过 `hash-max-listpack-value`（默认 64 字节），src/t_hash.c 会调用 `hashTypeConvert()` 切换到 hashtable，用 O(1) 查找换取额外开销。
 
-**2. 字符串（String）**
+```bash
+$ redis-cli -p 6399 hset bc:o2 a 1 b 2
+(integer) 2
+$ redis-cli -p 6399 object encoding bc:o2
+listpack
+$ redis-cli -p 6399 config get hash-max-listpack-entries
+1) "hash-max-listpack-entries"
+2) "512"
+```
 
-字符串是最基础的数据类型：
+## 编码切换的触发点
 
-- **整数编码**：当字符串值可以表示为长整数时，Redis 会使用 `OBJ_ENCODING_INT` 编码，直接将整数值存储在 `ptr` 中，以节省内存。
-- **嵌入式字符串（EMBSTR）**：对于长度较短（通常 ≤ 44 字节）的字符串，使用 `OBJ_ENCODING_EMBSTR`。EMBSTR 将 `robj` 结构和 SDS 结构连续分配在一块内存中，减少了内存分配次数和内存碎片。
-- **原始字符串（RAW）**：对于较长的字符串，使用 `OBJ_ENCODING_RAW`，`ptr` 指向独立分配的 SDS 结构。
+切换逻辑分散在各类型实现里，共同点是“**只升不降**”：
 
-字符串的底层实现是 SDS（`src/sds.c`）。SDS 相比 C 字符串的优势包括：记录长度（`len`）、可用空间（`alloc`）、二进制安全、预分配策略以减少内存重分配次数。
+- 字符串：`SET` 路径上由 `tryObjectEncoding()`（src/object.c）尝试压缩为 int 或 embstr；长度超过 44 字节（`OBJ_ENCODING_EMBSTR_SIZE_LIMIT`）就用 raw；
+- 列表：src/t_list.c 在 push 时检查 `list-max-listpack-size`，节点内 listpack 超限后拆分或改用 PLAIN 节点（见 src/quicklist.c 的 `_quicklistNodeAllowInsert()`）；
+- 集合：元素全为整数且数量在 `set-max-intset-entries` 内用 intset，否则按 `set-max-listpack-entries` 决定 listpack 或 hashtable；
+- 有序集合：元素数超过 `zset-max-listpack-entries` 或成员超过 `zset-max-listpack-value` 时，`zsetConvert()`（src/t_zset.c）切换到 skiplist。
 
-**3. 哈希（Hash）**
+```bash
+$ redis-cli -p 6399 zadd bc:o3 1 a 2 b
+(integer) 2
+$ redis-cli -p 6399 object encoding bc:o3
+listpack
+$ redis-cli -p 6399 del bc:o3
+(integer) 1
+```
 
-哈希类型用于存储字段-值对：
+## 7.0 的一个重要变化：ziplist 退场
 
-- **小型哈希**：当哈希中的字段和值总数较少且每个元素较小时，采用 `OBJ_ENCODING_LISTPACK` 编码。listpack 以紧凑的方式依次存储字段和值，适合内存敏感的小型数据。
-- **哈希表编码**：当哈希规模超过阈值（由配置或内部策略决定）时，转换为 `OBJ_ENCODING_HT`，底层使用 `dict`（`src/dict.c`）实现。dict 提供 O(1) 平均时间复杂度的查找、插入和删除操作，并支持渐进式 rehash。
+Redis 7.0 之前，小哈希、小列表、小有序集合都用 ziplist（src/ziplist.c）。ziplist 的级联更新问题（prevlen 字段连锁扩展）在高写入场景下会放大延迟，于是 7.0 引入 listpack 完全取代了它：每个元素只记录自身长度，不再记录前驱长度，从结构上消除了级联更新。今天 quicklist 的节点内容也是 listpack，7.x 之后的源码里 `OBJECT ENCODING` 不会再返回 ziplist。
 
-**4. 列表（List）**
+## 如何观察编码
 
-列表是有序的字符串序列：
+- `TYPE key`：查看逻辑类型；
+- `OBJECT ENCODING key`：查看当前编码；
+- `OBJECT REFCOUNT key` / `OBJECT IDLETIME key` / `OBJECT FREQ key`：引用计数与访问统计（FREQ 仅在 LFU 策略下有效）；
+- `MEMORY USAGE key`：按当前编码递归估算内存。
 
-- **底层实现**：在 Redis 7.x 中，列表主要使用 `OBJ_ENCODING_QUICKLIST`（`src/quicklist.c`）实现。Quicklist 将多个节点串联，每个节点内部通常存储一个 listpack，从而在顺序访问性能和内存压缩之间取得平衡。
-- **设计考量**：这种设计既支持头尾快速插入（LPUSH/RPUSH）、范围查询（LRANGE），又能通过压缩节点内的元素来减少内存占用。
+```bash
+$ redis-cli -p 6399 object idletime bc:o2
+(integer) 0
+$ redis-cli -p 6399 del bc:o1 bc:o2
+(integer) 2
+```
 
-**5. 集合（Set）**
+## 小结
 
-集合是无序的唯一元素集合：
-
-- **整数集合**：当集合中的所有元素都是整数，并且元素数量不超过一定阈值时，使用 `OBJ_ENCODING_INTSET`（`src/intset.c`）。intset 是一种紧凑的有序整数数组，支持二分查找，适合纯整数的小型集合。
-- **哈希表**：当集合包含非整数元素，或元素数量超过阈值时，使用 `OBJ_ENCODING_HT`（基于 dict）。在这种编码下，dict 的键存储集合元素，值为 `NULL`，从而实现集合的去重和 O(1) 平均查找。
-
-**6. 有序集合（Sorted Set / ZSET）**
-
-有序集合的每个成员都关联一个分值（score），并按分值排序：
-
-- **小型 ZSET**：元素较少时，使用 `OBJ_ENCODING_LISTPACK`。listpack 中交替存储成员和分值（member, score, member, score, ...），既保持紧凑，又能支持按分值排序的范围操作。
-- **跳表 + 字典**：元素较多时，使用 `OBJ_ENCODING_SKIPLIST`。底层组合了跳跃表（skiplist）和字典（dict）。跳表用于按分值排序和范围查询（ZRANGE、ZRANGEBYSCORE），字典用于 O(1) 平均时间复杂度的按成员查找分值（ZSCORE）。这两个结构共享相同的元素数据，以避免内存重复。
-
-跳跃表的实现位于 `src/t_zset.c` 中，是 ZSET 高性能排序的关键。
-
-### 小结
-
-Redis 的数据结构概览展示了对象系统如何通过类型和编码的抽象，将多样化的数据类型映射到不同的底层实现上。字符串、哈希、列表、集合、有序集合等类型都根据数据特征选择最优编码，在内存效率和访问性能之间取得平衡。理解这种分层设计，是深入分析各数据结构具体实现的前提。
+把“类型—编码—结构”三层对应关系记住，再对照上表找到各自源码文件，就能在阅读任何一条 `t_*.c` 命令实现时迅速明白它在操作哪种结构。下一节将逐一拆解这些底层结构的具体实现细节。

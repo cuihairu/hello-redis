@@ -47,7 +47,7 @@
 - **配置 SSL/TLS：** 从 Redis 6.0 开始，支持通过 SSL/TLS 进行加密传输。可以在 `redis.conf` 中配置 SSL 相关选项，以加密客户端与 Redis 实例之间的通信：
 
   ```plaintext
-  tls-port 6379
+  tls-port 6380
   tls-cert-file /path/to/redis.crt
   tls-key-file /path/to/redis.key
   tls-ca-cert-file /path/to/ca.crt

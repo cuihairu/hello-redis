@@ -15,10 +15,10 @@ MSET key1 value1 key2 value2 key3 value3
 MGET key1 key2 key3
 ```
 
-- **HMSET** 和 **HMGET**：用于同时设置和获取哈希表中的多个字段。
+- **HSET** 和 **HMGET**：`HSET` 支持在一个命令中设置哈希表的多个字段（Redis 4.0 起，旧的 `HMSET` 已弃用），`HMGET` 用于同时获取多个字段。
 
 ```bash
-HMSET myhash field1 value1 field2 value2
+HSET myhash field1 value1 field2 value2
 HMGET myhash field1 field2
 ```
 

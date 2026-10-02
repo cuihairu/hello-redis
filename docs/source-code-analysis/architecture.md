@@ -13,7 +13,7 @@ Redis 是一个基于内存的键值数据库，它的整体架构可以概括�
 - **主线程**：运行事件循环 `aeMain()`（src/ae.c），负责所有客户端命令的读取、执行与回复。
 - **后台线程（bio）**：由 `bioInit()`（src/bio.c）创建，处理 `BIO_CLOSE_FILE`（关闭重写产生的旧文件）、`BIO_AOF_FSYNC`（AOF fsync）、`BIO_LAZY_FREE`（异步释放大对象）等任务，8.0 中还增加了 `BIO_CLOSE_AOF` 等作业类型。
 - **子进程**：由 `rdbSaveBackground()`（src/rdb.c）与 `rewriteAppendOnlyFileBackground()`（src/aof.c）通过 `fork()` 创建，分别负责 RDB 快照与 AOF 重写。
-- **可选的 I/O 线程**：配置 `io-threads` 大于 1 时，读写与协议解析可以分散到多个线程（8.0 中还支持对命令执行本身开 I/O 线程，即 `io-threads-do-reads` 之外的执行卸载）。
+- **可选的 I/O 线程**：配置 `io-threads` 大于 1 时，套接字读写与协议解析可以分散到多个线程并行处理（8.0 重写了这套异步 I/O threading 实现），但命令执行仍固定在主线程，以保持单线程语义。
 
 可以通过 `INFO` 直接观察这些执行流是否在工作：
 
@@ -30,7 +30,7 @@ connected_clients:1
 主线程的核心是 `aeEventLoop`（src/ae.c）：
 
 1. `main()`（src/server.c）依次调用 `initServerConfig()`、`initServer()` 完成配置与服务器状态初始化；
-2. `initServer()` 用 `aeCreateFileEvent()` 把监听套接字的 `AE_READABLE` 事件与 `acceptTcpHandler` 绑定，并调用 `aeCreateTimeEvent()` 注册时间事件 `serverCron()`；
+2. `initServer()` 用 `aeCreateFileEvent()` 把监听套接字的 `AE_READABLE` 事件与接受连接的回调绑定（src/socket.c 的 `connSocketAcceptHandler`，内部经 src/networking.c 的 `acceptCommonHandler()` 创建客户端），并调用 `aeCreateTimeEvent()` 注册时间事件 `serverCron()`；
 3. `aeMain()` 循环调用 `aeProcessEvents()`，底层由 `aeApiPoll()`（Linux 下为 epoll 封装）等待就绪事件；
 4. 客户端可读时进入 `readQueryFromClient()`（src/networking.c），数据在 `processInputBuffer()` 中按 RESP 协议解析成 `argv`，随后进入 `processCommand()` 查表执行；
 5. 命令处理函数（如 `setCommand`，src/t_string.c）通过 `lookupKeyWrite()`（src/db.c）访问键空间，写完后由 `beforeSleep()` 中的 `writeToClient()` 把回复缓冲区刷给客户端。
@@ -41,11 +41,20 @@ connected_clients:1
 $ redis-cli -p 6399 command count
 (integer) 265
 $ redis-cli -p 6399 command info get
-1) 1) "get"
-   2) (integer) 2
-   3) 1) readonly
-   ...
+get
+2
+readonly
+fast
+1
+1
+1
+@read
+@string
+@fast
+...
 ```
+
+（`COMMAND INFO` 的返回包含命令名、arity、标志位、参数数量与命令组，末尾是 ACL 可读性与键位置规格；`...` 处为省略的剩余字段。）
 
 ## 键空间与对象系统
 
@@ -55,7 +64,7 @@ $ redis-cli -p 6399 command info get
 
 - **持久化**：RDB 由 src/rdb.c 实现（`rdbSave()`、`rdbSaveBackground()`、`rdbLoadRio()`），AOF 由 src/aof.c 实现（`feedAppendOnlyFile()`、`flushAppendOnlyFile()`、`rewriteAppendOnlyFileBackground()`）。两者都依赖 `fork()` 与写时复制（COW）。
 - **内存**：src/zmalloc.c 在 malloc 之上做了统一包装（`zmalloc()`、`zfree()`、`zmalloc_used_memory()`），并统计 `INFO memory` 中的各项指标；默认分配器是 jemalloc。
-- **过期与淘汰**：src/expire.c 中的 `expireIfNeeded()` 与主动过期循环负责惰性/定期删除，内存达到 `maxmemory` 后由 `performEvictions()` 按策略淘汰。
+- **过期与淘汰**：src/db.c 中的 `expireIfNeeded()` 负责惰性删除，src/expire.c 中的 `activeExpireCycle()` 负责定期删除，内存达到 `maxmemory` 后由 src/evict.c 的 `performEvictions()` 按策略淘汰。
 
 ```bash
 $ redis-cli -p 6399 info memory | grep -E 'used_memory_human|mem_allocator'

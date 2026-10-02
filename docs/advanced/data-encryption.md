@@ -11,7 +11,7 @@
 - **配置 TLS/SSL：** 在 `redis.conf` 文件中配置 SSL/TLS 相关选项，以启用加密传输：
 
   ```plaintext
-  tls-port 6379
+  tls-port 6380
   tls-cert-file /path/to/redis.crt
   tls-key-file /path/to/redis.key
   tls-ca-cert-file /path/to/ca.crt
@@ -42,7 +42,7 @@ Redis 本身不提供内建的数据存储加密功能，但可以通过操作�
 
 - **加密数据：** 在将数据存储到 Redis 之前，可以在应用程序中对数据进行加密。这意味着数据在 Redis 中是加密的，即使 Redis 数据文件被访问，数据也不会被直接读取。
 
-  例如，可以使用对称加密算法（如 AES）在应用级别加密数据，然后将加密后的数据存储到 Redis：
+  例如，可以使用对称加密算法（如 AES）在应用级别加密数据，然后将加密后的数据存储到 Redis（需安装 `pycryptodome` 包）：
 
   ```python
   from Crypto.Cipher import AES
@@ -60,10 +60,11 @@ Redis 本身不提供内建的数据存储加密功能，但可以通过操作�
       return cipher.decrypt_and_verify(ciphertext, tag).decode()
 
   # Example usage
-  key = b'Sixteen byte key'
+  key = b'Sixteen byte key'  # 16/24/32 bytes for AES-128/192/256
   original_message = "Hello, World!"
   encrypted_message = encrypt_message(original_message, key)
   decrypted_message = decrypt_message(encrypted_message, key)
+  assert decrypted_message == original_message
   ```
 
 #### 3. **密码保护**

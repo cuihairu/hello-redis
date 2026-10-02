@@ -1,50 +1,82 @@
-### 持久化
+# 持久化机制
 
-#### 1. 概述
+## 概述
 
-Redis 是一个内存数据库，为了防止数据在服务器重启、崩溃或意外关闭时丢失，提供了两种主要的持久化机制：**RDB（Redis Database Backup，快照）** 和 **AOF（Append-Only File，追加日志）**。此外，Redis 7.x 还支持 RDB 和 AOF 的混合持久化模式，以在数据安全性和恢复速度之间取得平衡。
+Redis 数据在内存中，持久化解决的是“进程重启或机器断电后数据不丢”的问题。源码层面由两个子系统承担：RDB（src/rdb.c）生成某个时刻的全量二进制快照，AOF（src/aof.c）把每条写命令按 RESP 协议追加进日志。两者可以单独使用，也可以同时开启（重启时优先加载 AOF）。
 
-持久化相关的核心代码位于 `src/rdb.c` 和 `src/aof.c`。RDB 通过将内存中的数据定期保存为二进制快照文件来实现持久化；AOF 则通过记录服务器执行的所有写命令来重建数据集。这两种机制可以单独使用，也可以同时启用。
+## RDB：fork + 写时复制的全量快照
 
-#### 2. RDB 持久化
+触发方式有三类：配置的 `save` 条件、手动 `SAVE`/`BGSAVE`、以及主从全量同步等内部场景。核心路径是 `rdbSaveBackground()`（src/rdb.c）调用 `redisFork(CHILD_TYPE_RDB)`，子进程把内存数据写进 `temp-<pid>.rdb`，完成后 `rename()` 原子替换正式文件；父进程照常服务，只在 fork 瞬间付出代价，之后靠操作系统的写时复制（COW）共享内存页。
 
-RDB 是 Redis 的快照持久化方式，它将某个时间点的数据库状态保存到磁盘上的 `.rdb` 文件中。
+`serverCron()`（src/server.c）会遍历 `server.saveparams`，在“N 秒内至少 M 次修改”满足时自动触发：
 
-- **触发方式**：RDB 可以通过手动命令触发（`SAVE`、`BGSAVE`）或通过配置文件自动触发。`SAVE` 在主线程中执行，会阻塞所有客户端命令；`BGSAVE` 则在后台子进程中执行，不阻塞主线程。
-- **实现原理**：`BGSAVE` 使用 `fork()` 创建子进程。子进程在不影响主线程的情况下，将内存中的数据序列化并写入 RDB 文件。这种方式利用了写时复制（Copy-On-Write, COW）技术：在子进程保存快照期间，如果主线程修改了某些内存页，这些页会被复制，而子进程看到的仍是 fork 时刻的内存快照。
-- **核心实现**：RDB 的生成和加载逻辑主要在 `src/rdb.c` 中实现。`rdbSave()`、`rdbSaveBackground()` 负责保存，`rdbLoad()` 负责加载 RDB 文件。
-- **配置参数**：通过 `save` 指令配置自动触发条件，例如 `save 900 1` 表示 900 秒内至少有 1 次写操作时触发 `BGSAVE`。这些检查在 `serverCron()`（`src/server.c`）中周期性执行。
-- **压缩支持**：RDB 文件可以使用压缩（如 `rdbcompression` 配置项控制），以减少磁盘占用空间。
+```bash
+$ redis-cli -p 6399 config get save
+1) "save"
+2) ""
+```
 
-#### 3. AOF 持久化
+上例中该实例 `save` 为空字符串，表示自动快照被关闭，只能手动触发。经典配置形如 `save 900 1`（900 秒内至少 1 次修改）。RDB 文件以 RDB 版本号开头（8.0 为 12），以 8 字节 CRC64 校验和结尾，`redis-check-rdb` 工具可以离线检查文件完整性。
 
-AOF 通过记录所有写命令的方式来实现持久化，服务器重启时会重新执行 AOF 文件中的命令来恢复数据集。
+## AOF：命令日志与三种 fsync 策略
 
-- **工作原理**：当 AOF 启用时，每一个写命令（带有 `CMD_WRITE` 标志的命令）在执行后，都会通过 `propagate()`（`src/server.c`）被追加到 AOF 缓冲区，然后根据配置策略刷新到磁盘。
-- **同步策略（appendfsync）**：AOF 的刷盘时机由 `appendfsync` 配置控制：
-  - `always`：每次写命令都同步刷盘到磁盘，数据安全性最高，但性能开销最大。
-  - `everysec`：每秒钟同步刷盘一次，这是性能和安全性的平衡选择，也是 Redis 的默认推荐配置。
-  - `no`：由操作系统决定何时刷盘，性能最高，但数据丢失风险较大。
-- **AOF 重写（BGREWRITEAOF）**：随着时间的推移，AOF 文件会不断增长，包含大量的冗余命令（例如多次 `SET` 同一个键）。为了减少文件大小，Redis 提供了 AOF 重写功能。`BGREWRITEAOF` 在后台子进程中，根据当前数据库状态重建最小化的命令序列来生成新的 AOF 文件，而不是简单地压缩旧文件。重写过程同样利用写时复制机制，避免阻塞主线程。
-- **核心实现**：AOF 的追加、刷新、重写和加载逻辑主要在 `src/aof.c` 中实现。相关函数包括 `feedAppendOnlyFile()`、`aofWrite()`、`rewriteAppendOnlyFileBackground()`、`loadAppendOnlyFile()` 等。
-- **多部分 AOF（Multi-part AOF）**：自 Redis 7 起，引入了多部分 AOF 机制。AOF 文件不再是单一文件，而是由基础文件（base）、增量文件（incr）和清单文件（manifest）组成。这种设计提升了 AOF 重写和管理的灵活性与可靠性。
+开启 `appendonly yes` 后，每个写命令在执行成功后由 `feedAppendOnlyFile()`（src/aof.c）写入 `server.aof_buf` 缓冲区，`beforeSleep()` 在回到事件循环前调用 `flushAppendOnlyFile()` 落盘。fsync 频率由 `appendfsync` 决定：
 
-#### 4. RDB-AOF 混合持久化
+- `always`：每次写入都同步，最安全也最慢；
+- `everysec`：每秒一次，由后台线程（src/bio.c 的 `BIO_AOF_FSYNC`）执行，默认值，最多丢 1 秒数据；
+- `no`：从不主动 fsync，交给操作系统，通常约 30 秒刷一次，最快也最不安全。
 
-Redis 7.x 支持混合持久化模式（通过 `aof-use-rdb-preamble` 配置控制）。在这种模式下，AOF 文件的开头部分是一个 RDB 快照（preamble），后续部分是自快照以来的增量 AOF 命令。
+```bash
+$ redis-cli -p 6399 config get appendonly
+1) "appendonly"
+2) "no"
+$ redis-cli -p 6399 config get appendfsync
+1) "appendfsync"
+2) "everysec"
+$ redis-cli -p 6399 config get aof-use-rdb-preamble
+1) "aof-use-rdb-preamble"
+2) "yes"
+```
 
-- **优势**：混合持久化结合了 RDB 的快速加载和 AOF 的数据精确性。当 Redis 重启时，可以先加载 RDB 部分快速恢复大部分数据，再通过增量 AOF 恢复最近的修改，从而在恢复速度和数据完整性之间取得更好的平衡。
-- **实现细节**：在 AOF 重写过程中，如果启用了混合模式，重写生成的 AOF 文件会以 RDB 格式的快照开始，后面附加重写开始后的增量命令。这部分逻辑在 `src/aof.c` 的重写相关函数中处理。
+## multi-part AOF：7.0 起的文件组织
 
-#### 5. 持久化与性能的权衡
+Redis 7.0 把单个 AOF 文件拆成“base + 增量 + 清单”三部分，全部放在 `appenddirname`（默认 `appendonlydir`）目录下：
 
-选择合适的持久化策略需要根据应用场景权衡数据安全性和性能：
+- `appendonly.aof.<seq>.base.rdb`：重写时刻的全量快照，`aof-use-rdb-preamble` 开启时为 RDB 格式，否则是 AOF 命令格式；
+- `appendonly.aof.<seq>.incr.aof`：base 之后的所有增量写命令，重写失败重试时可能存在多个；
+- `appendonly.aof.manifest`：清单文件，逐行记录每个文件的序号与类型，例如 `file appendonly.aof.2.base.rdb seq 2 type b`（b 为 base、h 为历史、i 为增量）。
 
-- **仅 RDB**：恢复速度快，但如果在两次快照之间发生崩溃，期间的数据会丢失。
-- **仅 AOF（everysec）**：通常只丢失最多 1 秒的数据，安全性较好，但 AOF 文件通常比 RDB 文件大，且恢复速度可能比 RDB 慢。
-- **RDB + AOF**：同时启用时，Redis 重启会优先加载 AOF 文件（以获得更完整的数据），同时可以利用 RDB 进行备份。混合模式则进一步优化了恢复效率。
-- **性能影响**：`BGSAVE` 和 `BGREWRITEAOF` 都在子进程中进行，不阻塞主线程，但 fork() 操作本身会有短暂的暂停，并且写时复制（COW）在主线程频繁写入时可能会导致额外的内存复制开销。
+对应源码：`aofLoadManifestFromDisk()` 启动时读清单，`openNewIncrAofForAppend()` 在重写开始时切到新的增量文件，`aofDelHistoryFiles()` 清理旧文件。备份时直接打包整个目录即可（注意避开重写进行中的时刻）。
 
-### 小结
+## RDB 与 AOF 的取舍
 
-Redis 的持久化机制为内存数据提供了可靠的磁盘备份方案。RDB 通过快照提供了高效的备份和快速恢复能力，AOF 通过命令记录提供了更精细的数据持久性保障，而混合持久化则结合了两者的优势。理解 `rdb.c` 和 `aof.c` 的实现原理，以及 fork、COW、AOF 重写等关键机制，有助于合理配置持久化策略，从而在数据安全性、性能和磁盘占用之间取得最佳平衡。
+| 维度 | RDB | AOF |
+| --- | --- | --- |
+| 数据安全 | 两次快照之间的数据会丢 | 最多丢 1 秒（everysec） |
+| 文件体积 | 小，二进制紧凑 | 大，命令文本（重写可收缩） |
+| 恢复速度 | 快，直接载入内存 | 慢，需要重放命令 |
+| 对在线服务影响 | fork 一次，COW 占用内存 | 持续写盘，重写时再 fork 一次 |
+| 典型用途 | 灾备、快速重启 | 主持久化手段 |
+
+两者同时开启时，重启恢复优先使用 AOF，因为它通常更完整。
+
+## 运行时观测
+
+```bash
+$ redis-cli -p 6399 info persistence | grep -E '^(loading|rdb_changes_since_last_save|rdb_bgsave_in_progress|rdb_last_bgsave_status|rdb_saves|aof_enabled|aof_rewrite_in_progress)'
+loading:0
+rdb_changes_since_last_save:1149
+rdb_bgsave_in_progress:0
+rdb_last_bgsave_status:ok
+rdb_saves:0
+aof_enabled:0
+aof_rewrite_in_progress:0
+$ redis-cli -p 6399 lastsave
+(integer) 1790903507
+```
+
+`rdb_changes_since_last_save` 是自上次成功快照以来的修改次数，也就是自动 `save` 条件的判断依据；`lastsave` 返回最后一次成功快照的 Unix 时间戳。AOF 开启时还会出现 `aof_current_size`、`aof_base_size`、`aof_pending_bio_fsync` 等字段。
+
+## 小结
+
+RDB 与 AOF 在源码里共享同一套 fork + COW 骨架：rdb.c 生成全量快照，aof.c 追加命令日志并周期性重写。7.0 的 multi-part AOF 把“快照 + 增量”统一成 base/incr/manifest 三类文件；混合持久化（`aof-use-rdb-preamble`，5.0 起默认开启）决定 base 文件采用 RDB 还是命令格式。后面两节分别深入 RDB 与 AOF 的实现细节。

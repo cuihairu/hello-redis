@@ -15,7 +15,7 @@
 import redis
 
 # 连接到 Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # 发送消息
 def send_message(chat_id, message):
@@ -36,11 +36,11 @@ def receive_messages(chat_id, start=0, end=-1):
 ```python
 # 发送消息
 def send_message(chat_id, message):
-    redis_client.xadd(f"chat:{chat_id}", {'message': message})
+    redis_client.xadd(f"chat:{chat_id}", {'message': message}, id='*')
 
 # 接收消息
 def receive_messages(chat_id, count=10):
-    return redis_client.xread({f"chat:{chat_id}": 0}, count=count)
+    return redis_client.xread({f"chat:{chat_id}": '0'}, count=count)
 ```
 
 ### 2. 消息处理

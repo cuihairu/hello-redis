@@ -37,12 +37,12 @@ import json
 import time
 
 # 连接Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
 def add_sensor_data(sensor_id, value):
     timestamp = int(time.time() * 1000)  # 当前时间的毫秒级时间戳
     data = {'sensor_id': sensor_id, 'value': value, 'timestamp': timestamp}
-    redis_client.xadd('sensor_data', data)
+    redis_client.xadd('sensor_data', data, id='*')
 
 # 示例：添加传感器数据
 while True:
@@ -59,7 +59,7 @@ from flask import Flask, render_template, jsonify
 import redis
 
 app = Flask(__name__)
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 @app.route('/')
 def index():
@@ -104,13 +104,6 @@ if __name__ == '__main__':
             },
             options: {
                 scales: {
-                    x: {
-                        type: 'realtime',
-                        realtime: {
-                            onRefresh: fetchSensorData,
-                            delay: 2000 // 每2秒刷新一次
-                        }
-                    },
                     y: {
                         beginAtZero: true
                     }
@@ -118,15 +111,21 @@ if __name__ == '__main__':
             }
         });
 
-        function fetchSensorData(chart) {
+        function fetchSensorData() {
             fetch('/data')
                 .then(response => response.json())
                 .then(data => {
-                    chart.data.labels = data.map(d => new Date(d.timestamp).toLocaleTimeString());
-                    chart.data.datasets[0].data = data.map(d => d.value);
+                    // 接口返回的是最新在前的记录，反转为按时间正序展示
+                    const series = data.slice().reverse();
+                    chart.data.labels = series.map(d => new Date(d.timestamp).toLocaleTimeString());
+                    chart.data.datasets[0].data = series.map(d => d.value);
                     chart.update();
                 });
         }
+
+        // 每2秒刷新一次
+        fetchSensorData();
+        setInterval(fetchSensorData, 2000);
     </script>
 </body>
 </html>

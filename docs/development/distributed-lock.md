@@ -23,54 +23,36 @@ Redis 提供了几种实现分布式锁的方法，其中最常见的是使用 `
 
 ```javascript
 const redis = require('redis');
+// node-redis 4.x 及以上版本为 Promise API，需要先调用 connect() 建立连接
 const client = redis.createClient();
 
-// 获取锁
+// 获取锁：键不存在时才设置（NX），并同时设置过期时间（PX）
 async function acquireLock(lockKey, lockValue, lockTimeout) {
-    return new Promise((resolve, reject) => {
-        client.set(lockKey, lockValue, 'NX', 'PX', lockTimeout, (err, reply) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(reply === 'OK');
-        });
-    });
+    const reply = await client.set(lockKey, lockValue, { NX: true, PX: lockTimeout });
+    return reply === 'OK';
 }
 
-// 释放锁
+// 释放锁：使用 WATCH 保证“检查值与删除”的原子性，只有值匹配才删除
 async function releaseLock(lockKey, lockValue) {
-    return new Promise((resolve, reject) => {
-        client.watch(lockKey, (err) => {
-            if (err) {
-                return reject(err);
-            }
-
-            client.get(lockKey, (err, value) => {
-                if (err) {
-                    return reject(err);
-                }
-
-                if (value === lockValue) {
-                    client.multi().del(lockKey).exec((err, replies) => {
-                        if (err) {
-                            return reject(err);
-                        }
-                        resolve(replies);
-                    });
-                } else {
-                    client.unwatch();
-                    resolve();
-                }
-            });
-        });
-    });
+    await client.watch(lockKey);
+    try {
+        const value = await client.get(lockKey);
+        if (value === lockValue) {
+            return await client.multi().del(lockKey).exec();
+        }
+        return undefined; // 锁已过期或被他人持有，不做删除
+    } finally {
+        await client.unwatch();
+    }
 }
 
 // 使用示例
 (async () => {
+    await client.connect();
+
     const lockKey = 'my_lock';
     const lockValue = 'unique_lock_value';
-    const lockTimeout = 10000; // 10 seconds
+    const lockTimeout = 10000; // 10 秒
 
     const lockAcquired = await acquireLock(lockKey, lockValue, lockTimeout);
     if (lockAcquired) {
@@ -84,7 +66,7 @@ async function releaseLock(lockKey, lockValue) {
         console.log('Lock not acquired');
     }
 
-    client.quit();
+    await client.quit();
 })();
 ```
 

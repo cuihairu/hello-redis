@@ -143,11 +143,23 @@ func main() {
 `go-redis` 库自动管理连接池，无需手动配置连接池。如果需要调整连接池的参数，可以在创建 `redis.Options` 时进行配置：
 
 ```go
-rdb := redis.NewClient(&redis.Options{
-    Addr:        "localhost:6379",
-    PoolSize:    10, // 连接池大小
-    MinIdleConns: 5, // 最小空闲连接数
-})
+package main
+
+import (
+    "context"
+    "github.com/go-redis/redis/v8"
+)
+
+var ctx = context.Background()
+
+func main() {
+    rdb := redis.NewClient(&redis.Options{
+        Addr:         "localhost:6379",
+        PoolSize:     10, // 连接池大小
+        MinIdleConns: 5,  // 最小空闲连接数
+    })
+    _ = rdb
+}
 ```
 
 ### 3. 应用示例
@@ -279,24 +291,38 @@ func main() {
 #### 哨兵支持
 
 ```go
-rdb := redis.NewFailoverClient(&redis.FailoverOptions{
-    MasterName: "mymaster",
-    SentinelAddrs: []string{
-        "localhost:26379",
-    },
-})
+package main
+
+import "github.com/go-redis/redis/v8"
+
+func main() {
+    rdb := redis.NewFailoverClient(&redis.FailoverOptions{
+        MasterName: "mymaster",
+        SentinelAddrs: []string{
+            "localhost:26379",
+        },
+    })
+    _ = rdb
+}
 ```
 
 #### 集群支持
 
 ```go
-rdb := redis.NewClusterClient(&redis.ClusterOptions{
-    Addrs: []string{
-        "localhost:7000",
-        "localhost:7001",
-        "localhost:7002",
-    },
-})
+package main
+
+import "github.com/go-redis/redis/v8"
+
+func main() {
+    rdb := redis.NewClusterClient(&redis.ClusterOptions{
+        Addrs: []string{
+            "localhost:7000",
+            "localhost:7001",
+            "localhost:7002",
+        },
+    })
+    _ = rdb
+}
 ```
 
 以上示例展示了在 Go 中使用 Redis 的基本操作和应用。`go-redis` 是一个功能丰富的库，支持 Redis 的大部分功能，并且在性能和易用性上表现出色。

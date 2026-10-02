@@ -19,7 +19,7 @@ from flask import Flask, session, request, redirect, url_for
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 用于加密会话数据
-cache = redis.StrictRedis(host='localhost', port=6379, db=0)
+cache = redis.Redis(host='localhost', port=6379, db=0)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -70,7 +70,7 @@ def logout():
 - **一致性**：确保会话数据的一致性，使用统一的Redis配置和过期策略。
 
 **示例**：
-```python
+```bash
 # 配置多个Web服务器使用相同的Redis实例
 redis-server --bind 0.0.0.0 --port 6379
 ```

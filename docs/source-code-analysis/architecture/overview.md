@@ -77,10 +77,9 @@ mem_allocator:jemalloc-5.3.0
 - `COMMAND COUNT` / `COMMAND INFO <cmd>`：命令表内容。
 
 ```bash
-$ redis-cli -p 6399 info stats | grep -E 'total_commands_processed|instantaneous_ops'
-total_commands_processed:1193
-instantaneous_ops_per_sec:1
-instantaneous_input_kbps:0.01
+$ redis-cli -p 6399 info stats | grep -E 'total_commands_processed|instantaneous_ops_per_sec'
+total_commands_processed:45855
+instantaneous_ops_per_sec:0
 ```
 
 ## 小结

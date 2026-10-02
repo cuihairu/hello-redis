@@ -24,13 +24,10 @@
 **问题描述**: 某些 Redis 命令执行时间较长，影响系统性能。
 
 **优化方法**:
-- **使用批量操作**: 对于需要执行多个命令的操作，可以使用 `MULTI` 和 `EXEC` 进行批量处理，减少网络往返时间。
+- **使用批量操作**: 对于需要执行多个命令的操作，可以在同一个连接中使用 `MULTI` 和 `EXEC` 进行批量处理，减少网络往返时间（多次独立调用 `redis-cli` 会各自建立新连接，无法组成事务）：
   
   ```bash
-  redis-cli MULTI
-  redis-cli SET key1 value1
-  redis-cli SET key2 value2
-  redis-cli EXEC
+  printf 'MULTI\nSET key1 value1\nSET key2 value2\nEXEC\n' | redis-cli
   ```
 
 - **避免阻塞命令**: 尽量避免使用阻塞命令（如 `BLPOP`），特别是在高并发环境中。
@@ -108,10 +105,10 @@
   redis-cli -c cluster info
   ```
 
-- **重新分配槽**: 如果槽分配不均，可以使用 `redis-cli -c cluster reshard` 命令重新分配槽。
+- **重新分配槽**: 如果槽分配不均，可以使用 `redis-cli --cluster reshard` 命令重新分配槽。
 
   ```bash
-  redis-cli -c cluster reshard
+  redis-cli --cluster reshard <node-ip>:<port>
   ```
 
 #### 5. 使用 `redis-check` 工具
