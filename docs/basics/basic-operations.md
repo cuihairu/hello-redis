@@ -260,10 +260,10 @@ Redis 支持存储和查询地理位置数据。
 
 ```plaintext
 # 设置键值对
-SET user:1000 "Alice"
+SET user:1001 "Alice"
 
 # 获取键值对
-GET user:1000
+GET user:1001
 
 # 设置哈希表字段
 HSET user:1000 name "Alice" age 30

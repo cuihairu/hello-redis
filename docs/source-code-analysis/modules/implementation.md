@@ -53,7 +53,7 @@ redis-cli -p 16390 module load /tmp/mod/bd_hello.so    # OK
 redis-cli -p 16390 bd.hello                            # Hello from module
 redis-cli -p 16390 bd.hello x
 # ERR wrong number of arguments for 'bd.hello' command
-redis-cli -p 16390 command count                        # 267（加载模块 +2）
+redis-cli -p 16390 command count                        # 266（加载 1 条模块命令后 +1）
 ```
 
 注意 flags 字符串必须是规范词表中的名字，写错（比如把 `deny-oom` 写成 `denyoom`）会导致该条 `CreateCommand` 返回错误、命令静默消失——排查命令"加载成功却找不到"时先看这里。
@@ -103,7 +103,7 @@ bd.incrby bd:c 5                    ->  10
 bd.incrby bd:c -2                   ->  8
 TYPE bd:c                           ->  bdcount-t
 OBJECT ENCODING bd:c                ->  raw
-MEMORY USAGE bd:c                   ->  41
+MEMORY USAGE bd:c                   ->  40
 DEBUG RELOAD                        ->  OK
 bd.incrby bd:c 0                    ->  8     （RDB 往返后值仍在）
 ```

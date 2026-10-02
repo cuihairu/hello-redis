@@ -61,10 +61,10 @@ Redis 可以通过 Homebrew 来轻松安装，以下是安装步骤：
 
 #### 5. 配置 Redis
 
-- Redis 的配置文件通常位于 `/usr/local/etc/redis.conf`。
+- Redis 的配置文件位置按 CPU 架构区分：Apple Silicon 为 `/opt/homebrew/etc/redis.conf`，Intel 为 `/usr/local/etc/redis.conf`（可用 `brew --prefix` 查看当前前缀）。
 - 可以编辑配置文件以调整 Redis 的设置：
   ```bash
-  nano /usr/local/etc/redis.conf
+  nano /opt/homebrew/etc/redis.conf
   ```
 
 - 修改完成后，重新启动 Redis 使配置生效：

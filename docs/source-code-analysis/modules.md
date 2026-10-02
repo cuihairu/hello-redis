@@ -14,7 +14,7 @@ OK
 $ redis-cli -p 16390 bd.hello
 Hello from module
 $ redis-cli -p 16390 command count
-269
+266
 ```
 
 命令与类型注册经由 `MODULE` 子命令体系管理：
@@ -40,7 +40,7 @@ ERR MODULE command not allowed. If the enable-module-command option is set to "l
    ```text
    TYPE bd:c        ->  bdcount-t
    OBJECT ENCODING  ->  raw
-   MEMORY USAGE     ->  41
+   MEMORY USAGE     ->  40
    ```
 3. **异步能力**：定时器（`RedisModule_CreateTimer`）、阻塞命令（`RedisModule_BlockClient`）、键空间事件订阅，以及供自建线程使用的线程安全上下文（`RedisModule_GetThreadSafeContext`、`RedisModule_ThreadSafeContextLock`）。
 4. **进程内集成**：模块配置项（7.0 起 `RedisModule_RegisterBoolConfig` 等）、服务器事件订阅、`INFO modules` 段（实测输出 `module:name=bd_hello,ver=1,api=1,filters=0,usedby=[],using=[],options=[]`）、模块间依赖（`using/usedby` 字段）。

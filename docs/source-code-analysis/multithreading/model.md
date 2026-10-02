@@ -61,7 +61,7 @@ id=4296 ... io-thread=0 ...
 
 ## 持久化子进程
 
-`redisFork()`（`server.c`）创建子进程执行 `rdbSaveBackground()`（`rdb.c`）或 AOF 重写。子进程与父进程共享物理页，写入页才被内核复制（copy-on-write），因此父进程写越少，fork 后的额外内存越少。子进程退出由主线程在 `serverCron` 中 `wait3()` 收割，并更新 `INFO persistence` 的 `rdb_last_bgsave_status`、`rdb_bgsave_in_progress`、`aof_rewrite_in_progress` 等字段。
+`redisFork()`（`server.c`）创建子进程执行 `rdbSaveBackground()`（`rdb.c`）或 AOF 重写。子进程与父进程共享物理页，写入页才被内核复制（copy-on-write），因此父进程写越少，fork 后的额外内存越少。子进程退出由主线程在 `serverCron()` 调用的 `checkChildrenDone()` 中用 `waitpid(-1, &statloc, WNOHANG)` 收割，并更新 `INFO persistence` 的 `rdb_last_bgsave_status`、`rdb_bgsave_in_progress`、`aof_rewrite_in_progress` 等字段。
 
 ## 客户端暂停：另一种"线程协调"
 

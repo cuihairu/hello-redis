@@ -10,7 +10,7 @@
 
 1. 按 `readlen = PROTO_IOBUF_LEN`（16KB）预留读缓冲；若该客户端上一轮在解析一个大参数（`bulklen >= PROTO_MBULK_BIG_ARG`，32KB），则把缓冲区直接扩到参数大小，避免反复扩容。
 2. `read()` 到 `c->querybuf`（sds 字符串），更新 `c->last_interaction`。
-3. 调用 `processInputBuffer()`：循环调用 `processInlineBuffer()` 或 `processMultibulkBuffer()`，每解析出一个完整命令就 `processInputBufferAndReplicate()` -> `processCommand()`。
+3. 调用 `processInputBuffer()`：循环调用 `processInlineBuffer()` 或 `processMultibulkBuffer()`，每解析出一个完整命令就 `processCommandAndResetClient()` -> `processCommand()`。
 4. 解析中遇到参数体超过 `proto-max-bulk-len`（默认 512MB，实测 `CONFIG GET proto-max-bulk-len` 返回 536870912）即断开；查询缓冲区总量受 `client-query-buffer-limit`（默认 1GB，实测 1073741824）限制，内联请求单行上限 `PROTO_INLINE_MAX_SIZE`（64KB）。
 
 ## 解析器：processMultibulkBuffer
@@ -33,7 +33,7 @@ id=4296 ... qbuf=26 qbuf-free=20448 argv-mem=10 ... rbs=16384 rbp=16384 ...
 - 优先写入静态回复缓冲 `c->buf`（16KB，对应 `CLIENT LIST` 的 `obl`）；
 - 放不下则追加到 `c->reply` 回复链表（对应 `oll` 与 `omem` 字节总量）。
 
-真正的落盘发生在事件循环的 `beforeSleep`：`handleClientsWithPendingWritesUsingThreads()` 先尝试直接 `writeToClient()`（约 2116 行），写不完（内核发送缓冲满）才注册 AE_WRITABLE 写事件，等下一次可写事件继续。`CLIENT LIST` 中 `events=r` 表示只挂了读事件，出现 `w` 说明该客户端进入了"写不完"状态。
+真正的落盘发生在事件循环的 `beforeSleep`：`handleClientsWithPendingWrites()`（`networking.c` 约 2214 行）先尝试直接 `writeToClient()`（约 2116 行），写不完（内核发送缓冲满）才注册 AE_WRITABLE 写事件，等下一次可写事件继续。`CLIENT LIST` 中 `events=r` 表示只挂了读事件，出现 `w` 说明该客户端进入了"写不完"状态。
 
 ## 输出缓冲区限制
 

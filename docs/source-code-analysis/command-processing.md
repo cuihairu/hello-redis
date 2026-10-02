@@ -12,7 +12,7 @@
 4. **前置检查**：认证、`CLIENT PAUSE` 暂停状态、内存上限与驱逐、 arity、只读副本拒绝写、`MULTI` 排队、ACL 权限、脚本/事务上下文等。任一不通过即直接回错。
 5. **执行**：进入 `call()`（`server.c` 约 3635 行），`c->cmd->proc(c)` 真正执行；同时驱动统计、慢日志、延迟监控与传播。
 6. **传播**：`call()` 内部把命令写入 AOF 缓冲并 `replicationFeedSlaves()` 同步给副本，`alsoPropagate()`/`afterCommand()` 处理命令执行期间产生的额外命令（如 EXPIRE 触发的 DEL）。
-7. **回复**：`addReply*` 填充输出缓冲；`beforeSleep` 阶段 `handleClientsWithPendingWritesUsingThreads()` 写回客户端。
+7. **回复**：`addReply*` 填充输出缓冲；`beforeSleep` 阶段 `handleClientsWithPendingWrites()` 写回客户端。
 
 ## 命令表长什么样
 

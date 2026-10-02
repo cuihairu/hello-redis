@@ -72,7 +72,7 @@
 ## 8. LPOS
 - **功能**: 返回元素在列表中匹配到的下标。
 - **语法**: `LPOS key element [RANK rank] [COUNT num-matches] [MAXLEN len]`
-- **说明**: 默认返回第一个匹配的下标；`RANK` 为负数时从尾部开始数第 |rank| 个；`COUNT 0` 返回全部匹配位置；找不到返回 `nil`（Redis 6.2 起支持）。
+- **说明**: 默认返回第一个匹配的下标；`RANK` 为负数时从尾部开始数第 |rank| 个；`COUNT 0` 返回全部匹配位置；找不到返回 `nil`（Redis 6.0.6 起支持）。
 - **示例**:
   ```plaintext
   LPOS ba:l:demo c
