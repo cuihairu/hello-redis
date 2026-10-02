@@ -91,7 +91,7 @@ Redis 哈希是一种以键值对形式存储字段和值的数据结构。哈�
 
 - **功能**: 同时设置哈希表中多个字段的值
 - **语法**: `HMSET key field1 value1 [field2 value2 ...]`
-- **说明**: 一次性设置多个字段的值。
+- **说明**: 一次性设置多个字段的值。自 Redis 4.0 起该命令已被标记为过期，建议使用 `HSET key field1 value1 [field2 value2 ...]` 代替（`HSET` 本身即支持一次设置多个字段）。
 - **示例**:
   ```plaintext
   HMSET user:1000 name "Alice" age 30

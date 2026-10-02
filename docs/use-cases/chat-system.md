@@ -31,7 +31,7 @@ redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 # 注册用户
 def register_user(user_id, user_info):
-    redis_client.hmset(f"user:{user_id}", user_info)
+    redis_client.hset(f"user:{user_id}", mapping=user_info)
 
 # 登录用户
 def login_user(user_id):
@@ -101,7 +101,7 @@ redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 # 用户管理
 def register_user(user_id, user_info):
-    redis_client.hmset(f"user:{user_id}", user_info)
+    redis_client.hset(f"user:{user_id}", mapping=user_info)
 
 def login_user(user_id):
     redis_client.sadd("online_users", user_id)

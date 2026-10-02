@@ -89,6 +89,34 @@ GEORADIUS places 13.361389 38.115556 200 km WITHCOORD WITHDIST
 GEORADIUSBYMEMBER places "Palermo" 100 km WITHCOORD WITHDIST
 ```
 
+> 注意：`GEORADIUS` 和 `GEORADIUSBYMEMBER` 自 Redis 6.2 起已被标记为**废弃**（deprecated），新代码建议使用 `GEOSEARCH`。由于 `GEORADIUS` 带 `STORE`/`STOREDIST` 选项会被判定为写命令，因此在只读副本上会报错，需要改用只读变体 `GEORADIUS_RO`、`GEORADIUSBYMEMBER_RO`。
+
+`GEOSEARCH` 的语法把「从哪个中心点出发」和「按什么范围搜索」分成两组选项，且 `FROMLONLAT` 是单个令牌：
+
+```plaintext
+GEOSEARCH key <FROMMEMBER member | FROMLONLAT longitude latitude> <BYRADIUS radius m|km|ft|mi | BYBOX width height m|km|ft|mi> [ASC|DESC] [COUNT count [ANY]] [WITHCOORD] [WITHDIST] [WITHHASH]
+GEOSEARCHSTORE destination key <FROMMEMBER member | FROMLONLAT longitude latitude> <BYRADIUS ... | BYBOX ...> [ASC|DESC] [COUNT count [ANY]] [STOREDIST]
+```
+
+示例：
+
+```plaintext
+GEOADD Sicily 13.361389 38.115556 "Palermo"
+GEOADD Sicily 15.087269 37.502669 "Catania"
+
+# 等价于 GEORADIUS Sicily 15 37 200 km WITHDIST
+GEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC WITHDIST
+
+# 以某个成员为中心搜索
+GEOSEARCH Sicily FROMMEMBER Palermo BYRADIUS 100 km ASC WITHDIST
+
+# 矩形范围搜索
+GEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC
+
+# 把结果存入新的地理空间键
+GEOSEARCHSTORE dest Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC
+```
+
 ### 应用场景
 
 - **位置查询**：找出附近的商店、餐厅或其他兴趣点。

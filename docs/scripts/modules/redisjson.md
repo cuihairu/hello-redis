@@ -68,23 +68,32 @@ RedisJSON 提供了一组命令，用于对 JSON 数据进行操作。以下是�
 
 - **`JSON.MGET`**
 
-  批量获取多个 JSON 键。
+  批量获取多个 JSON 键中指定路径的值（路径参数必填）。
 
   ```bash
-  127.0.0.1:6379> JSON.MGET person1 person2
-  ["{\"name\":\"Alice\",\"age\":28}", "{\"name\":\"Bob\",\"age\":30}"]
+  127.0.0.1:6379> JSON.SET person1 $ '{"name": "Alice", "age": 28}'
+  OK
+  127.0.0.1:6379> JSON.SET person2 $ '{"name": "Bob", "age": 30}'
+  OK
+  127.0.0.1:6379> JSON.MGET person1 person2 $.name
+  1) "\"Alice\""
+  2) "\"Bob\""
   ```
+
+  不存在的键或路径会返回 `nil`。
 
 - **`JSON.ARRAPPEND`**
 
-  将元素追加到 JSON 数组中。
+  将一个或多个 JSON 值追加到 JSON 数组末尾。要追加字符串时，需要在字符串外再包一层引号（例如 `'"cherry"'`）。
 
   ```bash
   127.0.0.1:6379> JSON.SET mylist $ '["apple", "banana"]'
   OK
-  127.0.0.1:6379> JSON.ARRAPPEND mylist $ '["cherry"]'
-  (integer) 3
+  127.0.0.1:6379> JSON.ARRAPPEND mylist $ '"cherry"'
+  1) (integer) 3
   ```
+
+  使用 `$` 路径时返回值是数组，其中每个元素为对应数组的新长度。
 
 - **`JSON.OBJKEYS`**
 
@@ -92,17 +101,24 @@ RedisJSON 提供了一组命令，用于对 JSON 数据进行操作。以下是�
 
   ```bash
   127.0.0.1:6379> JSON.OBJKEYS person
-  ["name", "age"]
+  1) "name"
+  2) "age"
   ```
+
+  使用默认的旧版路径（`.`）时直接返回键名数组；使用 `$` 开头的 JSONPath 时，返回值是按匹配位置嵌套的数组。
 
 - **`JSON.NUMINCRBY`**
 
-  增加 JSON 中数值类型的值。
+  对 JSON 中的数值做增量修改，返回值是包含新值的 JSON 编码字符串（不是整数）。
 
   ```bash
+  127.0.0.1:6379> JSON.SET person $ '{"name": "Alice", "age": 28}'
+  OK
   127.0.0.1:6379> JSON.NUMINCRBY person $.age 1
-  (integer) 29
+  "[29]"
   ```
+
+  如果路径命中的值不是数字，对应位置返回 `null`。
 
 #### 4. **RedisJSON 的应用场景**
 

@@ -24,10 +24,10 @@ return redis.call('SET', KEYS[1], ARGV[1])
 SCRIPT LOAD "return redis.call('SET', KEYS[1], ARGV[1])"
 ```
 
-执行后，Redis 将返回该脚本的 SHA1 校验和，例如：
+执行后，Redis 将返回该脚本的 SHA1 校验和：
 
 ```bash
-"5a2c30b16738e836c32e3912f8e6f3b195cd13e9"
+"d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37"
 ```
 
 此时，你可以使用 `EVALSHA` 命令来执行这个脚本，而无需再次传递脚本内容。
@@ -37,8 +37,10 @@ SCRIPT LOAD "return redis.call('SET', KEYS[1], ARGV[1])"
 使用 `SCRIPT LOAD` 后，可以在需要执行同一脚本多次时，只使用 SHA1 校验和来调用：
 
 ```bash
-EVALSHA 5a2c30b16738e836c32e3912f8e6f3b195cd13e9 1 mykey myvalue
+EVALSHA d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37 1 mykey myvalue
 ```
+
+执行后可以用 `GET mykey` 验证，键的值已被设置为 `myvalue`。
 
 这比每次都使用 `EVAL` 传递脚本内容更高效，特别是在脚本内容较大或频繁调用的情况下。
 

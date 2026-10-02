@@ -38,14 +38,17 @@
    ```python
    import redis
    import time
+   import uuid
 
    redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
    def is_rate_limited(user_id, limit=100, window=60):
        key = f"rate_limit:{user_id}"
-       now = int(time.time())
-       redis_client.zremrangebyscore(key, 0, now - window)
-       redis_client.zadd(key, {now: now})
+       now = time.time()
+       redis_client.zremrangebyscore(key, '-inf', now - window)
+       # 使用唯一成员，避免同一秒内的请求相互覆盖导致计数不准确
+       redis_client.zadd(key, {f"{now}:{uuid.uuid4().hex}": now})
+       redis_client.expire(key, window)
        return redis_client.zcard(key) > limit
    ```
 
@@ -57,7 +60,7 @@
    - **缺点**: 可能需要额外的逻辑来处理桶的容量和流量速率。
 
    **实现**:
-   使用 Redis 的计数器和定时任务来模拟漏桶。
+   使用 Redis 的哈希维护桶中的“水量”，请求进入时加 1，按时间自动漏出，桶满则拒绝。
 
    ```python
    import redis
@@ -66,21 +69,29 @@
    redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
    def is_rate_limited(user_id, rate=10, capacity=100):
+       # rate: 每分钟漏出的请求数；capacity: 桶的最大容量
        key = f"leaky_bucket:{user_id}"
        now = int(time.time())
-       last_time = redis_client.hget(key, "last_time")
-       if last_time:
-           last_time = int(last_time)
-           elapsed_time = now - last_time
-           allowed_requests = rate * (elapsed_time / 60)
-           redis_client.hset(key, "last_time", now)
-           if allowed_requests >= capacity:
-               return False
-           else:
-               return True
+
+       data = redis_client.hgetall(key)
+       if data:
+           last_time = int(data[b"last_time"])
+           level = float(data[b"level"])
+           # 根据经过的时间，按速率漏出相应数量的请求
+           level = max(0.0, level - rate * (now - last_time) / 60)
        else:
-           redis_client.hset(key, "last_time", now)
-           return False
+           level = 0.0
+
+       redis_client.hset(key, mapping={"level": level, "last_time": now})
+       redis_client.expire(key, 3600)
+
+       # 新请求进入桶，已满则丢弃（限流）
+       if level + 1 > capacity:
+           return True
+
+       # 未满则进入桶中，水量加 1
+       redis_client.hset(key, "level", level + 1)
+       return False
    ```
 
 4. **令牌桶算法（Token Bucket Algorithm）**
@@ -100,25 +111,29 @@
    redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
    def is_rate_limited(user_id, rate=10, capacity=100):
+       # rate: 每分钟补充的令牌数；capacity: 桶的最大容量
        key = f"token_bucket:{user_id}"
        now = int(time.time())
        last_fill_time = redis_client.hget(key, "last_fill_time")
-       tokens = redis_client.hget(key, "tokens")
 
        if last_fill_time:
-           last_fill_time = int(last_fill_time)
-           elapsed_time = now - last_fill_time
+           elapsed_time = now - int(last_fill_time)
+           # 按速率补充令牌，但不超过桶容量
            added_tokens = min(rate * (elapsed_time / 60), capacity)
-           current_tokens = min(capacity, int(tokens or 0) + added_tokens)
+           current_tokens = float(redis_client.hget(key, "tokens") or 0) + added_tokens
+           current_tokens = min(capacity, current_tokens)
            redis_client.hset(key, "tokens", current_tokens)
            redis_client.hset(key, "last_fill_time", now)
        else:
-           redis_client.hset(key, "tokens", capacity)
+           current_tokens = float(capacity)
+           redis_client.hset(key, "tokens", current_tokens)
            redis_client.hset(key, "last_fill_time", now)
-           current_tokens = capacity
 
-       if current_tokens > 0:
-           redis_client.hincrby(key, "tokens", -1)
+       redis_client.expire(key, 3600)
+
+       # 桶中至少有一个令牌则消费一个并放行
+       if current_tokens >= 1:
+           redis_client.hincrbyfloat(key, "tokens", -1)
            return False
        else:
            return True

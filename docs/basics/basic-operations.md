@@ -54,37 +54,37 @@ Redis 提供了丰富的命令集来管理和操作数据。以下是 Redis 中�
 
 - **`HSET`**: 设置哈希表字段的值
   ```plaintext
-  HSET hash key value
+  HSET key field value
   ```
   - 示例：`HSET user:1000 name "Alice"`
 
 - **`HGET`**: 获取哈希表字段的值
   ```plaintext
-  HGET hash key
+  HGET key field
   ```
   - 示例：`HGET user:1000 name`
 
 - **`HDEL`**: 删除哈希表中的一个或多个字段
   ```plaintext
-  HDEL hash key [key ...]
+  HDEL key field [field ...]
   ```
   - 示例：`HDEL user:1000 age`
 
 - **`HGETALL`**: 获取哈希表中的所有字段和值
   ```plaintext
-  HGETALL hash
+  HGETALL key
   ```
   - 示例：`HGETALL user:1000`
 
 - **`HKEYS`**: 获取哈希表中所有字段的名称
   ```plaintext
-  HKEYS hash
+  HKEYS key
   ```
   - 示例：`HKEYS user:1000`
 
 - **`HVALS`**: 获取哈希表中所有字段的值
   ```plaintext
-  HVALS hash
+  HVALS key
   ```
   - 示例：`HVALS user:1000`
 
@@ -271,9 +271,7 @@ HSET user:1000 name "Alice" age 30
 # 获取哈希表字段
 HGET user:1000 name
 
-# 将
-
-元素添加到列表
+# 将元素添加到列表
 RPUSH mylist "first" "second"
 
 # 获取列表元素

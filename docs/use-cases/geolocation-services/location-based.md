@@ -21,7 +21,7 @@ redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 # 添加商家位置数据
 def add_store(key, longitude, latitude, store_name):
-    redis_client.geoadd(key, longitude, latitude, store_name)
+    redis_client.geoadd(key, [longitude, latitude, store_name])
 
 # 查找附近商家
 def find_nearby_stores(key, user_longitude, user_latitude, radius, unit='km'):
@@ -73,7 +73,7 @@ print(f"Distance from {user_location} to {destination} is {distance} km")
 ```python
 # 设置地理围栏区域
 def setup_geofence(key, center_longitude, center_latitude, radius, unit='km'):
-    redis_client.geoadd(key, center_longitude, center_latitude, 'geofence_center')
+    redis_client.geoadd(key, [center_longitude, center_latitude, 'geofence_center'])
 
 # 检查用户是否在围栏区域内
 def is_within_geofence(key, user_longitude, user_latitude, radius, unit='km'):

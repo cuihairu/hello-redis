@@ -62,12 +62,12 @@ Redis 流（Streams）是 Redis 5.0 引入的一种新的数据结构，用于�
 ##### 5. **`XTRIM`**
 
 - **功能**: 修剪流，删除旧的条目
-- **语法**: `XTRIM key [MAXLEN [~] len] [MINID id] [LIMIT count]`
+- **语法**: `XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT count]`
 - **说明**:
   - `key`：流的键
-  - `MAXLEN [~] len`：最大长度（`~` 表示近似长度）
-  - `MINID id`：保留 ID 大于等于指定值的条目
-  - `LIMIT count`：限制删除条目的数量（可选）
+  - `MAXLEN [= | ~] threshold`：按长度裁剪，只保留最新的 `threshold` 个条目（`~` 表示近似裁剪，默认）
+  - `MINID [= | ~] id`：按 ID 裁剪，只保留 ID 大于等于指定值的条目
+  - `LIMIT count`：限制本次最多裁剪的条目数量，**仅在 `~` 形式下可用**，否则报 `ERR syntax error, LIMIT cannot be used without the special ~ option`
 - **示例**:
   ```plaintext
   XTRIM mystream MAXLEN 1000

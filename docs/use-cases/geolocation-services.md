@@ -27,7 +27,7 @@ redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 # 添加地理位置数据
 def add_location(key, longitude, latitude, member):
-    redis_client.geoadd(key, longitude, latitude, member)
+    redis_client.geoadd(key, [longitude, latitude, member])
 
 # 示例：添加位置数据
 add_location('places', -122.408, 37.783, 'San Francisco')

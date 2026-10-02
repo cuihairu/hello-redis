@@ -30,13 +30,11 @@
 
 **建议：**
 
-- **设置超时：** 使用 `EVAL` 命令的 `TIMEOUT` 选项限制脚本的最大执行时间。例如：
-  
-  ```bash
-  redis-cli EVAL "return redis.call('SET', 'key', 'value')" 0 --timeout 5000
-  ```
+- **设置超时：** `EVAL` 命令本身**没有** `TIMEOUT` 选项，无法为单个脚本指定超时时间。可用的做法是调整全局配置项 `busy-reply-threshold`（默认 5000 毫秒，旧名 `lua-time-limit`）：脚本运行超过该阈值后，其他客户端会收到 `BUSY` 错误，可再用 `SCRIPT KILL` 终止尚未写入数据的脚本。例如：
 
-  这个选项可以帮助防止脚本因无限循环或复杂操作导致的性能问题。
+  ```bash
+  redis-cli CONFIG SET busy-reply-threshold 5000
+  ```
 
 - **优化脚本：** 定期审查和优化脚本，确保它们不会因为意外的无限循环或复杂操作导致性能下降。避免在脚本中执行复杂的计算和长时间的操作。
 

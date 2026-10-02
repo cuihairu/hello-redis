@@ -42,11 +42,13 @@ EVALSHA sha1 numkeys key [key ...] arg [arg ...]
 
 ### 示例
 
+先通过 `SCRIPT LOAD` 加载上一节的脚本并拿到它的 SHA1 校验和（`d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37`），再执行：
+
 ```bash
-EVALSHA "2b3a1b3d8f5b6a4c7e76f762c1f4bcf3e1d3f5f4" 1 mykey myvalue
+EVALSHA d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37 1 mykey myvalue
 ```
 
-此命令执行预加载的 SHA1 值为 `2b3a1b3d8f5b6a4c7e76f762c1f4bcf3e1d3f5f4` 的脚本。
+此命令执行预加载的 SHA1 值为 `d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37` 的脚本。如果该脚本尚未加载，Redis 会返回 `NOSCRIPT No matching script. Please use EVAL.` 错误。
 
 ## SCRIPT LOAD 命令
 
@@ -83,10 +85,10 @@ SCRIPT EXISTS sha1 [sha1 ...]
 ### 示例
 
 ```bash
-SCRIPT EXISTS "2b3a1b3d8f5b6a4c7e76f762c1f4bcf3e1d3f5f4"
+SCRIPT EXISTS d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37
 ```
 
-此命令检查缓存中是否存在 SHA1 值为 `2b3a1b3d8f5b6a4c7e76f762c1f4bcf3e1d3f5f4` 的脚本。
+此命令检查缓存中是否存在 SHA1 值为 `d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37` 的脚本，已加载时返回 `1) (integer) 1`。
 
 ## SCRIPT FLUSH 命令
 

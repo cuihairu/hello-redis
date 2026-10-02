@@ -52,13 +52,18 @@ def receive_messages(chat_id, count=10):
 对于需要过滤的消息，可以在存储消息时添加标签或使用 `HASH` 数据结构来存储消息的元数据。
 
 ```python
+import uuid
+
 # 存储消息及其元数据
 def send_message(chat_id, message, sender_id, timestamp):
-    message_id = redis_client.rpush(f"chat:{chat_id}", message)
+    # 先生成唯一消息 ID（RPUSH 返回的是列表长度，不是消息 ID）
+    message_id = str(uuid.uuid4())
+    redis_client.rpush(f"chat:{chat_id}", message)
     redis_client.hset(f"message:{message_id}", mapping={
         'sender_id': sender_id,
         'timestamp': timestamp
     })
+    return message_id
 ```
 
 #### 2.2 消息搜索

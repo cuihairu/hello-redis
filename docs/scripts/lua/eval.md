@@ -18,15 +18,20 @@ EVAL script numkeys key [key ...] arg [arg ...]
 以下示例展示了如何使用 `EVAL` 命令来执行一个简单的 Lua 脚本，该脚本将两个 Redis 键的值相加，并返回结果：
 
 ```bash
+SET key1 10
+SET key2 20
 EVAL "return redis.call('GET', KEYS[1]) + redis.call('GET', KEYS[2])" 2 key1 key2
 ```
 
-在这个示例中：
-- `script` 是 `"return redis.call('GET', KEYS[1]) + redis.call('GET', KEYS[2])"`，它通过 `redis.call` 函数获取 `key1` 和 `key2` 的值并相加。
+第三个命令的返回值为 `30`。在这个示例中：
+- `script` 是 `"return redis.call('GET', KEYS[1]) + redis.call('GET', KEYS[2])"`，它通过 `redis.call` 函数获取 `key1` 和 `key2` 的值并相加（Lua 会把返回的数字字符串隐式转换为数字）。
 - `numkeys` 是 `2`，表示该脚本访问了两个 Redis 键。
 - `key1` 和 `key2` 是传递给脚本的两个 Redis 键名。
+
+注意：`key1` 和 `key2` 必须事先存在且存储的是数字内容，否则脚本会在做算术运算时抛出错误（例如键不存在时 `GET` 返回 `false`，对 `false` 做加法会报错）。
 
 ### 注意事项
 
 - 脚本的执行是原子操作，执行过程中不会被其他命令中断。
 - `EVAL` 命令在每次调用时都会重新编译和执行脚本，因此对于需要频繁执行的脚本，建议使用 `EVALSHA` 命令来避免重复编译。
+- 脚本执行完后，Redis 会自动把它缓存起来（生成的 SHA1 可用 `SCRIPT LOAD` 或 `EVAL` 的返回值查到），供后续 `EVALSHA` 使用。

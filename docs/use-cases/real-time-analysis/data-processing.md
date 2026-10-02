@@ -41,7 +41,7 @@ def add_event(event_type, data):
     redis_client.xadd('events', {'type': event_type, 'data': data})
 
 def get_events(start='0', end='+'):
-    return redis_client.xrange('events', start=start, end=end)
+    return redis_client.xrange('events', min=start, max=end)
 
 # 示例：添加事件数据
 add_event('user_login', '{"user_id": "user123", "timestamp": "2024-08-08T12:34:56Z"}')

@@ -33,10 +33,10 @@ def acquire_lock(lock_name, lock_timeout=10):
 # 释放锁
 def release_lock(lock_name, lock_id):
     lock_key = f"lock:{lock_name}"
-    
-    # 确保只有锁持有者才能释放锁
+
+    # 确保只有锁持有者才能释放锁（注意：redis-py 返回的是 bytes，需要先解码再比较）
     current_lock_id = redis_client.get(lock_key)
-    if current_lock_id == lock_id:
+    if current_lock_id and current_lock_id.decode('utf-8') == lock_id:
         redis_client.delete(lock_key)
 
 # 示例：加锁和释放锁
@@ -65,6 +65,10 @@ else:
 **示例代码**（Python）：
 
 ```python
+import redis
+import time
+import uuid
+
 class Redlock:
     def __init__(self, redis_clients, lock_timeout=10):
         self.redis_clients = redis_clients
@@ -82,8 +86,9 @@ class Redlock:
             if acquired:
                 locks_acquired += 1
 
-        # 判断是否在多数 Redis 实例上成功获取锁
-        if locks_acquired >= len(self.redis_clients) // 2 + 1:
+        # 判断是否在多数 Redis 实例上成功获取锁，且未超过锁的有效时间
+        elapsed_time = time.time() - start_time
+        if locks_acquired >= len(self.redis_clients) // 2 + 1 and elapsed_time < self.lock_timeout:
             return lock_id
         return None
 
@@ -91,10 +96,13 @@ class Redlock:
         lock_key = f"lock:{lock_name}"
         for client in self.redis_clients:
             current_lock_id = client.get(lock_key)
-            if current_lock_id == lock_id:
+            # redis-py 返回 bytes，需要先解码再比较
+            if current_lock_id and current_lock_id.decode('utf-8') == lock_id:
                 client.delete(lock_key)
 
 # 使用 Redlock 算法
+# 注意：示例中为演示方便连接了 5 个客户端，
+# 实际生产环境应连接 5 个相互独立的 Redis 实例
 redis_clients = [redis.StrictRedis(host='localhost', port=6379, db=0) for _ in range(5)]
 redlock = Redlock(redis_clients)
 

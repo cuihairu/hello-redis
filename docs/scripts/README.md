@@ -24,11 +24,11 @@ Lua 脚本为 Redis 提供了灵活的编程能力，使得用户可以在一个
 
 ### 基本命令
 
-- **[EVAL](scripts/lua/eval.md)**：用于执行 Lua 脚本。
-- **[EVALSHA](scripts/lua/evalsha.md)**：用于执行通过 SHA1 校验和标识的 Lua 脚本。
-- **[SCRIPT LOAD](scripts/lua/script-load.md)**：将 Lua 脚本加载到 Redis 服务器中。
-- **[SCRIPT EXISTS](scripts/lua/script-exists.md)**：检查脚本是否已经存在于 Redis 服务器中。
-- **[SCRIPT FLUSH](scripts/lua/script-flush.md)**：清空 Redis 中的所有脚本缓存。
+- **[EVAL](lua/eval.md)**：用于执行 Lua 脚本。
+- **[EVALSHA](lua/evalsha.md)**：用于执行通过 SHA1 校验和标识的 Lua 脚本。
+- **[SCRIPT LOAD](lua/script-load.md)**：将 Lua 脚本加载到 Redis 服务器中。
+- **[SCRIPT EXISTS](lua/script-exists.md)**：检查脚本是否已经存在于 Redis 服务器中。
+- **[SCRIPT FLUSH](lua/script-flush.md)**：清空 Redis 中的所有脚本缓存。
 
 ### Lua 脚本编写技巧
 
@@ -46,15 +46,15 @@ Redis 模块脚本通过 Redis 模块扩展了 Redis 的功能。不同的 Redis
 
 RedisGraph 是一个扩展 Redis 的模块，支持图数据模型。它使用 Cypher 查询语言来执行图数据的查询操作。
 
-- **[Cypher 查询语言概述](scripts/modules/redisgraph/cypher-overview.md)**：介绍 Cypher 查询语言的基本概念和语法。
-- **[基本 Cypher 查询命令](scripts/modules/redisgraph/cypher-commands.md)**：介绍如何使用 Cypher 查询语言在 RedisGraph 中执行基本查询。
+- **[Cypher 查询语言概述](modules/redisgraph/cypher-overview.md)**：介绍 Cypher 查询语言的基本概念和语法。
+- **[基本 Cypher 查询命令](modules/redisgraph/cypher-commands.md)**：介绍如何使用 Cypher 查询语言在 RedisGraph 中执行基本查询。
 
 ### RedisJSON
 
 RedisJSON 是 Redis 的一个模块，支持 JSON 数据类型和操作。它使用 JSONPath 查询语言来执行 JSON 数据的查询和修改。
 
-- **[JSONPath 查询语言概述](scripts/modules/redisjson/jsonpath-overview.md)**：介绍 JSONPath 查询语言的基本概念和语法。
-- **[基本 JSONPath 查询命令](scripts/modules/redisjson/jsonpath-commands.md)**：介绍如何使用 JSONPath 查询语言在 RedisJSON 中执行基本操作。
+- **[JSONPath 查询语言概述](modules/redisjson/jsonpath-overview.md)**：介绍 JSONPath 查询语言的基本概念和语法。
+- **[基本 JSONPath 查询命令](modules/redisjson/jsonpath-commands.md)**：介绍如何使用 JSONPath 查询语言在 RedisJSON 中执行基本操作。
 
 ## 4. 脚本安全与性能
 

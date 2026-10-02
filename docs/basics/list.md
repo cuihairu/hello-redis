@@ -92,7 +92,7 @@ Redis 列表是一种有序的数据结构，可以存储多个字符串值。�
 
 - **功能**: 从列表的尾部移除元素，并将其插入到另一个列表的头部
 - **语法**: `RPOPLPUSH source destination`
-- **说明**: 将 `source` 列表中的最后一个元素移到 `destination` 列表的最前面。
+- **说明**: 将 `source` 列表中的最后一个元素移到 `destination` 列表的最前面。自 Redis 6.2 起该命令已被标记为过期，建议使用 `LMOVE source destination RIGHT LEFT` 代替。
 - **示例**:
   ```plaintext
   RPOPLPUSH mylist myotherlist

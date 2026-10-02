@@ -26,7 +26,7 @@ Redis 在执行脚本时，保证了脚本内所有 Redis 命令的原子性。�
 
 ## 5. 脚本超时与限制
 
-为了防止脚本占用过多资源或陷入无限循环，Redis 对脚本执行设有超时限制。默认情况下，如果一个脚本的执行时间超过规定的时间（通常为 5 秒），Redis 将强制终止该脚本的执行。此外，Redis 还对脚本的内存使用进行限制，以避免单个脚本耗尽服务器的内存资源。
+为了防止脚本占用过多资源或陷入无限循环，Redis 对脚本执行设有阈值控制，默认阈值由配置项 `busy-reply-threshold` 指定（默认 5000 毫秒，旧配置名为 `lua-time-limit`）。需要注意：**Redis 并不会自动终止超时脚本**，脚本会继续占用主线程直到执行完毕；超过阈值期间，其他客户端发来的命令会收到 `-BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.` 错误。运维人员可以用 `SCRIPT KILL` 终止尚未进行任何写入的脚本，或用 `SHUTDOWN NOSAVE` 关闭服务器。此外，Redis 还对脚本的内存使用进行限制，以避免单个脚本耗尽服务器的内存资源。
 
 ## 6. 脚本缓存与 SHA1
 

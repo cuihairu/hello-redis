@@ -17,7 +17,7 @@
 **解决方法**：检查脚本的语法和逻辑。使用 `redis.error_reply` 函数来提供详细的错误信息，并确保在出现问题时脚本能及时返回错误信息。
 
 ```lua
-if not key then
+if not KEYS[1] or KEYS[1] == '' then
     return redis.error_reply("Key is required")
 end
 ```
@@ -46,10 +46,10 @@ redis-cli EVAL "return redis.call('GET', 'key')" 0
 
 #### 2. 输出调试信息
 
-在脚本中使用 `redis.call` 或 `redis.pcall` 来输出调试信息。例如，可以将调试信息存储到 Redis 数据库中，或者使用 `print` 函数输出到日志文件中。
+在脚本中把调试信息写回 Redis 来观察脚本的中间状态。需要注意的是，Redis 的 Lua 沙箱**没有提供 `print` 函数**（调用它会报 `Script attempted to access nonexistent global variable 'print'`），因此只能通过返回结果或写入键的方式输出调试信息。
 
 ```lua
-local value = redis.call("GET", "key")
+local value = redis.call("GET", KEYS[1])
 redis.call("SET", "debug:info", value)
 return value
 ```
@@ -64,11 +64,13 @@ return value
 
 #### 5. 使用 `redis.pcall`
 
-`redis.pcall` 是 `redis.call` 的安全变体，它会捕获并处理脚本中的错误，而不会导致脚本终止。这可以帮助调试过程中捕获和处理异常。
+`redis.pcall` 是 `redis.call` 的安全变体，它会捕获命令返回的错误而不会让脚本中断。这可以帮助调试过程中捕获和处理异常。
+
+需要注意 `redis.pcall` 的返回值有两种形态：当命令**正常执行但结果为空**（例如 `GET` 一个不存在的键）时，返回的是 Lua 布尔值 `false`；只有命令**真正报错**时，才返回一个带 `err` 字段的表。因此必须先判断类型再访问 `err`，否则会报 `attempt to index local 'result' (a boolean value)`。
 
 ```lua
-local result = redis.pcall("GET", "key")
-if result.err then
+local result = redis.pcall("GET", KEYS[1])
+if type(result) == 'table' and result.err then
     return redis.error_reply("Error: " .. result.err)
 end
 return result

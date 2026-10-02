@@ -105,7 +105,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZCOUNT myzset 1 2
   ```
 
-##### 10. **`ZREMRangeByScore`**
+##### 10. **`ZREMRANGEBYSCORE`**
 
 - **功能**: 移除有序集合中分数在指定范围内的成员
 - **语法**: `ZREMRANGEBYSCORE key min max`

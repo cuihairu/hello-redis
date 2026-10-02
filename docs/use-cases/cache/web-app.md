@@ -48,6 +48,7 @@ def product(product_id):
 **示例**：
 ```python
 # Python示例
+import json
 import redis
 from flask import Flask, request, jsonify
 
@@ -58,14 +59,14 @@ cache = redis.StrictRedis(host='localhost', port=6379, db=0)
 def user_info(user_id):
     cache_key = f'user:{user_id}'
     cached_data = cache.get(cache_key)
-    
+
     if cached_data:
         return cached_data.decode('utf-8')
-    
+
     # 模拟从数据库中获取数据
     user_data = get_user_from_database(user_id)
-    user_json = jsonify(user_data)
-    
+    user_json = json.dumps(user_data)
+
     cache.setex(cache_key, 3600, user_json)  # 缓存1小时
     return user_json
 ```
@@ -87,6 +88,7 @@ redis-server --bind 0.0.0.0 --port 6379
 
 ```python
 # Python示例（在不同服务器上）
+import json
 import redis
 from flask import Flask, request, render_template
 
@@ -97,14 +99,14 @@ cache = redis.StrictRedis(host='redis-server', port=6379, db=0)
 def data(data_id):
     cache_key = f'data:{data_id}'
     cached_data = cache.get(cache_key)
-    
+
     if cached_data:
         return cached_data.decode('utf-8')
-    
+
     # 模拟从数据库中获取数据
     data = get_data_from_database(data_id)
-    data_json = jsonify(data)
-    
+    data_json = json.dumps(data)
+
     cache.setex(cache_key, 3600, data_json)  # 缓存1小时
     return data_json
 ```

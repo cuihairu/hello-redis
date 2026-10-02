@@ -5,8 +5,11 @@
 ### 语法
 
 ```bash
-SCRIPT FLUSH
+SCRIPT FLUSH [ASYNC | SYNC]
 ```
+
+- `ASYNC`：异步清空脚本缓存，命令立即返回，不等待后台线程完成。
+- `SYNC`：同步清空，是默认行为。
 
 ### 返回值
 

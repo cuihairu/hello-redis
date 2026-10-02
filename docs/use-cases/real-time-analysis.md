@@ -86,7 +86,7 @@ import redis
 redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 def set_user_features(user_id, features):
-    redis_client.hmset(f'user:{user_id}:features', features)
+    redis_client.hset(f'user:{user_id}:features', mapping=features)
 
 def get_user_features(user_id):
     return redis_client.hgetall(f'user:{user_id}:features')

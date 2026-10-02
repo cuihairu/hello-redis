@@ -13,24 +13,27 @@ Redis 是由 Salvatore Sanfilippo（别名 antirez）于 2009 年创建的开源
 
 #### 版本演进
 
+- **2010 年**:
+  - Redis 2.0 发布，带来了哈希（Hash）类型、发布/订阅（Pub/Sub）功能以及阻塞弹出命令（BLPOP、BRPOP）。
+
 - **2011 年**:
-  - Redis 2.0 发布，带来了许多新特性，包括对有序集合（Sorted Set）的支持、发布/订阅（Pub/Sub）功能以及事务支持（MULTI、EXEC、WATCH）。
+  - Redis 2.2 发布，引入了基于 `WATCH` 的检查并设置（check-and-set）事务等特性。
+  - Redis 2.4 发布，将 AOF 重写移到后台子进程执行，并改进了内存管理与持久化选项。
 
 - **2012 年**:
-  - Redis 2.4 发布，引入了多线程的 AOF 重写功能，用于提高持久化性能。
-  - 支持 Redis 的内存管理和持久化选项的改进，增强了 Redis 的性能和可靠性。
+  - Redis 2.6 发布，内置了 Lua 脚本支持（`EVAL`、`EVALSHA`、`SCRIPT LOAD`），Lua 脚本自此成为扩展 Redis 的主要方式。
 
-- **2013 年**:
-  - Redis 2.6 发布，增加了多种新特性，包括更强大的 Lua 脚本支持、地理空间索引（GEO）功能以及更丰富的命令和数据结构。
+- **2014 年**:
+  - Redis 2.8.9 引入了 HyperLogLog 数据结构（`PFADD`、`PFCOUNT`、`PFMERGE`）；2.8 系列还带来了部分重同步（PSYNC）等复制改进。
 
 - **2015 年**:
   - Redis 3.0 发布，标志着 Redis 集群模式的引入。Redis 集群支持数据分片和分布式环境中的高可用性，允许用户在多个节点上自动分片数据。
 
 - **2016 年**:
-  - Redis 3.2 发布，引入了 Redis 事务的改进、HyperLogLog 数据结构、流数据结构（Stream）以及其他性能优化和新命令。
+  - Redis 3.2 发布，引入了地理空间功能（`GEOADD`、`GEOPOS`、`GEODIST`、`GEOHASH`、`GEORADIUS`、`GEORADIUSBYMEMBER`），以及事务的改进和其他性能优化与新命令。注意：流（Stream）数据结构并非此版本引入，而是随 5.0 一同发布。
 
 - **2017 年**:
-  - Redis 4.0 发布，带来了更高效的内存使用和数据持久化机制，包括改进的 AOF 持久化和 RDB 快照功能。
+  - Redis 4.0 发布，引入了模块系统（Modules）、惰性释放（Lazy Free）、PSYNC2 以及 RDB-AOF 混合持久化，带来了更高效的内存使用和数据持久化机制。
 
 - **2018 年**:
   - Redis 5.0 发布，引入了新的数据结构（如 Stream）以及对 Redis 集群模式的更好支持，进一步提升了性能和功能。
@@ -39,7 +42,7 @@ Redis 是由 Salvatore Sanfilippo（别名 antirez）于 2009 年创建的开源
   - Redis 5.0.8 发布，主要集中在错误修复和小的改进。Redis 5.x 系列继续为现有特性提供支持。
 
 - **2020 年**:
-  - Redis 6.0 发布，引入了多线程 I/O、Redis 模块系统、ACL（访问控制列表）和新的命令。多线程 I/O 提高了 Redis 在高负载下的性能。
+  - Redis 6.0 发布，引入了多线程网络 I/O、ACL（访问控制列表）、客户端缓存和 RESP3 协议。多线程 I/O 提高了 Redis 在高负载下的性能（模块系统早在 4.0 就已引入）。
 
 - **2021 年**:
   - Redis 6.2 发布，引入了增强的模块支持、新的命令和改进的性能，进一步加强了 Redis 的功能和灵活性。

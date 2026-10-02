@@ -31,10 +31,10 @@ def acquire_lock(lock_name, lock_timeout=10):
 
 def release_lock(lock_name, lock_id):
     lock_key = f"lock:{lock_name}"
-    
-    # 确保只有锁持有者才能释放锁
+
+    # 确保只有锁持有者才能释放锁（注意：redis-py 返回的是 bytes，需要先解码再比较）
     current_lock_id = redis_client.get(lock_key)
-    if current_lock_id == lock_id:
+    if current_lock_id and current_lock_id.decode('utf-8') == lock_id:
         redis_client.delete(lock_key)
 
 # 示例：加锁和释放锁

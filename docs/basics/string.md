@@ -87,7 +87,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
 
 - **功能**: 获取键的旧值并设置新值
 - **语法**: `GETSET key value`
-- **说明**: 将键的值设置为新值，并返回旧值。
+- **说明**: 将键的值设置为新值，并返回旧值。自 Redis 6.2 起该命令已被标记为过期，建议使用 `SET key value GET` 代替。
 - **示例**:
   ```plaintext
   GETSET name "Bob"
@@ -117,7 +117,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
 
 - **功能**: 设置键的值并设置过期时间（单位：毫秒）
 - **语法**: `PSETEX key milliseconds value`
-- **说明**: 设置键的值，并在指定时间后过期（单位：毫秒）。
+- **说明**: 设置键的值，并在指定时间后过期（单位：毫秒）。自 Redis 6.2 起该命令已被标记为过期，建议使用 `SET key value PX milliseconds` 代替。
 - **示例**:
   ```plaintext
   PSETEX temp_key 5000 "temporary"

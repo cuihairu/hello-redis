@@ -15,22 +15,26 @@ EVALSHA sha1 numkeys key [key ...] arg [arg ...]
 
 ### 示例
 
-假设我们之前使用 `SCRIPT LOAD` 命令将以下 Lua 脚本加载到 Redis，并获取了对应的 SHA1 校验和：
+先使用 `SCRIPT LOAD` 命令将以下 Lua 脚本加载到 Redis，并获取对应的 SHA1 校验和：
 
 ```bash
 SCRIPT LOAD "return redis.call('GET', KEYS[1]) + redis.call('GET', KEYS[2])"
 ```
 
-假设返回的 SHA1 校验和是 `a42059b356c875f0717db19a51f6aaca9ae659ea`，我们可以使用 `EVALSHA` 命令执行这个脚本：
+该命令返回的 SHA1 校验和是 `f18d3d793916e36d0190b2df2092383385a0d1a0`。接着准备两个存放数字的键，然后用 `EVALSHA` 命令执行这个脚本：
 
 ```bash
-EVALSHA a42059b356c875f0717db19a51f6aaca9ae659ea 2 key1 key2
+SET key1 10
+SET key2 20
+EVALSHA f18d3d793916e36d0190b2df2092383385a0d1a0 2 key1 key2
 ```
 
-在这个示例中：
-- `sha1` 是脚本的 SHA1 校验和 `a42059b356c875f0717db19a51f6aaca9ae659ea`。
+返回值为 `30`。在这个示例中：
+- `sha1` 是脚本的 SHA1 校验和 `f18d3d793916e36d0190b2df2092383385a0d1a0`。
 - `numkeys` 是 `2`，表示该脚本访问了两个 Redis 键。
 - `key1` 和 `key2` 是传递给脚本的两个 Redis 键名。
+
+> 提示：SHA1 校验和由脚本内容唯一决定，如果你按本文示例逐条执行，得到的就是上面这个值；一旦脚本内容有任何改动（哪怕一个空格），校验和都会不同。
 
 ### 注意事项
 
