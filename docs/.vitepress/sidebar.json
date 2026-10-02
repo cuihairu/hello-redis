@@ -1,0 +1,1148 @@
+[
+  {
+    "text": "第1部分：基础知识",
+    "link": "/basics/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "简介",
+        "link": "/basics/introduction",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "什么是Redis",
+            "link": "/basics/what-is-redis"
+          },
+          {
+            "text": "Redis的历史与发展",
+            "link": "/basics/history-and-development"
+          },
+          {
+            "text": "Redis的特点与应用场景",
+            "link": "/basics/features-and-use-cases"
+          },
+          {
+            "text": "其他兼容Redis的项目",
+            "link": "/basics/other"
+          }
+        ]
+      },
+      {
+        "text": "安装与配置",
+        "link": "/basics/installation-and-configuration",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "在Linux上安装Redis",
+            "link": "/basics/installation-on-linux"
+          },
+          {
+            "text": "在Windows上安装Redis",
+            "link": "/basics/installation-on-windows"
+          },
+          {
+            "text": "在MacOS上安装Redis",
+            "link": "/basics/installation-on-macos"
+          },
+          {
+            "text": "Redis配置文件详解",
+            "link": "/basics/configuration-file"
+          }
+        ]
+      },
+      {
+        "text": "Redis基本操作",
+        "link": "/basics/basic-operations",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "数据类型与基本命令",
+            "link": "/basics/data-types-and-commands",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "字符串",
+                "link": "/basics/string"
+              },
+              {
+                "text": "哈希",
+                "link": "/basics/hash"
+              },
+              {
+                "text": "列表",
+                "link": "/basics/list"
+              },
+              {
+                "text": "集合",
+                "link": "/basics/set"
+              },
+              {
+                "text": "有序集合",
+                "link": "/basics/zset"
+              },
+              {
+                "text": "位图",
+                "link": "/basics/bitmap"
+              },
+              {
+                "text": "地理空间数据",
+                "link": "/basics/geospatial"
+              },
+              {
+                "text": "HyperLogLog",
+                "link": "/basics/hyperloglog"
+              },
+              {
+                "text": "流",
+                "link": "/basics/streams"
+              }
+            ]
+          },
+          {
+            "text": "连接与认证",
+            "link": "/basics/connection-and-authentication"
+          },
+          {
+            "text": "键的操作",
+            "link": "/basics/key-operations"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "第2部分：Redis 脚本功能",
+    "link": "/scripts/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "概述",
+        "link": "/scripts/introduction",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "脚本功能介绍",
+            "link": "/scripts/scripts-introduction"
+          },
+          {
+            "text": "脚本执行原理",
+            "link": "/scripts/execution-principles"
+          }
+        ]
+      },
+      {
+        "text": "Lua 脚本",
+        "link": "/scripts/lua/README",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Lua 脚本概述",
+            "link": "/scripts/lua/overview"
+          },
+          {
+            "text": "基本命令",
+            "link": "/scripts/lua/commands",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "EVAL",
+                "link": "/scripts/lua/eval"
+              },
+              {
+                "text": "EVALSHA",
+                "link": "/scripts/lua/evalsha"
+              },
+              {
+                "text": "SCRIPT LOAD",
+                "link": "/scripts/lua/script-load"
+              },
+              {
+                "text": "SCRIPT EXISTS",
+                "link": "/scripts/lua/script-exists"
+              },
+              {
+                "text": "SCRIPT FLUSH",
+                "link": "/scripts/lua/script-flush"
+              }
+            ]
+          },
+          {
+            "text": "Lua 脚本编写技巧",
+            "link": "/scripts/lua/writing-tips"
+          },
+          {
+            "text": "常见问题与调试",
+            "link": "/scripts/lua/troubleshooting"
+          }
+        ]
+      },
+      {
+        "text": "Redis 模块脚本",
+        "link": "/scripts/modules/README",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "RedisGraph",
+            "link": "/scripts/modules/redisgraph",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "Cypher 查询语言概述",
+                "link": "/scripts/modules/redisgraph/cypher-overview"
+              },
+              {
+                "text": "基本 Cypher 查询命令",
+                "link": "/scripts/modules/redisgraph/cypher-commands"
+              }
+            ]
+          },
+          {
+            "text": "RedisJSON",
+            "link": "/scripts/modules/redisjson",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "JSONPath 查询语言概述",
+                "link": "/scripts/modules/redisjson/jsonpath-overview"
+              },
+              {
+                "text": "基本 JSONPath 查询命令",
+                "link": "/scripts/modules/redisjson/jsonpath-commands"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "脚本安全与性能",
+        "link": "/scripts/security-and-performance",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "脚本安全性",
+            "link": "/scripts/security"
+          },
+          {
+            "text": "性能优化",
+            "link": "/scripts/performance"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "第3部分：进阶功能",
+    "link": "/advanced/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "持久化",
+        "link": "/advanced/persistence",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "RDB快照",
+            "link": "/advanced/rdb-snapshot"
+          },
+          {
+            "text": "AOF日志",
+            "link": "/advanced/aof-log"
+          },
+          {
+            "text": "持久化配置与策略",
+            "link": "/advanced/persistence-configuration"
+          }
+        ]
+      },
+      {
+        "text": "高可用性",
+        "link": "/advanced/high-availability",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "主从复制",
+            "link": "/advanced/replication"
+          },
+          {
+            "text": "哨兵模式",
+            "link": "/advanced/sentinel"
+          },
+          {
+            "text": "集群模式",
+            "link": "/advanced/cluster"
+          }
+        ]
+      },
+      {
+        "text": "性能优化",
+        "link": "/advanced/performance-optimization",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "内存优化",
+            "link": "/advanced/memory-optimization"
+          },
+          {
+            "text": "命令优化",
+            "link": "/advanced/command-optimization"
+          },
+          {
+            "text": "Redis性能监控与调优",
+            "link": "/advanced/performance-monitoring"
+          }
+        ]
+      },
+      {
+        "text": "安全性",
+        "link": "/advanced/security",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "身份验证与授权",
+            "link": "/advanced/authentication-and-authorization"
+          },
+          {
+            "text": "网络安全",
+            "link": "/advanced/network-security"
+          },
+          {
+            "text": "数据加密",
+            "link": "/advanced/data-encryption"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "第4部分：开发与集成",
+    "link": "/development/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "使用Redis开发",
+        "link": "/development/using-redis",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis客户端库",
+            "link": "/development/client-libraries"
+          },
+          {
+            "text": "Python中的Redis应用",
+            "link": "/development/redis-in-python"
+          },
+          {
+            "text": "Java中的Redis应用",
+            "link": "/development/redis-in-java"
+          },
+          {
+            "text": "Go中的Redis应用",
+            "link": "/development/redis-in-go"
+          }
+        ]
+      },
+      {
+        "text": "Redis与其他技术的集成",
+        "link": "/development/integration",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "与消息队列的集成",
+            "link": "/development/message-queue-integration"
+          },
+          {
+            "text": "与数据库的集成",
+            "link": "/development/database-integration"
+          },
+          {
+            "text": "与缓存的集成",
+            "link": "/development/cache-integration"
+          }
+        ]
+      },
+      {
+        "text": "实战项目",
+        "link": "/development/practical-projects",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "使用Redis构建一个聊天应用",
+            "link": "/development/chat-application"
+          },
+          {
+            "text": "使用Redis实现分布式锁",
+            "link": "/development/distributed-lock"
+          },
+          {
+            "text": "使用Redis实现限流器",
+            "link": "/development/rate-limiter"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "第5部分：运维与管理",
+    "link": "/operations/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Redis运维",
+        "link": "/operations/redis-operations",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis备份与恢复",
+            "link": "/operations/backup-and-restore"
+          },
+          {
+            "text": "Redis日志管理",
+            "link": "/operations/logging"
+          },
+          {
+            "text": "Redis集群管理",
+            "link": "/operations/cluster-management"
+          }
+        ]
+      },
+      {
+        "text": "监控与故障排除",
+        "link": "/operations/monitoring-and-troubleshooting",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis监控工具",
+            "link": "/operations/monitoring-tools"
+          },
+          {
+            "text": "常见问题与解决方法",
+            "link": "/operations/common-issues"
+          },
+          {
+            "text": "性能调优与故障排查",
+            "link": "/operations/performance-tuning"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "第6部分 Redis源码分析",
+    "link": "/source-code-analysis/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Redis整体架构",
+        "link": "/source-code-analysis/architecture",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis架构概述",
+            "link": "/source-code-analysis/architecture/overview"
+          },
+          {
+            "text": "主要组件和模块",
+            "link": "/source-code-analysis/architecture/components"
+          }
+        ]
+      },
+      {
+        "text": "内存管理",
+        "link": "/source-code-analysis/memory-management",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "内存分配和释放机制",
+            "link": "/source-code-analysis/memory-management/allocating"
+          },
+          {
+            "text": "内存优化策略",
+            "link": "/source-code-analysis/memory-management/optimization"
+          }
+        ]
+      },
+      {
+        "text": "数据结构与算法",
+        "link": "/source-code-analysis/data-structures",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis数据结构概述",
+            "link": "/source-code-analysis/data-structures/overview"
+          },
+          {
+            "text": "具体数据结构实现",
+            "link": "/source-code-analysis/data-structures/implementation"
+          }
+        ]
+      },
+      {
+        "text": "持久化机制",
+        "link": "/source-code-analysis/persistence",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "RDB持久化实现",
+            "link": "/source-code-analysis/persistence/rdb"
+          },
+          {
+            "text": "AOF持久化实现",
+            "link": "/source-code-analysis/persistence/aof"
+          }
+        ]
+      },
+      {
+        "text": "网络协议",
+        "link": "/source-code-analysis/network-protocol",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis协议概述",
+            "link": "/source-code-analysis/network-protocol/protocol-overview"
+          },
+          {
+            "text": "具体实现细节",
+            "link": "/source-code-analysis/network-protocol/implementation"
+          }
+        ]
+      },
+      {
+        "text": "命令处理流程",
+        "link": "/source-code-analysis/command-processing",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "命令解析",
+            "link": "/source-code-analysis/command-processing/parsing"
+          },
+          {
+            "text": "命令执行",
+            "link": "/source-code-analysis/command-processing/execution"
+          }
+        ]
+      },
+      {
+        "text": "多线程与并发控制",
+        "link": "/source-code-analysis/multithreading",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "线程模型",
+            "link": "/source-code-analysis/multithreading/model"
+          },
+          {
+            "text": "并发控制机制",
+            "link": "/source-code-analysis/multithreading/concurrency"
+          }
+        ]
+      },
+      {
+        "text": "模块系统",
+        "link": "/source-code-analysis/modules",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "模块系统概述",
+            "link": "/source-code-analysis/modules/overview"
+          },
+          {
+            "text": "自定义模块的实现",
+            "link": "/source-code-analysis/modules/implementation"
+          }
+        ]
+      },
+      {
+        "text": "Redis集群实现",
+        "link": "/source-code-analysis/cluster",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "集群架构",
+            "link": "/source-code-analysis/cluster/architecture"
+          },
+          {
+            "text": "数据分片与复制",
+            "link": "/source-code-analysis/cluster/sharding-replication"
+          }
+        ]
+      },
+      {
+        "text": "性能优化",
+        "link": "/source-code-analysis/performance",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "性能瓶颈分析",
+            "link": "/source-code-analysis/performance/bottlenecks"
+          },
+          {
+            "text": "优化策略",
+            "link": "/source-code-analysis/performance/strategies"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "第7部分：使用场景",
+    "link": "/use-cases/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "缓存",
+        "link": "/use-cases/cache",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "缓存策略与实践",
+            "link": "/use-cases/cache/strategies"
+          },
+          {
+            "text": "实际案例：Web应用缓存",
+            "link": "/use-cases/cache/web-app"
+          }
+        ]
+      },
+      {
+        "text": "会话管理",
+        "link": "/use-cases/session-management",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "会话存储的最佳实践",
+            "link": "/use-cases/session-management/best-practices"
+          },
+          {
+            "text": "实际案例：用户认证与会话管理",
+            "link": "/use-cases/session-management/authentication"
+          }
+        ]
+      },
+      {
+        "text": "实时分析",
+        "link": "/use-cases/real-time-analysis",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "实时数据处理",
+            "link": "/use-cases/real-time-analysis/data-processing"
+          },
+          {
+            "text": "实际案例：实时数据仪表盘",
+            "link": "/use-cases/real-time-analysis/dashboard"
+          }
+        ]
+      },
+      {
+        "text": "任务队列",
+        "link": "/use-cases/task-queue",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "任务队列设计与实现",
+            "link": "/use-cases/task-queue/design"
+          },
+          {
+            "text": "实际案例：异步任务处理",
+            "link": "/use-cases/task-queue/async-tasks"
+          }
+        ]
+      },
+      {
+        "text": "排行榜与计数器",
+        "link": "/use-cases/ranking-and-counting",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "排行榜实现方法",
+            "link": "/use-cases/ranking-and-counting/ranking"
+          },
+          {
+            "text": "计数器应用实例",
+            "link": "/use-cases/ranking-and-counting/counters"
+          }
+        ]
+      },
+      {
+        "text": "聊天系统",
+        "link": "/use-cases/chat-system",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "聊天消息的存储与处理",
+            "link": "/use-cases/chat-system/message-storage"
+          },
+          {
+            "text": "实际案例：实时聊天应用",
+            "link": "/use-cases/chat-system/real-time-chat"
+          }
+        ]
+      },
+      {
+        "text": "地理位置服务",
+        "link": "/use-cases/geolocation-services",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "地理位置数据的存储与查询",
+            "link": "/use-cases/geolocation-services/storage-query"
+          },
+          {
+            "text": "实际案例：基于位置的服务",
+            "link": "/use-cases/geolocation-services/location-based"
+          }
+        ]
+      },
+      {
+        "text": "分布式锁",
+        "link": "/use-cases/distributed-locks",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "分布式锁的实现方法",
+            "link": "/use-cases/distributed-locks/implementation"
+          },
+          {
+            "text": "实际案例：分布式系统中的锁",
+            "link": "/use-cases/distributed-locks/distributed-systems"
+          }
+        ]
+      },
+      {
+        "text": "限流",
+        "link": "/use-cases/rate-limiting",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "限流策略与实现",
+            "link": "/use-cases/rate-limiting/strategies"
+          },
+          {
+            "text": "实际案例：API限流",
+            "link": "/use-cases/rate-limiting/api"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "附录 · 未入目录",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "advanced-topics",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "advanced-topics",
+            "link": "/advanced-topics/README"
+          },
+          {
+            "text": "architecture-and-design",
+            "link": "/advanced-topics/architecture-and-design"
+          },
+          {
+            "text": "command-execution",
+            "link": "/advanced-topics/command-execution"
+          },
+          {
+            "text": "core-data-structures",
+            "link": "/advanced-topics/core-data-structures"
+          },
+          {
+            "text": "ecosystem",
+            "link": "/advanced-topics/ecosystem"
+          },
+          {
+            "text": "future-development",
+            "link": "/advanced-topics/future-development"
+          },
+          {
+            "text": "redis-6-features",
+            "link": "/advanced-topics/redis-6-features"
+          },
+          {
+            "text": "redis-7-outlook",
+            "link": "/advanced-topics/redis-7-outlook"
+          },
+          {
+            "text": "source-code-analysis",
+            "link": "/advanced-topics/source-code-analysis"
+          }
+        ]
+      },
+      {
+        "text": "appendix",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "appendix",
+            "link": "/appendix/README"
+          },
+          {
+            "text": "command-reference",
+            "link": "/appendix/command-reference"
+          },
+          {
+            "text": "faq",
+            "link": "/appendix/faq"
+          },
+          {
+            "text": "glossary",
+            "link": "/appendix/glossary"
+          },
+          {
+            "text": "references",
+            "link": "/appendix/references"
+          }
+        ]
+      },
+      {
+        "text": "basics",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "bitmap",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "getbit",
+                "link": "/basics/bitmap/getbit"
+              },
+              {
+                "text": "other-commands",
+                "link": "/basics/bitmap/other-commands"
+              },
+              {
+                "text": "setbit",
+                "link": "/basics/bitmap/setbit"
+              }
+            ]
+          },
+          {
+            "text": "geospatial",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "geoadd",
+                "link": "/basics/geospatial/geoadd"
+              },
+              {
+                "text": "georadius",
+                "link": "/basics/geospatial/georadius"
+              },
+              {
+                "text": "other-commands",
+                "link": "/basics/geospatial/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "hash",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "hget",
+                "link": "/basics/hash/hget"
+              },
+              {
+                "text": "hset",
+                "link": "/basics/hash/hset"
+              },
+              {
+                "text": "other-commands",
+                "link": "/basics/hash/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "hyperloglog",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "other-commands",
+                "link": "/basics/hyperloglog/other-commands"
+              },
+              {
+                "text": "pfadd",
+                "link": "/basics/hyperloglog/pfadd"
+              },
+              {
+                "text": "pfcount",
+                "link": "/basics/hyperloglog/pfcount"
+              }
+            ]
+          },
+          {
+            "text": "list",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "lpop",
+                "link": "/basics/list/lpop"
+              },
+              {
+                "text": "lpush",
+                "link": "/basics/list/lpush"
+              },
+              {
+                "text": "other-commands",
+                "link": "/basics/list/other-commands"
+              },
+              {
+                "text": "rpop",
+                "link": "/basics/list/rpop"
+              },
+              {
+                "text": "rpush",
+                "link": "/basics/list/rpush"
+              }
+            ]
+          },
+          {
+            "text": "set",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "other-commands",
+                "link": "/basics/set/other-commands"
+              },
+              {
+                "text": "sadd",
+                "link": "/basics/set/sadd"
+              },
+              {
+                "text": "smembers",
+                "link": "/basics/set/smembers"
+              },
+              {
+                "text": "spop",
+                "link": "/basics/set/spop"
+              }
+            ]
+          },
+          {
+            "text": "streams",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "other-commands",
+                "link": "/basics/streams/other-commands"
+              },
+              {
+                "text": "xadd",
+                "link": "/basics/streams/xadd"
+              },
+              {
+                "text": "xread",
+                "link": "/basics/streams/xread"
+              }
+            ]
+          },
+          {
+            "text": "string",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "get",
+                "link": "/basics/string/get"
+              },
+              {
+                "text": "other-commands",
+                "link": "/basics/string/other-commands"
+              },
+              {
+                "text": "set",
+                "link": "/basics/string/set"
+              }
+            ]
+          },
+          {
+            "text": "zset",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "other-commands",
+                "link": "/basics/zset/other-commands"
+              },
+              {
+                "text": "zadd",
+                "link": "/basics/zset/zadd"
+              },
+              {
+                "text": "zrange",
+                "link": "/basics/zset/zrange"
+              },
+              {
+                "text": "zrem",
+                "link": "/basics/zset/zrem"
+              }
+            ]
+          },
+          {
+            "text": "installation-on-m",
+            "link": "/basics/installation-on-m"
+          }
+        ]
+      },
+      {
+        "text": "redis-compatible",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "redis-compatible",
+            "link": "/redis-compatible/README"
+          },
+          {
+            "text": "ardb",
+            "link": "/redis-compatible/ardb"
+          },
+          {
+            "text": "dragonfly",
+            "link": "/redis-compatible/dragonfly"
+          },
+          {
+            "text": "keydb",
+            "link": "/redis-compatible/keydb"
+          },
+          {
+            "text": "medis",
+            "link": "/redis-compatible/medis"
+          },
+          {
+            "text": "open-source-projects",
+            "link": "/redis-compatible/open-source-projects"
+          },
+          {
+            "text": "pika",
+            "link": "/redis-compatible/pika"
+          },
+          {
+            "text": "predis",
+            "link": "/redis-compatible/predis"
+          },
+          {
+            "text": "ssdb",
+            "link": "/redis-compatible/ssdb"
+          },
+          {
+            "text": "tile38",
+            "link": "/redis-compatible/tile38"
+          },
+          {
+            "text": "valkey",
+            "link": "/redis-compatible/valkey"
+          }
+        ]
+      },
+      {
+        "text": "scripts",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "appendix",
+            "link": "/scripts/appendix"
+          },
+          {
+            "text": "lua-redis-integration",
+            "link": "/scripts/lua-redis-integration"
+          },
+          {
+            "text": "modules-support",
+            "link": "/scripts/modules-support"
+          },
+          {
+            "text": "scriptsintroduction",
+            "link": "/scripts/scriptsintroduction"
+          },
+          {
+            "text": "scripyintroduction",
+            "link": "/scripts/scripyintroduction"
+          }
+        ]
+      },
+      {
+        "text": "use-cases",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "bitmap-operations",
+            "link": "/use-cases/bitmap-operations"
+          },
+          {
+            "text": "caching",
+            "link": "/use-cases/caching"
+          },
+          {
+            "text": "check-ins",
+            "link": "/use-cases/check-ins"
+          },
+          {
+            "text": "clock-ins",
+            "link": "/use-cases/clock-ins"
+          },
+          {
+            "text": "counters",
+            "link": "/use-cases/counters"
+          },
+          {
+            "text": "geospatial-indexing",
+            "link": "/use-cases/geospatial-indexing"
+          },
+          {
+            "text": "global-id",
+            "link": "/use-cases/global-id"
+          },
+          {
+            "text": "leaderboards",
+            "link": "/use-cases/leaderboards"
+          },
+          {
+            "text": "likes",
+            "link": "/use-cases/likes"
+          },
+          {
+            "text": "lottery",
+            "link": "/use-cases/lottery"
+          },
+          {
+            "text": "message-queues",
+            "link": "/use-cases/message-queues"
+          },
+          {
+            "text": "product-filtering",
+            "link": "/use-cases/product-filtering"
+          },
+          {
+            "text": "product-tags",
+            "link": "/use-cases/product-tags"
+          },
+          {
+            "text": "real-time-analytics",
+            "link": "/use-cases/real-time-analytics"
+          },
+          {
+            "text": "redis-use-cases",
+            "link": "/use-cases/redis-use-cases"
+          },
+          {
+            "text": "session-storage",
+            "link": "/use-cases/session-storage"
+          },
+          {
+            "text": "shopping-cart",
+            "link": "/use-cases/shopping-cart"
+          },
+          {
+            "text": "user-follow-recommendation-relationships",
+            "link": "/use-cases/user-follow-recommendation-relationships"
+          },
+          {
+            "text": "user-message-timeline",
+            "link": "/use-cases/user-message-timeline"
+          }
+        ]
+      }
+    ]
+  }
+]
