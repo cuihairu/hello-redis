@@ -52,7 +52,7 @@ DEL ba:z:board ba:z:nomember
 - `ZREMRANGEBYSCORE`: 按分数区间批量删除成员。
 - `ZREMRANGEBYRANK`: 按排名下标区间批量删除成员。
 - `ZPOPMIN` / `ZPOPMAX`: 弹出分数最低或最高的成员，返回值中带分数。
-- `ZSCORE`: 删除前查询成员分数。
+- `ZSCORE`: 查询成员当前的分数。
 
 ## 注意事项
 
