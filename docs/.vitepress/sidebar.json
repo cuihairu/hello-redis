@@ -62,39 +62,190 @@
             "items": [
               {
                 "text": "字符串",
-                "link": "/basics/string"
+                "link": "/basics/string",
+                "collapsed": true,
+                "items": [
+                  {
+                    "text": "SET",
+                    "link": "/basics/string/set"
+                  },
+                  {
+                    "text": "GET",
+                    "link": "/basics/string/get"
+                  },
+                  {
+                    "text": "其他字符串命令",
+                    "link": "/basics/string/other-commands"
+                  }
+                ]
               },
               {
                 "text": "哈希",
-                "link": "/basics/hash"
+                "link": "/basics/hash",
+                "collapsed": true,
+                "items": [
+                  {
+                    "text": "HSET",
+                    "link": "/basics/hash/hset"
+                  },
+                  {
+                    "text": "HGET",
+                    "link": "/basics/hash/hget"
+                  },
+                  {
+                    "text": "其他哈希命令",
+                    "link": "/basics/hash/other-commands"
+                  }
+                ]
               },
               {
                 "text": "列表",
-                "link": "/basics/list"
+                "link": "/basics/list",
+                "collapsed": true,
+                "items": [
+                  {
+                    "text": "LPUSH",
+                    "link": "/basics/list/lpush"
+                  },
+                  {
+                    "text": "RPUSH",
+                    "link": "/basics/list/rpush"
+                  },
+                  {
+                    "text": "LPOP",
+                    "link": "/basics/list/lpop"
+                  },
+                  {
+                    "text": "RPOP",
+                    "link": "/basics/list/rpop"
+                  },
+                  {
+                    "text": "其他列表命令",
+                    "link": "/basics/list/other-commands"
+                  }
+                ]
               },
               {
                 "text": "集合",
-                "link": "/basics/set"
+                "link": "/basics/set",
+                "collapsed": true,
+                "items": [
+                  {
+                    "text": "SADD",
+                    "link": "/basics/set/sadd"
+                  },
+                  {
+                    "text": "SMEMBERS",
+                    "link": "/basics/set/smembers"
+                  },
+                  {
+                    "text": "SPOP",
+                    "link": "/basics/set/spop"
+                  },
+                  {
+                    "text": "其他集合命令",
+                    "link": "/basics/set/other-commands"
+                  }
+                ]
               },
               {
                 "text": "有序集合",
-                "link": "/basics/zset"
+                "link": "/basics/zset",
+                "collapsed": true,
+                "items": [
+                  {
+                    "text": "ZADD",
+                    "link": "/basics/zset/zadd"
+                  },
+                  {
+                    "text": "ZRANGE",
+                    "link": "/basics/zset/zrange"
+                  },
+                  {
+                    "text": "ZREM",
+                    "link": "/basics/zset/zrem"
+                  },
+                  {
+                    "text": "其他有序集合命令",
+                    "link": "/basics/zset/other-commands"
+                  }
+                ]
               },
               {
                 "text": "位图",
-                "link": "/basics/bitmap"
+                "link": "/basics/bitmap",
+                "collapsed": true,
+                "items": [
+                  {
+                    "text": "SETBIT",
+                    "link": "/basics/bitmap/setbit"
+                  },
+                  {
+                    "text": "GETBIT",
+                    "link": "/basics/bitmap/getbit"
+                  },
+                  {
+                    "text": "其他位图命令",
+                    "link": "/basics/bitmap/other-commands"
+                  }
+                ]
               },
               {
                 "text": "地理空间数据",
-                "link": "/basics/geospatial"
+                "link": "/basics/geospatial",
+                "collapsed": true,
+                "items": [
+                  {
+                    "text": "GEOADD",
+                    "link": "/basics/geospatial/geoadd"
+                  },
+                  {
+                    "text": "GEORADIUS",
+                    "link": "/basics/geospatial/georadius"
+                  },
+                  {
+                    "text": "其他地理空间命令",
+                    "link": "/basics/geospatial/other-commands"
+                  }
+                ]
               },
               {
                 "text": "HyperLogLog",
-                "link": "/basics/hyperloglog"
+                "link": "/basics/hyperloglog",
+                "collapsed": true,
+                "items": [
+                  {
+                    "text": "PFADD",
+                    "link": "/basics/hyperloglog/pfadd"
+                  },
+                  {
+                    "text": "PFCOUNT",
+                    "link": "/basics/hyperloglog/pfcount"
+                  },
+                  {
+                    "text": "其他HyperLogLog命令",
+                    "link": "/basics/hyperloglog/other-commands"
+                  }
+                ]
               },
               {
                 "text": "流",
-                "link": "/basics/streams"
+                "link": "/basics/streams",
+                "collapsed": true,
+                "items": [
+                  {
+                    "text": "XADD",
+                    "link": "/basics/streams/xadd"
+                  },
+                  {
+                    "text": "XREAD",
+                    "link": "/basics/streams/xread"
+                  },
+                  {
+                    "text": "其他流命令",
+                    "link": "/basics/streams/other-commands"
+                  }
+                ]
               }
             ]
           },
@@ -127,6 +278,10 @@
           {
             "text": "脚本执行原理",
             "link": "/scripts/execution-principles"
+          },
+          {
+            "text": "Redis 模块与脚本支持",
+            "link": "/scripts/modules-support"
           }
         ]
       },
@@ -167,12 +322,20 @@
             ]
           },
           {
+            "text": "Lua 与 Redis 的集成",
+            "link": "/scripts/lua-redis-integration"
+          },
+          {
             "text": "Lua 脚本编写技巧",
             "link": "/scripts/lua/writing-tips"
           },
           {
             "text": "常见问题与调试",
             "link": "/scripts/lua/troubleshooting"
+          },
+          {
+            "text": "脚本附录：Lua 环境与库",
+            "link": "/scripts/appendix"
           }
         ]
       },
@@ -589,10 +752,18 @@
     "collapsed": true,
     "items": [
       {
+        "text": "使用场景总览",
+        "link": "/use-cases/redis-use-cases"
+      },
+      {
         "text": "缓存",
         "link": "/use-cases/cache",
         "collapsed": true,
         "items": [
+          {
+            "text": "Cache-Aside 与缓存三大问题",
+            "link": "/use-cases/caching"
+          },
           {
             "text": "缓存策略与实践",
             "link": "/use-cases/cache/strategies"
@@ -609,6 +780,10 @@
         "collapsed": true,
         "items": [
           {
+            "text": "会话存储",
+            "link": "/use-cases/session-storage"
+          },
+          {
             "text": "会话存储的最佳实践",
             "link": "/use-cases/session-management/best-practices"
           },
@@ -623,6 +798,10 @@
         "link": "/use-cases/real-time-analysis",
         "collapsed": true,
         "items": [
+          {
+            "text": "UV 统计与热点计数",
+            "link": "/use-cases/real-time-analytics"
+          },
           {
             "text": "实时数据处理",
             "link": "/use-cases/real-time-analysis/data-processing"
@@ -639,6 +818,10 @@
         "collapsed": true,
         "items": [
           {
+            "text": "消息队列：List 与 Stream",
+            "link": "/use-cases/message-queues"
+          },
+          {
             "text": "任务队列设计与实现",
             "link": "/use-cases/task-queue/design"
           },
@@ -653,6 +836,18 @@
         "link": "/use-cases/ranking-and-counting",
         "collapsed": true,
         "items": [
+          {
+            "text": "排行榜实现",
+            "link": "/use-cases/leaderboards"
+          },
+          {
+            "text": "计数器",
+            "link": "/use-cases/counters"
+          },
+          {
+            "text": "全局ID",
+            "link": "/use-cases/global-id"
+          },
           {
             "text": "排行榜实现方法",
             "link": "/use-cases/ranking-and-counting/ranking"
@@ -683,6 +878,10 @@
         "link": "/use-cases/geolocation-services",
         "collapsed": true,
         "items": [
+          {
+            "text": "地理空间索引",
+            "link": "/use-cases/geospatial-indexing"
+          },
           {
             "text": "地理位置数据的存储与查询",
             "link": "/use-cases/geolocation-services/storage-query"
@@ -722,6 +921,151 @@
             "link": "/use-cases/rate-limiting/api"
           }
         ]
+      },
+      {
+        "text": "点赞",
+        "link": "/use-cases/likes"
+      },
+      {
+        "text": "抽奖",
+        "link": "/use-cases/lottery"
+      },
+      {
+        "text": "购物车",
+        "link": "/use-cases/shopping-cart"
+      },
+      {
+        "text": "商品标签",
+        "link": "/use-cases/product-tags"
+      },
+      {
+        "text": "商品筛选",
+        "link": "/use-cases/product-filtering"
+      },
+      {
+        "text": "签到",
+        "link": "/use-cases/check-ins"
+      },
+      {
+        "text": "打卡",
+        "link": "/use-cases/clock-ins"
+      },
+      {
+        "text": "位统计",
+        "link": "/use-cases/bitmap-operations"
+      },
+      {
+        "text": "用户关注与好友关系",
+        "link": "/use-cases/user-follow-recommendation-relationships"
+      },
+      {
+        "text": "用户消息时间线",
+        "link": "/use-cases/user-message-timeline"
+      }
+    ]
+  },
+  {
+    "text": "第8部分：兼容实现",
+    "link": "/redis-compatible/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "兼容项目全景",
+        "link": "/redis-compatible/open-source-projects"
+      },
+      {
+        "text": "Valkey",
+        "link": "/redis-compatible/valkey"
+      },
+      {
+        "text": "KeyDB",
+        "link": "/redis-compatible/keydb"
+      },
+      {
+        "text": "Dragonfly",
+        "link": "/redis-compatible/dragonfly"
+      },
+      {
+        "text": "Pika",
+        "link": "/redis-compatible/pika"
+      },
+      {
+        "text": "SSDB",
+        "link": "/redis-compatible/ssdb"
+      },
+      {
+        "text": "Ardb",
+        "link": "/redis-compatible/ardb"
+      },
+      {
+        "text": "Tile38",
+        "link": "/redis-compatible/tile38"
+      },
+      {
+        "text": "Predis",
+        "link": "/redis-compatible/predis"
+      },
+      {
+        "text": "Medis",
+        "link": "/redis-compatible/medis"
+      }
+    ]
+  },
+  {
+    "text": "进阶话题",
+    "link": "/advanced-topics/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Redis架构与设计",
+        "link": "/advanced-topics/architecture-and-design"
+      },
+      {
+        "text": "核心数据结构与算法",
+        "link": "/advanced-topics/core-data-structures"
+      },
+      {
+        "text": "命令执行与事件处理",
+        "link": "/advanced-topics/command-execution"
+      },
+      {
+        "text": "Redis 6的新特性",
+        "link": "/advanced-topics/redis-6-features"
+      },
+      {
+        "text": "Redis 7的展望",
+        "link": "/advanced-topics/redis-7-outlook"
+      },
+      {
+        "text": "Redis生态系统",
+        "link": "/advanced-topics/ecosystem"
+      },
+      {
+        "text": "Redis未来发展",
+        "link": "/advanced-topics/future-development"
+      }
+    ]
+  },
+  {
+    "text": "附录",
+    "link": "/appendix/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "命令参考",
+        "link": "/appendix/command-reference"
+      },
+      {
+        "text": "常见问题",
+        "link": "/appendix/faq"
+      },
+      {
+        "text": "术语表",
+        "link": "/appendix/glossary"
+      },
+      {
+        "text": "参考文献",
+        "link": "/appendix/references"
       }
     ]
   },
@@ -738,412 +1082,8 @@
         "collapsed": true,
         "items": [
           {
-            "text": "advanced-topics",
-            "link": "/advanced-topics/README"
-          },
-          {
-            "text": "architecture-and-design",
-            "link": "/advanced-topics/architecture-and-design"
-          },
-          {
-            "text": "command-execution",
-            "link": "/advanced-topics/command-execution"
-          },
-          {
-            "text": "core-data-structures",
-            "link": "/advanced-topics/core-data-structures"
-          },
-          {
-            "text": "ecosystem",
-            "link": "/advanced-topics/ecosystem"
-          },
-          {
-            "text": "future-development",
-            "link": "/advanced-topics/future-development"
-          },
-          {
-            "text": "redis-6-features",
-            "link": "/advanced-topics/redis-6-features"
-          },
-          {
-            "text": "redis-7-outlook",
-            "link": "/advanced-topics/redis-7-outlook"
-          },
-          {
             "text": "source-code-analysis",
             "link": "/advanced-topics/source-code-analysis"
-          }
-        ]
-      },
-      {
-        "text": "appendix",
-        "collapsed": true,
-        "items": [
-          {
-            "text": "appendix",
-            "link": "/appendix/README"
-          },
-          {
-            "text": "command-reference",
-            "link": "/appendix/command-reference"
-          },
-          {
-            "text": "faq",
-            "link": "/appendix/faq"
-          },
-          {
-            "text": "glossary",
-            "link": "/appendix/glossary"
-          },
-          {
-            "text": "references",
-            "link": "/appendix/references"
-          }
-        ]
-      },
-      {
-        "text": "basics",
-        "collapsed": true,
-        "items": [
-          {
-            "text": "bitmap",
-            "collapsed": true,
-            "items": [
-              {
-                "text": "getbit",
-                "link": "/basics/bitmap/getbit"
-              },
-              {
-                "text": "other-commands",
-                "link": "/basics/bitmap/other-commands"
-              },
-              {
-                "text": "setbit",
-                "link": "/basics/bitmap/setbit"
-              }
-            ]
-          },
-          {
-            "text": "geospatial",
-            "collapsed": true,
-            "items": [
-              {
-                "text": "geoadd",
-                "link": "/basics/geospatial/geoadd"
-              },
-              {
-                "text": "georadius",
-                "link": "/basics/geospatial/georadius"
-              },
-              {
-                "text": "other-commands",
-                "link": "/basics/geospatial/other-commands"
-              }
-            ]
-          },
-          {
-            "text": "hash",
-            "collapsed": true,
-            "items": [
-              {
-                "text": "hget",
-                "link": "/basics/hash/hget"
-              },
-              {
-                "text": "hset",
-                "link": "/basics/hash/hset"
-              },
-              {
-                "text": "other-commands",
-                "link": "/basics/hash/other-commands"
-              }
-            ]
-          },
-          {
-            "text": "hyperloglog",
-            "collapsed": true,
-            "items": [
-              {
-                "text": "other-commands",
-                "link": "/basics/hyperloglog/other-commands"
-              },
-              {
-                "text": "pfadd",
-                "link": "/basics/hyperloglog/pfadd"
-              },
-              {
-                "text": "pfcount",
-                "link": "/basics/hyperloglog/pfcount"
-              }
-            ]
-          },
-          {
-            "text": "list",
-            "collapsed": true,
-            "items": [
-              {
-                "text": "lpop",
-                "link": "/basics/list/lpop"
-              },
-              {
-                "text": "lpush",
-                "link": "/basics/list/lpush"
-              },
-              {
-                "text": "other-commands",
-                "link": "/basics/list/other-commands"
-              },
-              {
-                "text": "rpop",
-                "link": "/basics/list/rpop"
-              },
-              {
-                "text": "rpush",
-                "link": "/basics/list/rpush"
-              }
-            ]
-          },
-          {
-            "text": "set",
-            "collapsed": true,
-            "items": [
-              {
-                "text": "other-commands",
-                "link": "/basics/set/other-commands"
-              },
-              {
-                "text": "sadd",
-                "link": "/basics/set/sadd"
-              },
-              {
-                "text": "smembers",
-                "link": "/basics/set/smembers"
-              },
-              {
-                "text": "spop",
-                "link": "/basics/set/spop"
-              }
-            ]
-          },
-          {
-            "text": "streams",
-            "collapsed": true,
-            "items": [
-              {
-                "text": "other-commands",
-                "link": "/basics/streams/other-commands"
-              },
-              {
-                "text": "xadd",
-                "link": "/basics/streams/xadd"
-              },
-              {
-                "text": "xread",
-                "link": "/basics/streams/xread"
-              }
-            ]
-          },
-          {
-            "text": "string",
-            "collapsed": true,
-            "items": [
-              {
-                "text": "get",
-                "link": "/basics/string/get"
-              },
-              {
-                "text": "other-commands",
-                "link": "/basics/string/other-commands"
-              },
-              {
-                "text": "set",
-                "link": "/basics/string/set"
-              }
-            ]
-          },
-          {
-            "text": "zset",
-            "collapsed": true,
-            "items": [
-              {
-                "text": "other-commands",
-                "link": "/basics/zset/other-commands"
-              },
-              {
-                "text": "zadd",
-                "link": "/basics/zset/zadd"
-              },
-              {
-                "text": "zrange",
-                "link": "/basics/zset/zrange"
-              },
-              {
-                "text": "zrem",
-                "link": "/basics/zset/zrem"
-              }
-            ]
-          },
-          {
-            "text": "installation-on-m",
-            "link": "/basics/installation-on-m"
-          }
-        ]
-      },
-      {
-        "text": "redis-compatible",
-        "collapsed": true,
-        "items": [
-          {
-            "text": "redis-compatible",
-            "link": "/redis-compatible/README"
-          },
-          {
-            "text": "ardb",
-            "link": "/redis-compatible/ardb"
-          },
-          {
-            "text": "dragonfly",
-            "link": "/redis-compatible/dragonfly"
-          },
-          {
-            "text": "keydb",
-            "link": "/redis-compatible/keydb"
-          },
-          {
-            "text": "medis",
-            "link": "/redis-compatible/medis"
-          },
-          {
-            "text": "open-source-projects",
-            "link": "/redis-compatible/open-source-projects"
-          },
-          {
-            "text": "pika",
-            "link": "/redis-compatible/pika"
-          },
-          {
-            "text": "predis",
-            "link": "/redis-compatible/predis"
-          },
-          {
-            "text": "ssdb",
-            "link": "/redis-compatible/ssdb"
-          },
-          {
-            "text": "tile38",
-            "link": "/redis-compatible/tile38"
-          },
-          {
-            "text": "valkey",
-            "link": "/redis-compatible/valkey"
-          }
-        ]
-      },
-      {
-        "text": "scripts",
-        "collapsed": true,
-        "items": [
-          {
-            "text": "appendix",
-            "link": "/scripts/appendix"
-          },
-          {
-            "text": "lua-redis-integration",
-            "link": "/scripts/lua-redis-integration"
-          },
-          {
-            "text": "modules-support",
-            "link": "/scripts/modules-support"
-          },
-          {
-            "text": "scriptsintroduction",
-            "link": "/scripts/scriptsintroduction"
-          },
-          {
-            "text": "scripyintroduction",
-            "link": "/scripts/scripyintroduction"
-          }
-        ]
-      },
-      {
-        "text": "use-cases",
-        "collapsed": true,
-        "items": [
-          {
-            "text": "bitmap-operations",
-            "link": "/use-cases/bitmap-operations"
-          },
-          {
-            "text": "caching",
-            "link": "/use-cases/caching"
-          },
-          {
-            "text": "check-ins",
-            "link": "/use-cases/check-ins"
-          },
-          {
-            "text": "clock-ins",
-            "link": "/use-cases/clock-ins"
-          },
-          {
-            "text": "counters",
-            "link": "/use-cases/counters"
-          },
-          {
-            "text": "geospatial-indexing",
-            "link": "/use-cases/geospatial-indexing"
-          },
-          {
-            "text": "global-id",
-            "link": "/use-cases/global-id"
-          },
-          {
-            "text": "leaderboards",
-            "link": "/use-cases/leaderboards"
-          },
-          {
-            "text": "likes",
-            "link": "/use-cases/likes"
-          },
-          {
-            "text": "lottery",
-            "link": "/use-cases/lottery"
-          },
-          {
-            "text": "message-queues",
-            "link": "/use-cases/message-queues"
-          },
-          {
-            "text": "product-filtering",
-            "link": "/use-cases/product-filtering"
-          },
-          {
-            "text": "product-tags",
-            "link": "/use-cases/product-tags"
-          },
-          {
-            "text": "real-time-analytics",
-            "link": "/use-cases/real-time-analytics"
-          },
-          {
-            "text": "redis-use-cases",
-            "link": "/use-cases/redis-use-cases"
-          },
-          {
-            "text": "session-storage",
-            "link": "/use-cases/session-storage"
-          },
-          {
-            "text": "shopping-cart",
-            "link": "/use-cases/shopping-cart"
-          },
-          {
-            "text": "user-follow-recommendation-relationships",
-            "link": "/use-cases/user-follow-recommendation-relationships"
-          },
-          {
-            "text": "user-message-timeline",
-            "link": "/use-cases/user-message-timeline"
           }
         ]
       }
