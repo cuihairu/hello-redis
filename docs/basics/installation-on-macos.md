@@ -11,6 +11,7 @@ Redis 可以通过 Homebrew 来轻松安装，以下是安装步骤：
    ```bash
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    ```
+   安装完成后执行 `brew --version` 能打印版本号即表示成功；网络缓慢时可先按 Homebrew 官方文档配置镜像源。
 
 #### 2. 使用 Homebrew 安装 Redis
 
@@ -25,6 +26,7 @@ Redis 可以通过 Homebrew 来轻松安装，以下是安装步骤：
      ```bash
      brew install redis
      ```
+   - 安装完成后可用 `redis-server --version` 与 `redis-cli --version` 确认版本号。
 
 #### 3. 启动 Redis 服务
 
@@ -40,6 +42,7 @@ Redis 可以通过 Homebrew 来轻松安装，以下是安装步骤：
      ```bash
      redis-server
      ```
+   - 用 `brew services list` 可以随时查看服务状态。
 
 #### 4. 验证 Redis 安装
 
@@ -58,6 +61,7 @@ Redis 可以通过 Homebrew 来轻松安装，以下是安装步骤：
      get testkey
      # 应该返回 "Hello, Redis!"
      ```
+   - `PING` 返回 `PONG`、`GET` 能取回刚写入的值，说明服务正常；执行 `QUIT` 可退出交互模式。
 
 #### 5. 配置 Redis
 
@@ -71,10 +75,13 @@ Redis 可以通过 Homebrew 来轻松安装，以下是安装步骤：
   ```bash
   brew services restart redis
   ```
+- 重启后再次执行 `PING` 确认服务恢复；若设置了 `requirepass`，需要先执行 `AUTH 密码` 才能执行其他命令。
+- 常用配置项：`bind 127.0.0.1` 仅监听本机、`port 6379` 监听端口、`requirepass` 设置访问密码、`appendonly yes` 开启 AOF 持久化。
 
 ### 注意事项
 
 - 使用 Homebrew 安装 Redis 主要用于开发和测试。在生产环境中，建议通过其他方法安装并配置 Redis。
+- 连接被拒绝（Connection refused）时先确认服务状态：用 `brew services list` 查看，或前台运行 `redis-server` 看报错输出。
 - 如果遇到任何问题，可以参考 Redis 的官方文档或 Homebrew 的相关支持资源。
 
 通过这些步骤，你可以在 macOS 上成功安装和配置 Redis。如果在安装过程中遇到问题，可以先查看 Homebrew 的安装日志和 Redis 的配置文件路径是否与本文一致。
