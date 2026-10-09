@@ -108,6 +108,12 @@ Redlock 算法出自 Redis 作者 Antirez（Salvatore Sanfilippo），Redis 本�
 | SETBIT 大偏移 | offset 1 亿会一次性分配约 12.5 MB；键要按合理维度拆分 | [SETBIT](/basics/bitmap/setbit) |
 | 大键同步删除 | DEL 阻塞主线程，用 UNLINK 走后台释放 | [优化策略](/source-code-analysis/performance/strategies) |
 | 对列表 GET 报 WRONGTYPE | 不是返回 nil 而是类型错误；先 TYPE 确认再操作 | [GET](/basics/string/get) |
+| HGET 后 HSET 改数值字段 | 两步之间并发会丢失更新；数值变更用 HINCRBY/HINCRBYFLOAT | [HINCRBY](/basics/hash/other-commands) |
+| LPOP 带不带 count 混用 | 返回结构不同：单值 vs 数组，客户端要分别处理 | [LPOP](/basics/list/lpop) |
+| XREAD 用 $ 阻塞 | 阻塞间隙写入的旧条目会被跳过；重要场景记录上次读到的 ID | [XREAD](/basics/streams/xread) |
+| XADD 精确 MAXLEN | 极端情况拖慢写入；生产用 MAXLEN ~ 近似修剪 | [XADD](/basics/streams/xadd) |
+| 多键 PFCOUNT 当只读 | 执行中可能修改内部表示，只读副本上不宜执行 | [PFCOUNT](/basics/hyperloglog/pfcount) |
+| BITFIELD 默认 WRAP | 溢出回绕；计数场景用 OVERFLOW SAT 封顶 | [BITFIELD](/basics/bitmap/other-commands) |
 
 ### 持久化与高可用
 
@@ -152,11 +158,14 @@ Redlock 算法出自 Redis 作者 Antirez（Salvatore Sanfilippo），Redis 本�
 | 兼容性只测 SET/GET | 用真实业务的命令清单验证 | [开源项目](/redis-compatible/open-source-projects) |
 | 以为 Valkey 与 Redis 完全同步 | Valkey 8 起各有新命令新配置，切换前做兼容性验证 | [Valkey](/redis-compatible/valkey) |
 | 代理方案零成本 | 代理本身是新的单点，要评估运维复杂度与故障模式 | [开源项目](/redis-compatible/open-source-projects) |
+| 还在用 RPOPLPUSH | 6.2 起 LMOVE 取代，弹出即转移 | [LMOVE](/basics/list/other-commands) |
+| GEORADIUS 系列当新写法 | 6.2 起标记 deprecated，统一迁移到 GEOSEARCH | [GEOSEARCH](/basics/geospatial/other-commands) |
+| SETNX/SETEX/PSETEX/GETSET 旧写法 | 功能已被 SET 的选项覆盖，新代码统一用 SET 加选项 | [SET](/basics/string/set) |
 
 ## 来源与口径
 
 - **正文页即来源**：本页每条知识点回链的页面就是它的出处；正文页没有的说法不收，查无实据的标「来源未考」。
-- **版本口径**：源码分析篇以 Redis 8.0 分支为准；版本敏感条目（GETSET 6.2 过期、ZRANGE 6.2 合并、listpack 7.0 替代 ziplist、multi-part AOF 7.0、Functions 7.0）已随文标注版本号，跨版本使用前用 `COMMAND INFO` 与[命令参考](https://redis.io/docs/latest/commands/)核对。
+- **版本口径**：源码分析篇以 Redis 8.0 分支为准；版本敏感条目（GETSET 6.2 过期、ZRANGE 6.2 合并、LMOVE/GEOSEARCH 6.2、ZADD GT/LT 6.2、listpack 7.0 替代 ziplist、multi-part AOF 7.0、Functions 7.0、SINTERCARD 7.0）已随文标注版本号，跨版本使用前用 `COMMAND INFO` 与[命令参考](https://redis.io/docs/latest/commands/)核对。
 - **实测数字**：源码篇页内标「实测」的数字（如 `COMMAND COUNT` 265、hz 10、纯 PING 55555 RPS、200 条 SET 走 pipeline 从 19.7ms 降到 1.9ms）为本机运行实例实取；其余数字以官方文档为准。
 - **趋势口径**：[未来发展](/advanced-topics/future-development)页是趋势性描述（如 Redis 8 向量集），具体特性以官方发布说明为准，本页未将其计入正式知识点。
 - **书籍**：四本书只在参考文献页收录，正文页未逐条引用章节细节，表中定位取自书目页原句。

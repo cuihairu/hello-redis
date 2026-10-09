@@ -9,4 +9,3 @@
 - [Redis 7的展望](redis-7-outlook.md)：Functions、Multi-Part AOF、Sharded Pub/Sub 等。
 - [Redis生态系统](ecosystem.md)：模块、工具与周边项目。
 - [Redis未来发展](future-development.md)：技术趋势与社区方向。
-- [Redis源码分析](source-code-analysis.md)：源码目录结构与深入分析入口。
