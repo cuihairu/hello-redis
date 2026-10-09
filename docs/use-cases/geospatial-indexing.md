@@ -1,6 +1,6 @@
 # 地理空间索引
 
-Redis 的 GEO 功能基于有序集合实现，可以存储经纬度并进行半径范围、范围内的点等地理查询，适合"附近的门店/人"这类 LBS 场景。更完整的介绍可参阅[地理位置数据的存储与查询](geolocation-services/storage-query.md)。
+Redis 的 GEO 功能基于有序集合实现，可以存储经纬度并进行半径范围、范围内的点等地理查询，适合"附近的门店/人"这类 LBS 场景。完整的实现可参阅[基于位置的服务](geolocation-services/location-based.md)。
 
 ## 基本命令
 

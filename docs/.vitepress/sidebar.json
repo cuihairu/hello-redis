@@ -851,10 +851,6 @@
           {
             "text": "排行榜实现方法",
             "link": "/use-cases/ranking-and-counting/ranking"
-          },
-          {
-            "text": "计数器应用实例",
-            "link": "/use-cases/ranking-and-counting/counters"
           }
         ]
       },
@@ -881,10 +877,6 @@
           {
             "text": "地理空间索引",
             "link": "/use-cases/geospatial-indexing"
-          },
-          {
-            "text": "地理位置数据的存储与查询",
-            "link": "/use-cases/geolocation-services/storage-query"
           },
           {
             "text": "实际案例：基于位置的服务",
@@ -1072,21 +1064,5 @@
   {
     "text": "知识点总纲",
     "link": "/knowledge"
-  },
-  {
-    "text": "附录 · 未入目录",
-    "collapsed": true,
-    "items": [
-      {
-        "text": "advanced-topics",
-        "collapsed": true,
-        "items": [
-          {
-            "text": "source-code-analysis",
-            "link": "/advanced-topics/source-code-analysis"
-          }
-        ]
-      }
-    ]
   }
 ]

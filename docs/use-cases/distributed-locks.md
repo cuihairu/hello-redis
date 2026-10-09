@@ -1,130 +1,26 @@
-分布式锁是用来解决在分布式系统中，多个进程或节点对共享资源进行并发访问时的同步问题。Redis 提供了实现分布式锁的工具，主要利用其原子操作和过期时间的特性。以下是如何在 Redis 中实现分布式锁的详细说明，包括使用 Redis 的基本实现方法以及 Redlock 算法的详细讲解和存在的缺陷。
+# 分布式锁
 
-### Redis 实现分布式锁
+多个服务实例同时操作同一份数据（扣库存、生成订单号），需要一把锁保证同一时刻只有一个实例执行。Redis 的原子命令可以实现这把锁，但几个环节处理不好会锁失效。
 
-#### 1. **基本实现方法**
+## 核心做法
 
-**步骤**：
-1. **加锁**：通过设置一个唯一的键值对，如果键不存在，则创建并设置锁。如果键已经存在，则表示锁已经被其他进程获取。
-2. **设置过期时间**：为了防止死锁，设置锁的过期时间，确保锁在超时后会自动释放。
-3. **释放锁**：通过删除锁的键来释放锁，通常需要确保锁的持有者才能删除锁，防止其他进程误删锁。
+- 加锁用 `SET key 随机值 NX EX 30`：不存在才写入，带过期时间；值用 UUID 等随机串，标识持有者；
+- 释放用 Lua 脚本比对随机值再删除：比对与删除必须合成一个原子脚本。先 `GET` 再 `DEL` 之间有竞态，可能误删别人的锁；
+- 锁超时未完成时自动过期，持有者需要后台续期，避免业务未完成锁已释放。
 
-**示例代码**（Python）：
+## 选型要点
 
-```python
-import redis
-import time
-import uuid
+| 需求 | 做法 |
+| --- | --- |
+| 单实例、允许偶发失效 | SET NX EX + Lua 释放 |
+| 不能丢锁、跨机房 | 换 etcd/ZooKeeper 等一致性存储 |
+| 高并发抢锁 | Redlock（有争议，见下） |
 
-# 连接到 Redis
-redis_client = redis.Redis(host='localhost', port=6379, db=0)
+## Redlock 的争议
 
-# 获取唯一的锁标识
-def acquire_lock(lock_name, lock_timeout=10):
-    lock_id = str(uuid.uuid4())
-    lock_key = f"lock:{lock_name}"
-    
-    # 尝试获取锁
-    acquired = redis_client.set(lock_key, lock_id, nx=True, ex=lock_timeout)
-    if acquired:
-        return lock_id
-    return None
+Redlock 向多数节点加锁才算成功，但依赖系统时钟：时钟跳变会让锁提前过期，Martin Kleppmann 与 Redis 作者 antirez 对这一点有公开争论。对正确性要求高的场景，用分布式锁之外的一致性方案更稳。
 
-# 释放锁
-def release_lock(lock_name, lock_id):
-    lock_key = f"lock:{lock_name}"
+## 深入阅读
 
-    # 确保只有锁持有者才能释放锁（注意：redis-py 返回的是 bytes，需要先解码再比较）
-    current_lock_id = redis_client.get(lock_key)
-    if current_lock_id and current_lock_id.decode('utf-8') == lock_id:
-        redis_client.delete(lock_key)
-
-# 示例：加锁和释放锁
-lock_id = acquire_lock('resource')
-if lock_id:
-    try:
-        # 执行临界区代码
-        print("Lock acquired, performing operations...")
-        time.sleep(5)  # 模拟操作
-    finally:
-        release_lock('resource', lock_id)
-        print("Lock released.")
-else:
-    print("Failed to acquire lock.")
-```
-
-#### 2. **Redlock 算法**
-
-**Redlock** 是由 Redis 创始人 Antirez 提出的分布式锁算法，旨在提供一个在多个 Redis 实例之间的一致性和可靠性的分布式锁实现。
-
-**Redlock 算法步骤**：
-1. **获取锁**：尝试在多个 Redis 实例上获取锁。每个实例上都设置一个锁键，确保所有实例的锁设置是原子的。
-2. **计算时间**：记录每次尝试获取锁的时间。只要在多数 Redis 实例上成功获取锁并且锁的持有时间在有效范围内，就认为锁获取成功。
-3. **释放锁**：通过在所有 Redis 实例上删除锁来释放锁。
-
-**示例代码**（Python）：
-
-```python
-import redis
-import time
-import uuid
-
-class Redlock:
-    def __init__(self, redis_clients, lock_timeout=10):
-        self.redis_clients = redis_clients
-        self.lock_timeout = lock_timeout
-
-    def acquire_lock(self, lock_name):
-        lock_id = str(uuid.uuid4())
-        lock_key = f"lock:{lock_name}"
-        start_time = time.time()
-
-        # 尝试在多数 Redis 实例上获取锁
-        locks_acquired = 0
-        for client in self.redis_clients:
-            acquired = client.set(lock_key, lock_id, nx=True, ex=self.lock_timeout)
-            if acquired:
-                locks_acquired += 1
-
-        # 判断是否在多数 Redis 实例上成功获取锁，且未超过锁的有效时间
-        elapsed_time = time.time() - start_time
-        if locks_acquired >= len(self.redis_clients) // 2 + 1 and elapsed_time < self.lock_timeout:
-            return lock_id
-        return None
-
-    def release_lock(self, lock_name, lock_id):
-        lock_key = f"lock:{lock_name}"
-        for client in self.redis_clients:
-            current_lock_id = client.get(lock_key)
-            # redis-py 返回 bytes，需要先解码再比较
-            if current_lock_id and current_lock_id.decode('utf-8') == lock_id:
-                client.delete(lock_key)
-
-# 使用 Redlock 算法
-# 注意：示例中为演示方便连接了 5 个客户端，
-# 实际生产环境应连接 5 个相互独立的 Redis 实例
-redis_clients = [redis.Redis(host='localhost', port=6379, db=0) for _ in range(5)]
-redlock = Redlock(redis_clients)
-
-lock_id = redlock.acquire_lock('resource')
-if lock_id:
-    try:
-        print("Lock acquired, performing operations...")
-        time.sleep(5)  # 模拟操作
-    finally:
-        redlock.release_lock('resource', lock_id)
-        print("Lock released.")
-else:
-    print("Failed to acquire lock.")
-```
-
-#### 3. **Redlock 存在的缺陷**
-
-- **时钟漂移**：如果 Redis 实例的系统时钟发生漂移，可能会导致锁的超时设置不准确。
-- **网络延迟**：由于网络延迟，获取锁的请求可能会出现不一致的情况，特别是在网络较差的环境下。
-- **不可重入**：Redlock 不能解决锁的重入问题，即同一客户端在持有锁的情况下再次请求锁可能会导致问题。
-- **过期时间**：锁的过期时间需要合理设置，否则可能导致死锁或者锁持有时间过长的问题。
-
-### 总结
-
-Redis 提供了基本的分布式锁实现方法，通过简单的键值操作和过期时间设置，可以在分布式环境中实现有效的锁管理。Redlock 算法则提供了一种在多个 Redis 实例之间实现高可靠性的分布式锁的解决方案，但也存在一些固有的缺陷。理解这些问题并结合具体应用场景选择合适的锁机制是确保系统稳定性和一致性的关键。
+- 加锁、续期、Lua 释放的完整实现见[分布式锁的实现](distributed-locks/implementation.md)；
+- Redlock 争论与故障场景分析见[分布式系统中的应用](distributed-locks/distributed-systems.md)。
