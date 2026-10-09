@@ -21,6 +21,8 @@ Redis Knowledge Handbook · [Read online](https://cuihairu.github.io/hello-redis
 
 A knowledge site covering Redis core data types, Lua scripting, persistence and high availability, development integration, operations management, and source code analysis.
 
+Knowledge index: [Knowledge Notes](https://cuihairu.github.io/hello-redis/knowledge) — core concepts, book and official-doc key points, application scenarios, and common pitfalls, each linked back to its body page.
+
 ## Local development
 
 ```bash

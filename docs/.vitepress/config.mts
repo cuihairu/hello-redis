@@ -32,7 +32,8 @@ export default defineConfig({
       { text: '进阶功能', link: '/advanced/README' },
       { text: '开发与集成', link: '/development/README' },
       { text: '源码分析', link: '/source-code-analysis/README' },
-      { text: '使用场景', link: '/use-cases/README' }
+      { text: '使用场景', link: '/use-cases/README' },
+      { text: '知识点', link: '/knowledge' }
     ],
 
     // 由 mdbook SUMMARY.md 结构映射而来（vitepress-migration/parse_summary.py），
