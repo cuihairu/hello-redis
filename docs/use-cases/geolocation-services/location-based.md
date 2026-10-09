@@ -1,4 +1,4 @@
-### 实际案例：基于位置的服务
+# 实际案例：基于位置的服务
 
 基于位置的服务（Location-Based Services, LBS）利用地理位置信息来提供各种服务和功能。Redis 的地理位置功能可以极大地简化这些服务的实现。以下是几个基于位置的服务的实际案例，以及如何利用 Redis 实现这些功能。
 
@@ -8,7 +8,7 @@
 
 **解决方案**：
 - 将所有商家的位置数据存储在 Redis 的 `Sorted Set` 中。
-- 使用 `GEORADIUS` 命令查询指定半径内的商家。
+- 使用 `GEOSEARCH` 命令查询指定半径内的商家。
 - 返回查询结果并在用户界面中展示。
 
 **示例代码**（Python）：
@@ -25,7 +25,7 @@ def add_store(key, longitude, latitude, store_name):
 
 # 查找附近商家
 def find_nearby_stores(key, user_longitude, user_latitude, radius, unit='km'):
-    return redis_client.georadius(key, user_longitude, user_latitude, radius, unit, withcoord=True)
+    return redis_client.geosearch(key, longitude=user_longitude, latitude=user_latitude, unit=unit, radius=radius, withcoord=True)
 
 # 示例：添加商家位置
 add_store('stores', -122.408, 37.783, 'Cafe Mocha')
@@ -65,7 +65,7 @@ print(f"Distance from {user_location} to {destination} is {distance} km")
 **场景**：监控用户是否进入或离开指定的地理区域，例如商场的围栏区域。
 
 **解决方案**：
-- 使用 `GEORADIUS` 命令设置地理围栏区域。
+- 使用 `GEOSEARCH` 命令查询围栏区域内的点。
 - 定期检查用户的位置是否在围栏区域内。
 
 **示例代码**（Python）：
@@ -77,7 +77,7 @@ def setup_geofence(key, center_longitude, center_latitude, radius, unit='km'):
 
 # 检查用户是否在围栏区域内
 def is_within_geofence(key, user_longitude, user_latitude, radius, unit='km'):
-    nearby = redis_client.georadius(key, user_longitude, user_latitude, radius, unit)
+    nearby = redis_client.geosearch(key, longitude=user_longitude, latitude=user_latitude, unit=unit, radius=radius)
     return 'geofence_center' in nearby
 
 # 示例：设置商场围栏区域
@@ -116,4 +116,4 @@ check_and_notify('user123', *user_location)
 
 ### 总结
 
-基于位置的服务可以利用 Redis 的地理位置功能来实现高效的地理数据处理和查询。通过 Redis 提供的 `GEOADD`、`GEORADIUS`、`GEODIST` 等命令，可以轻松实现商家推荐、实时导航、地理围栏以及动态促销等应用。实际案例展示了如何利用这些功能来提升用户体验和服务质量。
+基于位置的服务可以利用 Redis 的地理位置功能来实现高效的地理数据处理和查询。通过 Redis 提供的 `GEOADD`、`GEOSEARCH`、`GEODIST` 等命令，可以轻松实现商家推荐、实时导航、地理围栏以及动态促销等应用。注意 `GEORADIUS`、`GEORADIUSBYMEMBER` 已在 6.2 废弃，新代码统一使用 `GEOSEARCH`。

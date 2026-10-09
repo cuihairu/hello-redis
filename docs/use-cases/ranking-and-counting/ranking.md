@@ -7,7 +7,7 @@ Redis 的有序集合（`ZSET`）是实现排行榜的最常用的数据结构�
 #### 1.1 基本操作
 
 - **添加或更新分数**：使用 `ZADD` 命令将元素及其分数添加到有序集合中。如果元素已经存在，则更新其分数。
-- **获取排行榜**：使用 `ZRANGE` 或 `ZREVRANGE` 命令按分数范围获取元素。`ZRANGE` 按升序排序，`ZREVRANGE` 按降序排序。
+- **获取排行榜**：使用 `ZRANGE` 按下标范围取元素，加 `REV` 选项按分数从高到低排序（6.2 起 `ZREVRANGE` 已废弃，统一用 `ZRANGE ... REV`）。
 - **获取元素排名**：使用 `ZRANK` 或 `ZREVRANK` 命令获取元素的排名（从低到高或从高到低）。
 
 **示例代码**（Python）：
@@ -24,7 +24,7 @@ def update_score(player_name, score):
 
 # 获取前 N 名玩家
 def get_top_n_players(n):
-    return redis_client.zrevrange('game_scores', 0, n-1, withscores=True)
+    return redis_client.zrange('game_scores', 0, n-1, desc=True, withscores=True)
 
 # 获取玩家排名
 def get_player_rank(player_name):
@@ -44,15 +44,15 @@ print("Player1 rank:", player1_rank)
 
 #### 1.2 高级操作
 
-- **按分数范围获取元素**：使用 `ZRANGEBYSCORE` 和 `ZREVRANGEBYSCORE` 命令获取特定分数范围内的元素。
-- **按排名范围获取元素**：使用 `ZRANGE` 和 `ZREVRANGE` 命令获取特定排名范围内的元素。
+- **按分数范围获取元素**：使用 `ZRANGE ... BYSCORE` 获取特定分数范围内的元素，加 `REV` 按分数从高到低（6.2 起 `ZRANGEBYSCORE`、`ZREVRANGEBYSCORE` 已废弃）。
+- **按排名范围获取元素**：使用 `ZRANGE` 获取特定排名范围内的元素，加 `REV` 从高到低。
 
 **示例代码**（Python）：
 
 ```python
 # 获取特定分数范围的玩家
 def get_players_by_score(min_score, max_score):
-    return redis_client.zrangebyscore('game_scores', min_score, max_score, withscores=True)
+    return redis_client.zrange('game_scores', min_score, max_score, byscore=True, withscores=True)
 
 # 示例使用
 players_in_range = get_players_by_score(100, 150)

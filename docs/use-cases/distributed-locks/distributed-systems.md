@@ -32,7 +32,7 @@
 
 4. **释放锁**
 
-   通过删除 Redis 键来释放锁。在释放锁之前，确保只有持有锁的实例才能删除键。
+   用 Lua 脚本比对随机值后再删除 Redis 键：比对与删除必须原子执行，确保只有持有锁的实例才能释放锁，避免误删他人锁。
 
 #### 示例代码（Python）
 
@@ -58,11 +58,17 @@ def acquire_lock(lock_name, lock_timeout=10):
 
 def release_lock(lock_name, lock_id):
     lock_key = f"lock:{lock_name}"
-    
-    # 确保只有锁持有者才能释放锁
-    current_lock_id = redis_client.get(lock_key)
-    if current_lock_id and current_lock_id.decode('utf-8') == lock_id:
-        redis_client.delete(lock_key)
+
+    # 比对值与删除必须放在同一个 Lua 脚本里执行：先 GET 再 DEL 之间锁可能已过期，
+    # 并被其他客户端拿到，此时直接删会误删别人的锁
+    release_script = """
+    if redis.call('GET', KEYS[1]) == ARGV[1] then
+        return redis.call('DEL', KEYS[1])
+    else
+        return 0
+    end
+    """
+    redis_client.eval(release_script, 1, lock_key, lock_id)
 
 def process_order(order_id):
     lock_id = acquire_lock(order_id)

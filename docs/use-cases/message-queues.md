@@ -82,7 +82,7 @@ if __name__ == '__main__':
 | --- | --- |
 | 简单分发、允许少量丢失 | `LPUSH` + `BRPOP` |
 | 消息需要确认、支持多消费组、可回溯 | Stream + `XREADGROUP` |
-| 延迟消息 | 用有序集合按时间排序，轮询 `ZRANGEBYSCORE` 取到期消息 |
+| 延迟消息 | 用有序集合按时间排序，轮询 `ZRANGE ... BYSCORE` 取到期消息 |
 
 ## 注意事项
 

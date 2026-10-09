@@ -7,7 +7,7 @@ Redis 是实现分布式锁的一个流行选择，利用其原子操作和过�
 #### 实现步骤：
 1. **加锁**：通过 `SET` 命令的 `NX`（不存在时设置）和 `EX`（设置过期时间）选项来原子性地创建锁。
 2. **检查锁**：如果锁已经存在，则无法获取锁。
-3. **释放锁**：通过删除锁的键来释放锁，通常需要确保只有持有锁的客户端才能释放锁。
+3. **释放锁**：用 Lua 脚本比对随机值后再删除锁键，比对与删除必须原子执行，确保只有持有锁的客户端才能释放锁。
 
 #### 示例代码（Python）：
 
@@ -32,10 +32,16 @@ def acquire_lock(lock_name, lock_timeout=10):
 def release_lock(lock_name, lock_id):
     lock_key = f"lock:{lock_name}"
 
-    # 确保只有锁持有者才能释放锁（注意：redis-py 返回的是 bytes，需要先解码再比较）
-    current_lock_id = redis_client.get(lock_key)
-    if current_lock_id and current_lock_id.decode('utf-8') == lock_id:
-        redis_client.delete(lock_key)
+    # 比对值与删除必须放在同一个 Lua 脚本里执行：先 GET 再 DEL 之间锁可能已过期，
+    # 并被其他客户端拿到，此时直接删会误删别人的锁
+    release_script = """
+    if redis.call('GET', KEYS[1]) == ARGV[1] then
+        return redis.call('DEL', KEYS[1])
+    else
+        return 0
+    end
+    """
+    redis_client.eval(release_script, 1, lock_key, lock_id)
 
 # 示例：加锁和释放锁
 lock_id = acquire_lock('resource')

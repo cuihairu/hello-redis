@@ -13,8 +13,8 @@ ZADD leaderboard 1200 carol
 # 分数变化：加分（原子自增）
 ZINCRBY leaderboard 100 alice
 
-# 查询前 10 名（分数从高到低，WITHSCORES 同时返回分数）
-ZREVRANGE leaderboard 0 9 WITHSCORES
+# 查询前 10 名（REV 从高到低，WITHSCORES 同时返回分数）
+ZRANGE leaderboard 0 9 REV WITHSCORES
 
 # 查询自己的名次（0 表示第一名）
 ZREVRANK leaderboard alice
@@ -39,7 +39,7 @@ def add_score(user, delta):
 
 
 def top_n(n=10):
-    return r.zrevrange('leaderboard', 0, n - 1, withscores=True)
+    return r.zrange('leaderboard', 0, n - 1, desc=True, withscores=True)
 
 
 def rank_of(user):
@@ -60,7 +60,8 @@ if __name__ == '__main__':
 
 - **榜单置零（月榜/周榜）**：在键名中加入周期，如 `leaderboard:2024-06`，跨周期自动切换，旧榜单设置 TTL 后自动清理。
 - **相同分数按时间排序**：可以把分数与时间戳编码成一个数值（分数乘以大基数加上时间差的补数），保证先达到者排名靠前。
-- **百万级榜单**：`ZREVRANGE` 分页深度过大时会遍历较多元素，深分页可改用业务侧缓存；只需展示前 N 名时，可另存一份 Top N 列表。
+- **百万级榜单**：`ZRANGE` 深分页（大 offset）时会遍历较多元素，深分页可改用业务侧缓存；只需展示前 N 名时，可另存一份 Top N 列表。
+- **命令演进**：Redis 6.2 起 `ZREVRANGE`、`ZRANGEBYSCORE`、`ZREVRANGEBYSCORE` 已废弃，统一用 `ZRANGE` 的 `REV`、`BYSCORE` 选项，本文示例已按新语法书写。
 
 ## 与普通列表方案的对比
 
