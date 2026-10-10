@@ -1,8 +1,8 @@
-### Redis 模块脚本
+# Redis 模块脚本
 
 Redis 模块脚本允许开发者使用 Lua 脚本与 Redis 模块进行交互，扩展 Redis 的功能。Redis 模块提供了一些附加功能和数据结构，可以通过 Lua 脚本进行操作。
 
-#### RedisGraph
+## RedisGraph
 
 RedisGraph 是一个 Redis 模块，用于图数据库功能。它允许用户在 Redis 中存储和查询图数据。
 
@@ -12,7 +12,7 @@ RedisGraph 是一个 Redis 模块，用于图数据库功能。它允许用户�
 - **基本 Cypher 查询命令**  
   介绍 RedisGraph 中常用的 Cypher 查询命令，包括图的创建、节点和关系的查询等操作。
 
-#### RedisJSON
+## RedisJSON
 
 RedisJSON 是一个 Redis 模块，用于在 Redis 中处理 JSON 数据。它允许用户以 JSON 格式存储、查询和修改数据。
 

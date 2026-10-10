@@ -1,6 +1,6 @@
 使用 Redis 构建一个聊天应用是一个很好的示例，可以展示 Redis 在实时消息传递和存储方面的能力。下面是一个简化的设计和实现指南，展示如何利用 Redis 构建一个基本的聊天应用。
 
-### 聊天应用设计
+# 聊天应用设计
 
 1. **基本功能**：
    - 用户注册和登录
@@ -12,7 +12,7 @@
    - **前端**：简单的 HTML/CSS/JavaScript（使用 `socket.io` 客户端库）
    - **数据库**：Redis（用于存储聊天记录和实时消息）
 
-### Redis 数据结构选择
+## Redis 数据结构选择
 
 1. **实时消息传递**：
    - 使用 Redis 的发布/订阅（Pub/Sub）模式实现实时消息传递。
@@ -20,9 +20,9 @@
 2. **聊天记录存储**：
    - 使用 Redis 的列表（List）数据结构存储每个聊天房间的消息记录。
 
-### 实现步骤
+## 实现步骤
 
-#### 1. 环境准备
+### 1. 环境准备
 
 - 安装 Redis。
 - 创建一个 Node.js 项目并安装必要的库。
@@ -34,9 +34,9 @@ npm init -y
 npm install express socket.io redis
 ```
 
-#### 2. 后端实现
+## 2. 后端实现
 
-##### `server.js`
+### `server.js`
 
 ```javascript
 const express = require('express');
@@ -98,9 +98,9 @@ io.on('connection', (socket) => {
 })();
 ```
 
-#### 3. 前端实现
+## 3. 前端实现
 
-##### `public/index.html`
+### `public/index.html`
 
 ```html
 <!DOCTYPE html>
@@ -158,7 +158,7 @@ io.on('connection', (socket) => {
 </html>
 ```
 
-### 运行应用
+## 运行应用
 
 1. 启动 Redis 服务。
 2. 启动 Node.js 服务器。
@@ -169,7 +169,7 @@ node server.js
 
 3. 打开浏览器并访问 `http://localhost:3000`。
 
-### 进一步优化
+## 进一步优化
 
 - **安全性**：加入身份验证和授权机制。
 - **扩展性**：实现更多功能，如用户列表、私聊、表情支持等。

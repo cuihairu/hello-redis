@@ -1,12 +1,12 @@
-### RedisJSON
+# RedisJSON
 
 RedisJSON 是 Redis 的一个模块，提供了对 JSON 数据的原生支持，使得在 Redis 中存储和操作 JSON 数据变得更加直观和高效。以下是有关 RedisJSON 的详细介绍：
 
-#### 1. **RedisJSON 概述**
+## 1. **RedisJSON 概述**
 
 RedisJSON 是一个 Redis 模块，它扩展了 Redis 的功能，使其能够处理 JSON 数据。与传统的 Redis 数据结构不同，RedisJSON 提供了对 JSON 数据的深入操作支持，包括读取、写入、修改、删除等操作。这使得 Redis 不仅能作为一个键值存储，还能处理更复杂的数据结构。
 
-#### 2. **安装 RedisJSON**
+## 2. **安装 RedisJSON**
 
 RedisJSON 可以通过 Redis 的模块管理器安装。可以从 Redis 的官方模块库中获取 RedisJSON，并按照以下步骤进行安装：
 
@@ -35,7 +35,7 @@ RedisJSON 可以通过 Redis 的模块管理器安装。可以从 Redis 的官�
 
    如果安装成功，你应该能看到 RedisJSON 模块在列表中。
 
-#### 3. **RedisJSON 基本命令**
+## 3. **RedisJSON 基本命令**
 
 RedisJSON 提供了一组命令，用于对 JSON 数据进行操作。以下是一些常用的 RedisJSON 命令及其示例：
 
@@ -120,7 +120,7 @@ RedisJSON 提供了一组命令，用于对 JSON 数据进行操作。以下是�
 
   如果路径命中的值不是数字，对应位置返回 `null`。
 
-#### 4. **RedisJSON 的应用场景**
+## 4. **RedisJSON 的应用场景**
 
 RedisJSON 适用于需要存储和操作复杂 JSON 数据结构的场景。例如：
 

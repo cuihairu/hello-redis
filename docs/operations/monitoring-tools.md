@@ -1,8 +1,8 @@
-## Redis 监控工具
+# Redis 监控工具
 
 在管理 Redis 实例或集群时，使用适当的监控工具可以帮助您实时了解 Redis 的健康状况和性能指标。以下是一些常用的 Redis 监控工具：
 
-### 1. Redis CLI
+## 1. Redis CLI
 
 **Redis CLI** 是 Redis 官方提供的命令行工具，用于与 Redis 实例交互和进行基本的监控。
 
@@ -30,7 +30,7 @@
 
   列出集群中所有节点的信息。
 
-### 2. Redis Sentinel
+## 2. Redis Sentinel
 
 **Redis Sentinel** 是 Redis 提供的高可用性监控和故障转移工具。它可以监控 Redis 实例的状态，并在主节点故障时进行自动故障转移。
 
@@ -50,7 +50,7 @@
 
   查看监控同一主节点的其他 Sentinel 实例的状态。
 
-### 3. Prometheus 与 Grafana
+## 3. Prometheus 与 Grafana
 
 **Prometheus** 和 **Grafana** 是广泛使用的开源监控解决方案，能够收集和可视化 Redis 性能指标。
 
@@ -62,7 +62,7 @@
 
   Grafana 用于可视化 Prometheus 收集的数据。通过 Grafana，您可以创建自定义仪表盘，监控 Redis 实例的各种性能指标。
 
-### 4. Redis 监控和管理平台
+## 4. Redis 监控和管理平台
 
 - **RedisInsight**
 
@@ -76,7 +76,7 @@
 
   **New Relic** 提供 Redis 性能监控和故障诊断解决方案。它可以与 Redis 集成，提供详细的性能数据和错误报告。
 
-### 5. 其他第三方工具
+## 5. 其他第三方工具
 
 - **Elastic Stack (ELK)**
 

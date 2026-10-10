@@ -1,8 +1,8 @@
 在 Go 中使用 Redis 通常可以通过几个流行的客户端库来实现，其中最常用的是 `go-redis`。以下是如何使用 `go-redis` 库连接 Redis、执行基本操作以及应用示例的指南。
 
-### 1. 使用 go-redis
+# 1. 使用 go-redis
 
-#### 1.1 添加依赖
+## 1.1 添加依赖
 
 首先，使用 Go Modules 添加 `go-redis` 依赖。在你的项目目录下，运行以下命令：
 
@@ -10,7 +10,7 @@
 go get github.com/go-redis/redis/v8
 ```
 
-#### 1.2 连接到 Redis
+## 1.2 连接到 Redis
 
 ```go
 package main
@@ -51,7 +51,7 @@ func main() {
 }
 ```
 
-#### 1.3 基本操作
+## 1.3 基本操作
 
 ```go
 package main
@@ -138,7 +138,7 @@ func main() {
 }
 ```
 
-### 2. Redis 连接池
+## 2. Redis 连接池
 
 `go-redis` 库自动管理连接池，无需手动配置连接池。如果需要调整连接池的参数，可以在创建 `redis.Options` 时进行配置：
 
@@ -162,9 +162,9 @@ func main() {
 }
 ```
 
-### 3. 应用示例
+## 3. 应用示例
 
-#### 实现缓存
+### 实现缓存
 
 ```go
 package main
@@ -204,7 +204,7 @@ func fetchDataFromDatabase(key string) string {
 }
 ```
 
-#### 使用 Redis 发布/订阅功能
+## 使用 Redis 发布/订阅功能
 
 ```go
 package main
@@ -240,7 +240,7 @@ func main() {
 }
 ```
 
-### 4. Redis 事务
+## 4. Redis 事务
 
 `go-redis` 支持 Redis 事务，可以使用 `TxPipelined` 方法来执行多个命令：
 
@@ -284,11 +284,11 @@ func main() {
 }
 ```
 
-### 5. Redis 哨兵与集群支持
+## 5. Redis 哨兵与集群支持
 
 `go-redis` 库也支持 Redis 哨兵和集群模式。你可以通过配置 `redis.Options` 来连接到哨兵或集群。
 
-#### 哨兵支持
+### 哨兵支持
 
 ```go
 package main
@@ -306,7 +306,7 @@ func main() {
 }
 ```
 
-#### 集群支持
+## 集群支持
 
 ```go
 package main

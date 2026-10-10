@@ -1,10 +1,10 @@
 Redis 的消息队列功能通过其 Pub/Sub（发布/订阅）机制和流数据结构提供了强大的实时数据传递能力。它可以与各种消息队列系统集成，用于不同的应用场景。以下是 Redis 与消息队列的集成方式、场景以及示例代码。
 
-### 1. Redis Pub/Sub
+# 1. Redis Pub/Sub
 
 Redis 的 Pub/Sub 模型允许发布者将消息发布到频道上，订阅者可以订阅这些频道并接收消息。这种机制可以用于实时通信和消息分发。
 
-#### 1.1 Pub/Sub 基本使用
+## 1.1 Pub/Sub 基本使用
 
 **发布消息**
 
@@ -43,16 +43,16 @@ for message in pubsub.listen():
     print(f"Received message: {message['data']}")
 ```
 
-#### 1.2 Pub/Sub 用例
+## 1.2 Pub/Sub 用例
 
 - **实时通知**：例如，当数据更新时，将通知发送给所有订阅者。
 - **聊天系统**：实时聊天应用中的消息传递。
 
-### 2. Redis 与其他消息队列系统的集成
+## 2. Redis 与其他消息队列系统的集成
 
 Redis 可以与其他成熟的消息队列系统（如 Kafka、RabbitMQ）集成，以提高系统的灵活性和可扩展性。
 
-#### 2.1 Redis 作为消息队列的补充
+### 2.1 Redis 作为消息队列的补充
 
 Redis 的 Pub/Sub 可以作为轻量级消息队列的替代方案，适用于简单的消息传递需求。对于更复杂的需求，可以与其他消息队列系统配合使用。
 
@@ -80,7 +80,7 @@ def publish_and_send_to_kafka(channel, message):
 publish_and_send_to_kafka('my_channel', 'Hello, Kafka!')
 ```
 
-#### 2.2 Redis 与 RabbitMQ 集成
+## 2.2 Redis 与 RabbitMQ 集成
 
 Redis 可以与 RabbitMQ 集成，Redis 用于高性能的实时数据存储，而 RabbitMQ 用于复杂的消息路由和处理。
 
@@ -115,11 +115,11 @@ pubsub.subscribe(**{'my_channel': callback})
 pubsub.run_in_thread(sleep_time=1)
 ```
 
-### 3. Redis Stream 数据结构与消息队列
+## 3. Redis Stream 数据结构与消息队列
 
 Redis 的 Stream 数据结构提供了类似消息队列的功能，支持高效的日志记录、消息队列和数据流处理。
 
-#### 3.1 Stream 基本操作
+### 3.1 Stream 基本操作
 
 **添加消息**
 
@@ -156,11 +156,11 @@ for message in messages:
     print(message)
 ```
 
-#### 3.2 Stream 用例
+## 3.2 Stream 用例
 
 - **日志记录**：高效的日志存储和处理。
 - **任务队列**：处理后台任务和事件流。
 
-### 总结
+## 总结
 
 Redis 的消息队列功能和数据结构提供了强大的实时数据处理能力。通过其 Pub/Sub 模型和 Stream 数据结构，Redis 可以与其他消息队列系统（如 Kafka 和 RabbitMQ）集成，满足不同的消息传递和处理需求。结合 Redis 的高性能和灵活性，您可以根据实际需求选择最适合的集成方案。

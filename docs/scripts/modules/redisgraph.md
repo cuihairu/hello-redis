@@ -1,14 +1,14 @@
-### RedisGraph
+# RedisGraph
 
 RedisGraph 是一个 Redis 模块，用于在 Redis 中实现图数据库功能。它提供了一种高效的方法来存储和查询图数据。RedisGraph 使用 Cypher 查询语言来操作图数据，使得图查询和分析变得更加便捷。
 
 > 注意：RedisGraph 已于 2023 年 8 月被官方宣布进入生命周期终止流程，仓库转为维护模式，官方支持已于 2025 年 1 月 31 日结束，后续 Redis Stack 发行版不再包含该模块；源代码仍可在 GitHub 获取。新项目建议评估其他图数据库方案，下文内容适用于仍在使用旧版本 RedisGraph 的环境。
 
-#### Cypher 查询语言概述
+## Cypher 查询语言概述
 
 Cypher 是 RedisGraph 使用的查询语言，专为图数据库设计。它的语法直观且类似于 SQL，使得图数据的查询和操作变得更为直观。Cypher 允许用户以声明式的方式定义查询，支持复杂的图模式匹配和数据分析操作。
 
-#### 基本 Cypher 查询命令
+## 基本 Cypher 查询命令
 
 以下是一些常用的 Cypher 查询命令，用于 RedisGraph 中的基本操作：
 

@@ -1,6 +1,6 @@
 在 Python 中使用 Redis 可以通过不同的 Redis 客户端库来实现，最常用的是 `redis-py`。以下是如何在 Python 中使用 Redis 的基本指南，包括安装、连接、基本操作以及应用示例。
 
-### 1. 安装 `redis-py`
+# 1. 安装 `redis-py`
 
 `redis-py` 是 Redis 的官方 Python 客户端库。可以使用 `pip` 来安装：
 
@@ -8,7 +8,7 @@
 pip install redis
 ```
 
-### 2. 连接到 Redis
+## 2. 连接到 Redis
 
 在 Python 中连接到 Redis 实例非常简单。以下是一个基本的连接示例：
 
@@ -22,9 +22,9 @@ client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 print(client.ping())  # 应返回 True，表示连接成功
 ```
 
-### 3. 基本操作
+## 3. 基本操作
 
-#### 设置和获取键值
+### 设置和获取键值
 
 ```python
 # 设置键值
@@ -35,7 +35,7 @@ value = client.get('key')
 print(value)  # 输出: value
 ```
 
-#### 操作字符串
+## 操作字符串
 
 ```python
 # 增加键值
@@ -46,7 +46,7 @@ length = client.strlen('key')
 print(length)  # 输出: 14
 ```
 
-#### 操作哈希
+## 操作哈希
 
 ```python
 # 设置哈希字段
@@ -61,7 +61,7 @@ hash_data = client.hgetall('hash_key')
 print(hash_data)  # 输出: {'field1': 'value1'}
 ```
 
-#### 操作列表
+## 操作列表
 
 ```python
 # 向列表推送元素
@@ -77,7 +77,7 @@ element = client.lpop('list_key')
 print(element)  # 输出: element1
 ```
 
-#### 操作集合
+## 操作集合
 
 ```python
 # 添加元素到集合
@@ -92,7 +92,7 @@ print(members)  # 输出: {'member1', 'member2'}
 client.srem('set_key', 'member1')
 ```
 
-#### 操作有序集合
+## 操作有序集合
 
 ```python
 # 添加元素到有序集合
@@ -107,9 +107,9 @@ members_in_range = client.zrangebyscore('zset_key', 1, 2)
 print(members_in_range)  # 输出: ['member1', 'member2']
 ```
 
-### 4. 应用示例
+## 4. 应用示例
 
-#### 实现一个简单的缓存
+### 实现一个简单的缓存
 
 ```python
 import redis
@@ -129,7 +129,7 @@ def fetch_data_from_database(key):
     return f"Data for {key}"
 ```
 
-#### 使用 Redis 发布/订阅功能
+## 使用 Redis 发布/订阅功能
 
 ```python
 import redis
@@ -154,7 +154,7 @@ threading.Thread(target=subscriber).start()
 publisher()
 ```
 
-### 5. Redis 连接池
+## 5. Redis 连接池
 
 `redis-py` 支持连接池，这有助于提高性能和管理 Redis 连接：
 

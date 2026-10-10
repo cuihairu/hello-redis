@@ -1,8 +1,8 @@
-### JSONPath 查询语言概述
+# JSONPath 查询语言概述
 
 JSONPath 是一种用于查询和提取 JSON 数据的语言，类似于 XPath 在 XML 中的作用。它提供了一种灵活的方式来访问和操作 JSON 数据结构，使得从复杂的 JSON 数据中提取所需的信息变得更加高效。
 
-#### 1. **JSONPath 基本语法**
+## 1. **JSONPath 基本语法**
 
 JSONPath 的基本语法由一系列表达式组成，这些表达式指定了如何访问 JSON 数据中的特定部分。以下是 JSONPath 的一些常用语法和操作：
 
@@ -75,7 +75,7 @@ JSONPath 的基本语法由一系列表达式组成，这些表达式指定了�
   $.store.book[?(@.price < 10)]    // 选择价格小于 10 的书籍
   ```
 
-#### 2. **JSONPath 示例**
+## 2. **JSONPath 示例**
 
 以下是一些 JSONPath 查询的示例，基于之前提供的 JSON 数据：
 
@@ -115,7 +115,7 @@ JSONPath 的基本语法由一系列表达式组成，这些表达式指定了�
   $..*
   ```
 
-#### 3. **JSONPath 的应用**
+## 3. **JSONPath 的应用**
 
 JSONPath 广泛应用于处理和分析 JSON 数据的各种场景，包括：
 

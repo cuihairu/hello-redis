@@ -1,8 +1,8 @@
-## EVAL 命令
+# EVAL 命令
 
 `EVAL` 命令是 Redis 中用于执行 Lua 脚本的核心命令。它可以将 Lua 脚本直接传递给 Redis，并立即执行。使用 `EVAL` 命令可以方便地在 Redis 服务器端执行复杂的逻辑操作。
 
-### 语法
+## 语法
 
 ```bash
 EVAL script numkeys key [key ...] arg [arg ...]
@@ -13,7 +13,7 @@ EVAL script numkeys key [key ...] arg [arg ...]
 - `key [key ...]`：传递给脚本的 Redis 键名列表。
 - `arg [arg ...]`：传递给脚本的其他参数。
 
-### 示例
+## 示例
 
 以下示例展示了如何使用 `EVAL` 命令来执行一个简单的 Lua 脚本，该脚本将两个 Redis 键的值相加，并返回结果：
 
@@ -30,7 +30,7 @@ EVAL "return redis.call('GET', KEYS[1]) + redis.call('GET', KEYS[2])" 2 key1 key
 
 注意：`key1` 和 `key2` 必须事先存在且存储的是数字内容，否则脚本会在做算术运算时抛出错误（例如键不存在时 `GET` 返回 `false`，对 `false` 做加法会报错）。
 
-### 注意事项
+## 注意事项
 
 - 脚本的执行是原子操作，执行过程中不会被其他命令中断。
 - `EVAL` 命令在每次调用时都会重新编译和执行脚本，因此对于需要频繁执行的脚本，建议使用 `EVALSHA` 命令来避免重复编译。

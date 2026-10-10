@@ -1,8 +1,8 @@
 在 Java 中使用 Redis 通常使用 `Jedis` 或 `Lettuce` 这两个客户端库。下面是如何使用这两个库连接 Redis、执行基本操作以及应用示例的指南。
 
-### 1. 使用 Jedis
+# 1. 使用 Jedis
 
-#### 1.1 添加依赖
+## 1.1 添加依赖
 
 如果你使用 Maven，可以在 `pom.xml` 中添加 Jedis 依赖：
 
@@ -20,7 +20,7 @@
 implementation 'redis.clients:jedis:4.3.1'
 ```
 
-#### 1.2 连接到 Redis
+## 1.2 连接到 Redis
 
 ```java
 import redis.clients.jedis.Jedis;
@@ -43,7 +43,7 @@ public class JedisExample {
 }
 ```
 
-#### 1.3 基本操作
+## 1.3 基本操作
 
 ```java
 import redis.clients.jedis.Jedis;
@@ -80,9 +80,9 @@ public class JedisBasicOperations {
 }
 ```
 
-### 2. 使用 Lettuce
+## 2. 使用 Lettuce
 
-#### 2.1 添加依赖
+### 2.1 添加依赖
 
 如果你使用 Maven，可以在 `pom.xml` 中添加 Lettuce 依赖：
 
@@ -100,7 +100,7 @@ public class JedisBasicOperations {
 implementation 'io.lettuce.core:lettuce-core:6.1.5'
 ```
 
-#### 2.2 连接到 Redis
+## 2.2 连接到 Redis
 
 ```java
 import io.lettuce.core.RedisClient;
@@ -130,7 +130,7 @@ public class LettuceExample {
 }
 ```
 
-#### 2.3 基本操作
+## 2.3 基本操作
 
 ```java
 import io.lettuce.core.RedisClient;
@@ -173,9 +173,9 @@ public class LettuceBasicOperations {
 }
 ```
 
-### 3. 应用示例
+## 3. 应用示例
 
-#### 实现缓存
+### 实现缓存
 
 ```java
 import io.lettuce.core.RedisClient;
@@ -213,7 +213,7 @@ public class CacheExample {
 }
 ```
 
-#### 使用 Redis 发布/订阅功能
+## 使用 Redis 发布/订阅功能
 
 ```java
 import io.lettuce.core.RedisClient;
@@ -268,11 +268,11 @@ public class PubSubExample {
 }
 ```
 
-### 4. Redis 连接池
+## 4. Redis 连接池
 
 `Jedis` 和 `Lettuce` 都支持连接池，使用连接池可以提高性能和管理连接。
 
-#### Jedis 连接池
+### Jedis 连接池
 
 ```java
 import redis.clients.jedis.JedisPool;
@@ -294,7 +294,7 @@ public class JedisPoolExample {
 }
 ```
 
-#### Lettuce 连接池
+## Lettuce 连接池
 
 Lettuce 的连接池功能依赖 `commons-pool2`，需要额外引入该依赖：
 
