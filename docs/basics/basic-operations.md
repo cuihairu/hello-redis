@@ -288,6 +288,12 @@ ZADD myzset 1 "one" 2 "two"
 
 # 获取有序集合元素
 ZRANGE myzset 0 -1 WITHSCORES
+
+# 添加到流
+XADD mystream * sensor-id 12345 temperature 19.8
+
+# 读取流数据
+XREAD COUNT 2 STREAMS mystream 0
 ```
 
 以上命令仅为 Redis 基本操作的一部分，Redis 还提供了许多其他功能和命令。有关 Redis 命令的详细信息，可以参考 [Redis 官方文档](https://redis.io/commands/)。

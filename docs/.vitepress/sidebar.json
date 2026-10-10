@@ -56,196 +56,189 @@
         "collapsed": true,
         "items": [
           {
-            "text": "数据类型与基本命令",
-            "link": "/basics/data-types-and-commands",
+            "text": "字符串",
+            "link": "/basics/string",
             "collapsed": true,
             "items": [
               {
-                "text": "字符串",
-                "link": "/basics/string",
-                "collapsed": true,
-                "items": [
-                  {
-                    "text": "SET",
-                    "link": "/basics/string/set"
-                  },
-                  {
-                    "text": "GET",
-                    "link": "/basics/string/get"
-                  },
-                  {
-                    "text": "其他字符串命令",
-                    "link": "/basics/string/other-commands"
-                  }
-                ]
+                "text": "SET",
+                "link": "/basics/string/set"
               },
               {
-                "text": "哈希",
-                "link": "/basics/hash",
-                "collapsed": true,
-                "items": [
-                  {
-                    "text": "HSET",
-                    "link": "/basics/hash/hset"
-                  },
-                  {
-                    "text": "HGET",
-                    "link": "/basics/hash/hget"
-                  },
-                  {
-                    "text": "其他哈希命令",
-                    "link": "/basics/hash/other-commands"
-                  }
-                ]
+                "text": "GET",
+                "link": "/basics/string/get"
               },
               {
-                "text": "列表",
-                "link": "/basics/list",
-                "collapsed": true,
-                "items": [
-                  {
-                    "text": "LPUSH",
-                    "link": "/basics/list/lpush"
-                  },
-                  {
-                    "text": "RPUSH",
-                    "link": "/basics/list/rpush"
-                  },
-                  {
-                    "text": "LPOP",
-                    "link": "/basics/list/lpop"
-                  },
-                  {
-                    "text": "RPOP",
-                    "link": "/basics/list/rpop"
-                  },
-                  {
-                    "text": "其他列表命令",
-                    "link": "/basics/list/other-commands"
-                  }
-                ]
+                "text": "其他字符串命令",
+                "link": "/basics/string/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "哈希",
+            "link": "/basics/hash",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "HSET",
+                "link": "/basics/hash/hset"
               },
               {
-                "text": "集合",
-                "link": "/basics/set",
-                "collapsed": true,
-                "items": [
-                  {
-                    "text": "SADD",
-                    "link": "/basics/set/sadd"
-                  },
-                  {
-                    "text": "SMEMBERS",
-                    "link": "/basics/set/smembers"
-                  },
-                  {
-                    "text": "SPOP",
-                    "link": "/basics/set/spop"
-                  },
-                  {
-                    "text": "其他集合命令",
-                    "link": "/basics/set/other-commands"
-                  }
-                ]
+                "text": "HGET",
+                "link": "/basics/hash/hget"
               },
               {
-                "text": "有序集合",
-                "link": "/basics/zset",
-                "collapsed": true,
-                "items": [
-                  {
-                    "text": "ZADD",
-                    "link": "/basics/zset/zadd"
-                  },
-                  {
-                    "text": "ZRANGE",
-                    "link": "/basics/zset/zrange"
-                  },
-                  {
-                    "text": "ZREM",
-                    "link": "/basics/zset/zrem"
-                  },
-                  {
-                    "text": "其他有序集合命令",
-                    "link": "/basics/zset/other-commands"
-                  }
-                ]
+                "text": "其他哈希命令",
+                "link": "/basics/hash/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "列表",
+            "link": "/basics/list",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "LPUSH",
+                "link": "/basics/list/lpush"
               },
               {
-                "text": "位图",
-                "link": "/basics/bitmap",
-                "collapsed": true,
-                "items": [
-                  {
-                    "text": "SETBIT",
-                    "link": "/basics/bitmap/setbit"
-                  },
-                  {
-                    "text": "GETBIT",
-                    "link": "/basics/bitmap/getbit"
-                  },
-                  {
-                    "text": "其他位图命令",
-                    "link": "/basics/bitmap/other-commands"
-                  }
-                ]
+                "text": "RPUSH",
+                "link": "/basics/list/rpush"
               },
               {
-                "text": "地理空间数据",
-                "link": "/basics/geospatial",
-                "collapsed": true,
-                "items": [
-                  {
-                    "text": "GEOADD",
-                    "link": "/basics/geospatial/geoadd"
-                  },
-                  {
-                    "text": "GEORADIUS",
-                    "link": "/basics/geospatial/georadius"
-                  },
-                  {
-                    "text": "其他地理空间命令",
-                    "link": "/basics/geospatial/other-commands"
-                  }
-                ]
+                "text": "LPOP",
+                "link": "/basics/list/lpop"
               },
               {
-                "text": "HyperLogLog",
-                "link": "/basics/hyperloglog",
-                "collapsed": true,
-                "items": [
-                  {
-                    "text": "PFADD",
-                    "link": "/basics/hyperloglog/pfadd"
-                  },
-                  {
-                    "text": "PFCOUNT",
-                    "link": "/basics/hyperloglog/pfcount"
-                  },
-                  {
-                    "text": "其他HyperLogLog命令",
-                    "link": "/basics/hyperloglog/other-commands"
-                  }
-                ]
+                "text": "RPOP",
+                "link": "/basics/list/rpop"
               },
               {
-                "text": "流",
-                "link": "/basics/streams",
-                "collapsed": true,
-                "items": [
-                  {
-                    "text": "XADD",
-                    "link": "/basics/streams/xadd"
-                  },
-                  {
-                    "text": "XREAD",
-                    "link": "/basics/streams/xread"
-                  },
-                  {
-                    "text": "其他流命令",
-                    "link": "/basics/streams/other-commands"
-                  }
-                ]
+                "text": "其他列表命令",
+                "link": "/basics/list/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "集合",
+            "link": "/basics/set",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "SADD",
+                "link": "/basics/set/sadd"
+              },
+              {
+                "text": "SMEMBERS",
+                "link": "/basics/set/smembers"
+              },
+              {
+                "text": "SPOP",
+                "link": "/basics/set/spop"
+              },
+              {
+                "text": "其他集合命令",
+                "link": "/basics/set/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "有序集合",
+            "link": "/basics/zset",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "ZADD",
+                "link": "/basics/zset/zadd"
+              },
+              {
+                "text": "ZRANGE",
+                "link": "/basics/zset/zrange"
+              },
+              {
+                "text": "ZREM",
+                "link": "/basics/zset/zrem"
+              },
+              {
+                "text": "其他有序集合命令",
+                "link": "/basics/zset/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "位图",
+            "link": "/basics/bitmap",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "SETBIT",
+                "link": "/basics/bitmap/setbit"
+              },
+              {
+                "text": "GETBIT",
+                "link": "/basics/bitmap/getbit"
+              },
+              {
+                "text": "其他位图命令",
+                "link": "/basics/bitmap/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "地理空间数据",
+            "link": "/basics/geospatial",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "GEOADD",
+                "link": "/basics/geospatial/geoadd"
+              },
+              {
+                "text": "GEORADIUS",
+                "link": "/basics/geospatial/georadius"
+              },
+              {
+                "text": "其他地理空间命令",
+                "link": "/basics/geospatial/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "HyperLogLog",
+            "link": "/basics/hyperloglog",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "PFADD",
+                "link": "/basics/hyperloglog/pfadd"
+              },
+              {
+                "text": "PFCOUNT",
+                "link": "/basics/hyperloglog/pfcount"
+              },
+              {
+                "text": "其他HyperLogLog命令",
+                "link": "/basics/hyperloglog/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "流",
+            "link": "/basics/streams",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "XADD",
+                "link": "/basics/streams/xadd"
+              },
+              {
+                "text": "XREAD",
+                "link": "/basics/streams/xread"
+              },
+              {
+                "text": "其他流命令",
+                "link": "/basics/streams/other-commands"
               }
             ]
           },
