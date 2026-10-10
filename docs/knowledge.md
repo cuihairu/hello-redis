@@ -84,7 +84,7 @@ Redlock 算法出自 Redis 作者 Antirez（Salvatore Sanfilippo），Redis 本�
 | 会话 | Hash 存多字段 + EXPIRE 滑动续期（30 分钟无操作才过期）；会话 ID 用足够长随机串，密码只存加盐慢哈希 | [会话存储](/use-cases/session-storage)、[认证与会话](/use-cases/session-management/authentication) |
 | 实时分析 | UV 用 HyperLogLog（12 KB / 0.81% 误差）；热点计数分片 `stats:{date}:{0-9}` 再汇总相加 | [实时分析](/use-cases/real-time-analytics) |
 | 消息队列 | 简单队列 LPUSH + BRPOP（取出即删、无确认）；可靠队列用 Stream 消费组 + XACK + XPENDING/XCLAIM；延迟消息用 ZSET 按时间戳轮询 | [消息队列](/use-cases/message-queues) |
-| 排行榜 | ZADD + ZREVRANGE，排名查询 O(log N)；同分按时间用「分数 × 大基数 + 时间差补数」编码进一个 double（超 2^53 丢精度） | [排行榜](/use-cases/leaderboards) |
+| 排行榜 | ZADD + ZRANGE ... REV（6.2 起 `ZREVRANGE` 已废弃），排名查询 O(log N)；同分按时间用「分数 × 大基数 + 时间差补数」编码进一个 double（超 2^53 丢精度） | [排行榜](/use-cases/leaderboards) |
 | 计数与发号 | INCR/DECR 单线程内原子、无需加锁；步长发号 `INCRBY id:order 1000` 分段领取；限流四策略：固定窗口、滑动窗口（ZSET）、漏桶、令牌桶 | [计数器](/use-cases/counters)、[全局 ID](/use-cases/global-id)、[限流策略](/use-cases/rate-limiting/strategies) |
 | 签到 | 一年 365 个位（约 46 字节）；`BITOP AND` 求连续签到与留存 | [签到](/use-cases/check-ins) |
 | 附近的人 | GEOADD + GEOSEARCH；多边形围栏超出 GEO 能力时换 Tile38 | [地理空间](/basics/geospatial/geoadd)、[Tile38](/redis-compatible/tile38) |

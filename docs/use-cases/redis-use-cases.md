@@ -19,7 +19,7 @@ Redis 是一款基于内存的高性能键值数据库，读写延迟通常在�
 | 场景 | 推荐数据结构 | 核心命令 |
 | --- | --- | --- |
 | 缓存 | String / Hash | `SET`、`GET`、`TTL` |
-| 排行榜 | Sorted Set | `ZADD`、`ZREVRANGE`、`ZINCRBY` |
+| 排行榜 | Sorted Set | `ZADD`、`ZRANGE ... REV`、`ZINCRBY` |
 | 去重与关系 | Set | `SADD`、`SINTER`、`SISMEMBER` |
 | 队列 | List / Stream | `LPUSH`、`BRPOP`、`XADD`、`XREADGROUP` |
 | 签到、状态位 | Bitmap | `SETBIT`、`BITCOUNT` |

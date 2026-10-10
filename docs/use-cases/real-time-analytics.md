@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | 点击量、订单数 | String | `INCR` / `INCRBY` |
 | 独立访客（UV） | HyperLogLog | `PFADD` / `PFCOUNT` |
-| 热搜榜、实时排名 | Sorted Set | `ZINCRBY` / `ZREVRANGE` |
+| 热搜榜、实时排名 | Sorted Set | `ZINCRBY` / `ZRANGE ... REV` |
 | 分时段统计 | Hash | `HINCRBY` |
 | 状态明细、去重 | Set | `SADD` / `SCARD` |
 

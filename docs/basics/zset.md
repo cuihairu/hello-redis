@@ -48,11 +48,11 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
 
 - **功能**: 返回有序集合中指定范围的成员，按分数降序排列
 - **语法**: `ZREVRANGE key start stop [WITHSCORES]`
-- **说明**: 与 `ZRANGE` 类似，但按降序排列。
+- **说明**: 与 `ZRANGE` 类似，但按降序排列。Redis 6.2 起已废弃，统一用 `ZRANGE` 加 `REV` 选项。
 - **示例**:
   ```plaintext
-  ZREVRANGE myzset 0 -1
-  ZREVRANGE myzset 0 -1 WITHSCORES
+  ZRANGE myzset 0 -1 REV
+  ZRANGE myzset 0 -1 REV WITHSCORES
   ```
 
 ##### 5. **`ZRANK`**

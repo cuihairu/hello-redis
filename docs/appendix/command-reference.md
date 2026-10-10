@@ -81,8 +81,8 @@
 | `ZADD key score m [score m ...]` | 添加/更新成员分数 |
 | `ZINCRBY key n member` | 分数自增 |
 | `ZSCORE key m` / `ZREVRANK key m` | 分数/倒序名次 |
-| `ZRANGE key s e [WITHSCORES]` / `ZREVRANGE` | 按排名取（升/降序） |
-| `ZREVRANGEBYSCORE key max min` | 按分数区间取（降序） |
+| `ZRANGE key s e [WITHSCORES] [REV]` | 按排名取（升/降序；6.2 起 `ZREVRANGE` 已废弃，用 `REV` 选项） |
+| `ZRANGE key max min BYSCORE REV` | 按分数区间取（降序；6.2 起 `ZREVRANGEBYSCORE` 已废弃） |
 | `ZCOUNT key min max` | 分数区间计数 |
 | `ZREM key m` / `ZCARD key` | 删除/成员数 |
 | `ZINTERSTORE/ZUNIONSTORE dest n k1 k2` | 集合运算并存储 |
