@@ -27,8 +27,8 @@
 | --- | --- |
 | `SET key value [EX s\|PX ms] [NX\|XX]` | 设置键值，可带过期与条件 |
 | `GET key` | 获取值 |
-| `SETNX key value` | 仅键不存在时设置（等价 `SET ... NX`） |
-| `GETSET key value` | 取旧值并设新值 |
+| `SETNX key value` | 仅键不存在时设置（2.6.12 起废弃，用 `SET ... NX`） |
+| `GETSET key value` | 取旧值并设新值（6.2 起废弃，用 `SET key value GET`） |
 | `MSET k1 v1 k2 v2` / `MGET k1 k2` | 批量设置/获取 |
 | `INCR key` / `DECR key` | 原子自增/自减 |
 | `INCRBY key n` / `INCRBYFLOAT key f` | 按步长/浮点自增 |
@@ -129,7 +129,7 @@
 | 命令 | 说明 |
 | --- | --- |
 | `CLUSTER INFO` / `CLUSTER NODES` | 集群状态/节点 |
-| `CLUSTER SLOTS` | 槽位分布 |
+| `CLUSTER SLOTS` | 槽位分布（7.0 起废弃，新客户端用 `CLUSTER SHARDS`） |
 | `SLOWLOG GET n` | 慢查询 |
 | `LATENCY LATEST/HISTORY event` | 延迟监控 |
 | `MEMORY USAGE key` | 键内存估算 |

@@ -161,6 +161,7 @@ Redlock 算法出自 Redis 作者 Antirez（Salvatore Sanfilippo），Redis 本�
 | 还在用 RPOPLPUSH | 6.2 起 LMOVE 取代，弹出即转移 | [LMOVE](/basics/list/other-commands) |
 | GEORADIUS 系列当新写法 | 6.2 起标记 deprecated，统一迁移到 GEOSEARCH | [GEOSEARCH](/basics/geospatial/other-commands) |
 | SETNX/SETEX/PSETEX/GETSET 旧写法 | 功能已被 SET 的选项覆盖，新代码统一用 SET 加选项 | [SET](/basics/string/set) |
+| 还在用 SLAVEOF | 5.0 起以 REPLICAOF 为准，SLAVEOF 只是旧别名 | [主从复制](/advanced/replication) |
 
 ## 来源与口径
 

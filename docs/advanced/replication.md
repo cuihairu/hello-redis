@@ -65,10 +65,10 @@ maxclients 10000
 
 - **手动触发全量同步**：
   ```plaintext
-  SLAVEOF NO ONE
-  SLAVEOF <master-ip> <master-port>
+  REPLICAOF NO ONE
+  REPLICAOF <master-ip> <master-port>
   ```
-  这会使当前从节点断开主节点并重新连接进行全量同步。
+  这会使当前从节点断开主节点并重新连接进行全量同步。`SLAVEOF` 是 5.0 之前的旧命令名，功能完全相同，新脚本统一写 `REPLICAOF`。
 
 - **部分同步（PSYNC）**：
   从节点断线重连后，会自动向主节点发送 `PSYNC <replicationid> <offset>` 请求，尝试从上次的位置继续同步；如果主节点没有足够的复制积压缓冲区，则会退化为全量同步。该命令由从节点自动发送，无需手动执行。

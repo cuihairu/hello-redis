@@ -167,8 +167,8 @@ EXPIRE user:1000 3600
 # 获取键的剩余生存时间
 TTL user:1000
 
-# 设置键的值并获取旧值
-GETSET user:1000 "David"
+# 设置键的值并获取旧值（6.2 起 GETSET 由该写法取代）
+SET user:1000 "David" GET
 
 # 获取键的值的长度
 STRLEN user:1000

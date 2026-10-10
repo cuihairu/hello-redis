@@ -145,8 +145,8 @@ LSET mylist 0 "newvalue"
 # 保留列表中从索引 0 到 1 的元素
 LTRIM mylist 0 1
 
-# 从 mylist 移除最后一个元素并插入到 myotherlist 的头部
-RPOPLPUSH mylist myotherlist
+# 从 mylist 尾部弹出最后一个元素并插入到 myotherlist 的头部
+LMOVE mylist myotherlist RIGHT LEFT
 
 # 阻塞地从 mylist 的左侧移除并返回元素，超时时间为 10 秒
 BLPOP mylist 10

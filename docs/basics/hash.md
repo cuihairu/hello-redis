@@ -146,7 +146,7 @@ HLEN user:1000
 HINCRBY user:1000 age 1
 
 # 同时设置哈希表中多个字段的值
-HMSET user:1000 name "Alice" age 30
+HSET user:1000 name "Alice" age 30
 
 # 获取哈希表中多个字段的值
 HMGET user:1000 name age

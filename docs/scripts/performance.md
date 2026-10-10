@@ -60,13 +60,16 @@
 - **使用 Redis 锁机制：** 使用 Redis 的锁机制来控制并发操作，确保长时间操作不会影响其他脚本的执行。例如：
 
   ```lua
-  local lock = redis.call('SETNX', 'lock_key', 'locked')
-  if lock == 1 then
-      redis.call('EXPIRE', 'lock_key', 10)
+  local locked = redis.call('SET', 'lock_key', 'locked', 'NX', 'PX', 10000)
+  if locked then
       -- 执行脚本的核心逻辑
       redis.call('DEL', 'lock_key')
+      return 1
   end
+  return 0
   ```
+
+  `SET ... NX PX` 一步完成加锁和设置过期时间；旧的 `SETNX` 加 `EXPIRE` 两步写法中间可能被打断，导致锁永不过期。
 
 #### 5. 性能监控与调优
 

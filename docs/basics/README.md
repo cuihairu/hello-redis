@@ -29,7 +29,7 @@
   - **[集合](set.md)**：包括`SADD`、`SPOP`、`SMEMBERS`及其他集合操作命令。
   - **[有序集合](zset.md)**：包括`ZADD`、`ZRANGE`、`ZREM`及其他有序集合操作命令。
   - **[位图](bitmap.md)**：包括`SETBIT`、`GETBIT`及其他位图操作命令。
-  - **[地理空间数据](geospatial.md)**：包括`GEOADD`、`GEORADIUS`及其他地理空间数据操作命令。
+  - **[地理空间数据](geospatial.md)**：包括`GEOADD`、`GEOSEARCH`及其他地理空间数据操作命令（`GEORADIUS` 系列 6.2 起已废弃）。
   - **[HyperLogLog](hyperloglog.md)**：包括`PFADD`、`PFCOUNT`及其他HyperLogLog操作命令。
   - **[流](streams.md)**：包括`XADD`、`XREAD`及其他流操作命令。
 - **[连接与认证](connection-and-authentication.md)**：说明如何连接到Redis实例，并进行认证。

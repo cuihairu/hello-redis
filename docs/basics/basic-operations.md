@@ -204,11 +204,11 @@ Redis 支持存储和查询地理位置数据。
   ```
   - 示例：`GEOADD mygeoset 13.361389 38.115556 "Sicily"`
 
-- **`GEORADIUS`**: 根据半径查询地理位置数据
+- **`GEOSEARCH`**: 按圆形范围查询地理位置数据（6.2 起统一取代 `GEORADIUS`）
   ```plaintext
-  GEORADIUS key longitude latitude radius m|km|ft|mi [WITHCOORD] [WITHDIST] [WITHHASH] [ASC|DESC]
+  GEOSEARCH key FROMLONLAT longitude latitude BYRADIUS radius m|km|ft|mi [ASC|DESC] [COUNT count [ANY]]
   ```
-  - 示例：`GEORADIUS mygeoset 15 37 200 km WITHDIST`
+  - 示例：`GEOSEARCH mygeoset FROMLONLAT 15 37 BYRADIUS 200 km WITHDIST`
 
 #### 8. **HyperLogLog**
 

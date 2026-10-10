@@ -56,16 +56,19 @@
 
 - **避免长时间运行的操作：** 避免在脚本中执行长时间运行的操作。将复杂的操作分解为多个简单的脚本，减少并发执行的风险。
 
-- **使用 Redis 锁机制：** 可以使用 Redis 的锁机制来控制脚本的并发执行，防止多个客户端同时执行相同的脚本。例如，使用 `SETNX` 命令实现分布式锁：
+- **使用 Redis 锁机制：** 可以使用 Redis 的锁机制来控制脚本的并发执行，防止多个客户端同时执行相同的脚本。例如，用 `SET ... NX PX` 原子加锁：
 
   ```lua
-  local lock = redis.call('SETNX', 'lock_key', 'locked')
-  if lock == 1 then
-      redis.call('EXPIRE', 'lock_key', 10)
+  local locked = redis.call('SET', 'lock_key', 'locked', 'NX', 'PX', 10000)
+  if locked then
       -- 执行脚本的核心逻辑
       redis.call('DEL', 'lock_key')
+      return 1
   end
+  return 0
   ```
+
+  `SET ... NX PX` 把「检查、加锁、设置过期」合为一条原子命令；旧的 `SETNX` 加 `EXPIRE` 分两步执行，中途崩溃会让锁永不过期。
 
 ### 小结
 
