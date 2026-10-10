@@ -1,8 +1,8 @@
-### Redis 配置文件详解
+# Redis 配置文件详解
 
 Redis 的配置文件通常命名为 `redis.conf`，它包含了 Redis 服务器的所有配置选项。这个文件的默认位置可能因安装方式不同而异，通常在 `/etc/redis/redis.conf`、`/usr/local/etc/redis.conf` 或者安装目录下。以下是配置文件中的一些重要选项及其解释：
 
-#### 1. **全局配置**
+## 1. **全局配置**
 
 - **`daemonize`**
   ```plaintext
@@ -29,7 +29,7 @@ Redis 的配置文件通常命名为 `redis.conf`，它包含了 Redis 服务器
   ```
   - 设置 Redis 数据库的数量。默认是 16 个数据库（从 0 到 15）。
 
-#### 2. **网络配置**
+## 2. **网络配置**
 
 - **`bind`**
   ```plaintext
@@ -49,7 +49,7 @@ Redis 的配置文件通常命名为 `redis.conf`，它包含了 Redis 服务器
   ```
   - 启用保护模式，如果 Redis 配置为公开可访问并且没有进行安全配置，则保护模式会防止未经授权的访问。
 
-#### 3. **持久化配置**
+## 3. **持久化配置**
 
 - **`save`**
   ```plaintext
@@ -74,7 +74,7 @@ Redis 的配置文件通常命名为 `redis.conf`，它包含了 Redis 服务器
   ```
   - 配置 AOF 日志的同步策略。`everysec` 表示每秒同步一次，`always` 表示每次写入时同步，`no` 表示不强制同步。
 
-#### 4. **内存管理**
+## 4. **内存管理**
 
 - **`maxmemory`**
   ```plaintext
@@ -88,7 +88,7 @@ Redis 的配置文件通常命名为 `redis.conf`，它包含了 Redis 服务器
   ```
   - 配置当内存使用达到 `maxmemory` 限制时的驱逐策略。常见的策略有 `volatile-lru`（对设置过期时间的键进行 LRU 驱逐）、`allkeys-lru`（对所有键进行 LRU 驱逐）、`noeviction`（不进行驱逐，直接返回错误）等。
 
-#### 5. **安全配置**
+## 5. **安全配置**
 
 - **`requirepass`**
   ```plaintext
@@ -103,7 +103,7 @@ Redis 的配置文件通常命名为 `redis.conf`，它包含了 Redis 服务器
   ```
   - 重命名或禁用某些命令。例如，禁用 `FLUSHDB` 和 `FLUSHALL` 命令以增强安全性。
 
-#### 6. **其他配置**
+## 6. **其他配置**
 
 - **`slowlog-log-slower-than`**
   ```plaintext
@@ -117,7 +117,7 @@ Redis 的配置文件通常命名为 `redis.conf`，它包含了 Redis 服务器
   ```
   - 配置延迟监控阈值，单位为毫秒。设置为 `0` 禁用延迟监控。
 
-### 示例配置
+## 示例配置
 
 以下是一个 Redis 配置文件的示例，适用于开发环境：
 

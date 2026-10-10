@@ -1,12 +1,12 @@
-### Redis 字符串（String）
+# Redis 字符串（String）
 
-#### 概述
+## 概述
 
 Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的，可以包含任何类型的数据（如文本、图像、序列化的对象等）。Redis 字符串的操作非常高效，是 Redis 的默认数据类型。
 
-#### 常用命令
+## 常用命令
 
-##### 1. **`SET`**
+### 1. **`SET`**
 
 - **功能**: 设置键的值
 - **语法**: `SET key value [EX seconds] [PX milliseconds] [NX|XX]`
@@ -22,7 +22,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   SET key "value" NX
   ```
 
-##### 2. **`GET`**
+### 2. **`GET`**
 
 - **功能**: 获取键的值
 - **语法**: `GET key`
@@ -32,7 +32,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   GET name
   ```
 
-##### 3. **`DEL`**
+### 3. **`DEL`**
 
 - **功能**: 删除键
 - **语法**: `DEL key [key ...]`
@@ -43,7 +43,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   DEL key1 key2
   ```
 
-##### 4. **`EXPIRE`**
+### 4. **`EXPIRE`**
 
 - **功能**: 设置键的过期时间
 - **语法**: `EXPIRE key seconds`
@@ -53,7 +53,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   EXPIRE session 3600
   ```
 
-##### 5. **`TTL`**
+### 5. **`TTL`**
 
 - **功能**: 获取键的剩余生存时间
 - **语法**: `TTL key`
@@ -63,7 +63,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   TTL session
   ```
 
-##### 6. **`APPEND`**
+### 6. **`APPEND`**
 
 - **功能**: 将值追加到键的现有值后面
 - **语法**: `APPEND key value`
@@ -73,7 +73,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   APPEND name " Smith"
   ```
 
-##### 7. **`STRLEN`**
+### 7. **`STRLEN`**
 
 - **功能**: 获取键的值的长度
 - **语法**: `STRLEN key`
@@ -83,7 +83,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   STRLEN name
   ```
 
-##### 8. **`GETSET`**
+### 8. **`GETSET`**
 
 - **功能**: 获取键的旧值并设置新值
 - **语法**: `GETSET key value`
@@ -93,7 +93,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   GETSET name "Bob"
   ```
 
-##### 9. **`MSET`**
+### 9. **`MSET`**
 
 - **功能**: 批量设置多个键值对
 - **语法**: `MSET key1 value1 [key2 value2 ...]`
@@ -103,7 +103,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   MSET key1 "value1" key2 "value2"
   ```
 
-##### 10. **`MGET`**
+### 10. **`MGET`**
 
 - **功能**: 批量获取多个键的值
 - **语法**: `MGET key1 [key2 ...]`
@@ -113,7 +113,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   MGET key1 key2
   ```
 
-##### 11. **`PSETEX`**
+### 11. **`PSETEX`**
 
 - **功能**: 设置键的值并设置过期时间（单位：毫秒）
 - **语法**: `PSETEX key milliseconds value`
@@ -123,7 +123,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   PSETEX temp_key 5000 "temporary"
   ```
 
-##### 12. **`SETRANGE`**
+### 12. **`SETRANGE`**
 
 - **功能**: 通过偏移量设置键的值的部分内容
 - **语法**: `SETRANGE key offset value`
@@ -133,7 +133,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   SETRANGE key 10 "new_value"
   ```
 
-##### 13. **`GETRANGE`**
+### 13. **`GETRANGE`**
 
 - **功能**: 获取键的值的子串
 - **语法**: `GETRANGE key start end`
@@ -143,7 +143,7 @@ Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的�
   GETRANGE key 0 5
   ```
 
-### 示例操作
+## 示例操作
 
 ```plaintext
 # 设置键值对
@@ -180,6 +180,6 @@ SETRANGE user:1000 10 "new_value"
 GETRANGE user:1000 0 5
 ```
 
-### 小结
+## 小结
 
 Redis 字符串是 Redis 中最基本且最常用的数据类型，支持多种高效的操作。它适用于多种场景，如缓存、计数器等。掌握这些基本操作将有助于你高效地使用 Redis 进行数据存储和处理。

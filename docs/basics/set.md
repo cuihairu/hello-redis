@@ -1,12 +1,12 @@
-### Redis 集合（Set）
+# Redis 集合（Set）
 
-#### 概述
+## 概述
 
 Redis 集合是一种无序的数据结构，可以存储多个唯一的字符串值。集合不允许重复的元素，并且提供了多种操作集合的方法。它们特别适用于需要去重或执行集合运算（如交集、并集、差集）的场景。
 
-#### 常用命令
+## 常用命令
 
-##### 1. **`SADD`**
+### 1. **`SADD`**
 
 - **功能**: 向集合中添加一个或多个成员
 - **语法**: `SADD key member [member ...]`
@@ -17,7 +17,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SADD myset "banana" "cherry"
   ```
 
-##### 2. **`SREM`**
+### 2. **`SREM`**
 
 - **功能**: 移除集合中的一个或多个成员
 - **语法**: `SREM key member [member ...]`
@@ -27,7 +27,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SREM myset "banana"
   ```
 
-##### 3. **`SMEMBERS`**
+### 3. **`SMEMBERS`**
 
 - **功能**: 返回集合中的所有成员
 - **语法**: `SMEMBERS key`
@@ -37,7 +37,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SMEMBERS myset
   ```
 
-##### 4. **`SISMEMBER`**
+### 4. **`SISMEMBER`**
 
 - **功能**: 判断一个成员是否是集合中的元素
 - **语法**: `SISMEMBER key member`
@@ -47,7 +47,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SISMEMBER myset "apple"
   ```
 
-##### 5. **`SCARD`**
+### 5. **`SCARD`**
 
 - **功能**: 返回集合中的成员数量
 - **语法**: `SCARD key`
@@ -57,7 +57,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SCARD myset
   ```
 
-##### 6. **`SDIFF`**
+### 6. **`SDIFF`**
 
 - **功能**: 返回多个集合的差集
 - **语法**: `SDIFF key [key ...]`
@@ -67,7 +67,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SDIFF set1 set2
   ```
 
-##### 7. **`SDIFFSTORE`**
+### 7. **`SDIFFSTORE`**
 
 - **功能**: 将多个集合的差集存储到一个新的集合中
 - **语法**: `SDIFFSTORE destination key [key ...]`
@@ -77,7 +77,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SDIFFSTORE diffset set1 set2
   ```
 
-##### 8. **`SINTER`**
+### 8. **`SINTER`**
 
 - **功能**: 返回多个集合的交集
 - **语法**: `SINTER key [key ...]`
@@ -87,7 +87,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SINTER set1 set2
   ```
 
-##### 9. **`SINTERSTORE`**
+### 9. **`SINTERSTORE`**
 
 - **功能**: 将多个集合的交集存储到一个新的集合中
 - **语法**: `SINTERSTORE destination key [key ...]`
@@ -97,7 +97,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SINTERSTORE interset set1 set2
   ```
 
-##### 10. **`SUNION`**
+### 10. **`SUNION`**
 
 - **功能**: 返回多个集合的并集
 - **语法**: `SUNION key [key ...]`
@@ -107,7 +107,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SUNION set1 set2
   ```
 
-##### 11. **`SUNIONSTORE`**
+### 11. **`SUNIONSTORE`**
 
 - **功能**: 将多个集合的并集存储到一个新的集合中
 - **语法**: `SUNIONSTORE destination key [key ...]`
@@ -117,7 +117,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SUNIONSTORE unionset set1 set2
   ```
 
-##### 12. **`SMOVE`**
+### 12. **`SMOVE`**
 
 - **功能**: 将成员从一个集合移动到另一个集合
 - **语法**: `SMOVE source destination member`
@@ -127,7 +127,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SMOVE set1 set2 "apple"
   ```
 
-##### 13. **`SRANDMEMBER`**
+### 13. **`SRANDMEMBER`**
 
 - **功能**: 随机返回集合中的一个或多个成员
 - **语法**: `SRANDMEMBER key [count]`
@@ -138,7 +138,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SRANDMEMBER myset 3
   ```
 
-##### 14. **`SPOP`**
+### 14. **`SPOP`**
 
 - **功能**: 从集合中移除并返回一个随机成员
 - **语法**: `SPOP key [count]`
@@ -149,7 +149,7 @@ Redis 集合是一种无序的数据结构，可以存储多个唯一的字符�
   SPOP myset 2
   ```
 
-#### 示例操作
+## 示例操作
 
 ```plaintext
 # 向集合中添加元素
@@ -198,6 +198,6 @@ SPOP myset
 SPOP myset 2
 ```
 
-### 小结
+## 小结
 
 Redis 集合是一种强大的数据结构，适用于去重、集合运算等需求。通过掌握这些常用命令，可以有效地管理和操作 Redis 中的集合数据。

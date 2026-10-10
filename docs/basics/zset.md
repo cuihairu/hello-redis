@@ -1,12 +1,12 @@
-### Redis 有序集合（Sorted Set）
+# Redis 有序集合（Sorted Set）
 
-#### 概述
+## 概述
 
 Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个有序的集合，其中的每个成员都有一个分数（score）。成员按分数排序，分数相同的成员按字典顺序排序。Sorted Set 支持多种高效的操作，例如范围查询和排名计算，非常适用于需要按顺序处理数据的场景。
 
-#### 常用命令
+## 常用命令
 
-##### 1. **`ZADD`**
+### 1. **`ZADD`**
 
 - **功能**: 向有序集合中添加一个或多个成员及其分数
 - **语法**: `ZADD key [NX|XX] [CH] [INCR] score member [score member ...]`
@@ -21,7 +21,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZADD myzset 2 "two" 3 "three"
   ```
 
-##### 2. **`ZREM`**
+### 2. **`ZREM`**
 
 - **功能**: 移除有序集合中的一个或多个成员
 - **语法**: `ZREM key member [member ...]`
@@ -31,7 +31,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZREM myzset "two"
   ```
 
-##### 3. **`ZRANGE`**
+### 3. **`ZRANGE`**
 
 - **功能**: 返回有序集合中指定范围的成员
 - **语法**: `ZRANGE key start stop [WITHSCORES]`
@@ -44,7 +44,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZRANGE myzset 0 -1 WITHSCORES
   ```
 
-##### 4. **`ZREVRANGE`**
+### 4. **`ZREVRANGE`**
 
 - **功能**: 返回有序集合中指定范围的成员，按分数降序排列
 - **语法**: `ZREVRANGE key start stop [WITHSCORES]`
@@ -55,7 +55,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZRANGE myzset 0 -1 REV WITHSCORES
   ```
 
-##### 5. **`ZRANK`**
+### 5. **`ZRANK`**
 
 - **功能**: 获取有序集合中成员的排名（从低到高）
 - **语法**: `ZRANK key member`
@@ -65,7 +65,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZRANK myzset "one"
   ```
 
-##### 6. **`ZREVRANK`**
+### 6. **`ZREVRANK`**
 
 - **功能**: 获取有序集合中成员的排名（从高到低）
 - **语法**: `ZREVRANK key member`
@@ -75,7 +75,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZREVRANK myzset "one"
   ```
 
-##### 7. **`ZSCORE`**
+### 7. **`ZSCORE`**
 
 - **功能**: 获取有序集合中成员的分数
 - **语法**: `ZSCORE key member`
@@ -85,7 +85,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZSCORE myzset "one"
   ```
 
-##### 8. **`ZCARD`**
+### 8. **`ZCARD`**
 
 - **功能**: 获取有序集合中的成员数量
 - **语法**: `ZCARD key`
@@ -95,7 +95,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZCARD myzset
   ```
 
-##### 9. **`ZCOUNT`**
+### 9. **`ZCOUNT`**
 
 - **功能**: 计算有序集合中指定分数范围内的成员数量
 - **语法**: `ZCOUNT key min max`
@@ -105,7 +105,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZCOUNT myzset 1 2
   ```
 
-##### 10. **`ZREMRANGEBYSCORE`**
+### 10. **`ZREMRANGEBYSCORE`**
 
 - **功能**: 移除有序集合中分数在指定范围内的成员
 - **语法**: `ZREMRANGEBYSCORE key min max`
@@ -115,7 +115,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZREMRANGEBYSCORE myzset 1 2
   ```
 
-##### 11. **`ZREMRANGEBYRANK`**
+### 11. **`ZREMRANGEBYRANK`**
 
 - **功能**: 移除有序集合中指定排名范围内的成员
 - **语法**: `ZREMRANGEBYRANK key start stop`
@@ -125,7 +125,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZREMRANGEBYRANK myzset 0 1
   ```
 
-##### 12. **`ZUNIONSTORE`**
+### 12. **`ZUNIONSTORE`**
 
 - **功能**: 将多个有序集合的并集存储到一个新的集合中
 - **语法**: `ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]`
@@ -137,7 +137,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZUNIONSTORE unionset 2 set1 set2
   ```
 
-##### 13. **`ZINTERSTORE`**
+### 13. **`ZINTERSTORE`**
 
 - **功能**: 将多个有序集合的交集存储到一个新的集合中
 - **语法**: `ZINTERSTORE destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]`
@@ -149,7 +149,7 @@ Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个
   ZINTERSTORE interset 2 set1 set2
   ```
 
-#### 示例操作
+## 示例操作
 
 ```plaintext
 # 向有序集合中添加元素
@@ -189,6 +189,6 @@ ZUNIONSTORE unionset 2 set1 set2
 ZINTERSTORE interset 2 set1 set2
 ```
 
-### 小结
+## 小结
 
 Redis 有序集合是一个非常强大的数据结构，适用于需要按顺序处理数据的场景，如排行榜、排名系统等。通过掌握这些常用命令，可以高效地管理和操作 Redis 中的有序集合数据。

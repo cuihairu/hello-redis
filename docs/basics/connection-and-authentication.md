@@ -1,15 +1,15 @@
-### Redis 连接与认证
+# Redis 连接与认证
 
 Redis 提供了一些基本的连接和认证功能，以确保数据的安全性和访问控制。以下是有关 Redis 连接和认证的详细介绍。
 
-#### 连接 Redis
+## 连接 Redis
 
-##### 1. **连接方式**
+### 1. **连接方式**
 
 - **命令行客户端**：Redis 自带的命令行工具 `redis-cli`，可以用来连接和管理 Redis 实例。
 - **编程语言客户端**：Redis 支持多种编程语言的客户端库（如 Python 的 `redis-py`、Java 的 `Jedis`、Go 的 `go-redis` 等），这些库可以用来在应用程序中连接和操作 Redis。
 
-##### 2. **命令行连接示例**
+### 2. **命令行连接示例**
 
 ```bash
 redis-cli
@@ -21,7 +21,7 @@ redis-cli
 redis-cli -h <host> -p <port>
 ```
 
-##### 3. **编程语言连接示例**
+### 3. **编程语言连接示例**
 
 **Python 示例**:
 
@@ -77,11 +77,11 @@ func main() {
 }
 ```
 
-#### Redis 认证
+## Redis 认证
 
 Redis 支持通过密码来控制访问权限。配置 Redis 密码可以防止未经授权的访问。
 
-##### 1. **配置密码**
+### 1. **配置密码**
 
 - **配置文件**：可以在 Redis 配置文件 `redis.conf` 中设置密码。找到 `requirepass` 配置项，取消注释并设置密码：
 
@@ -95,7 +95,7 @@ Redis 支持通过密码来控制访问权限。配置 Redis 密码可以防止�
   redis-server /path/to/redis.conf
   ```
 
-##### 2. **连接时提供密码**
+### 2. **连接时提供密码**
 
 如果 Redis 配置了密码，使用 `redis-cli` 连接时需要提供密码：
 
@@ -127,7 +127,7 @@ rdb := redis.NewClient(&redis.Options{
 })
 ```
 
-##### 3. **更改密码**
+### 3. **更改密码**
 
 在运行的 Redis 实例中，可以使用 `CONFIG SET` 命令更改密码：
 
@@ -135,7 +135,7 @@ rdb := redis.NewClient(&redis.Options{
 redis-cli CONFIG SET requirepass newpassword
 ```
 
-##### 4. **禁止远程连接**
+### 4. **禁止远程连接**
 
 为了提高安全性，可以配置 Redis 只允许本地连接。修改 Redis 配置文件中的 `bind` 配置项：
 
@@ -145,6 +145,6 @@ bind 127.0.0.1
 
 这样，Redis 将只监听本地地址，拒绝外部连接。
 
-#### 小结
+## 小结
 
 Redis 提供了多种连接和认证方式来保证数据的安全性和访问控制。通过 `redis-cli` 和各种编程语言客户端，可以方便地连接 Redis 实例并进行操作。配置密码和限制连接地址可以有效提高 Redis 实例的安全性，防止未经授权的访问。

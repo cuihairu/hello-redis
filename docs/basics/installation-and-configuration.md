@@ -1,6 +1,6 @@
-### 安装与配置
+# 安装与配置
 
-#### 在Linux上安装Redis
+## 在Linux上安装Redis
 
 1. **下载和解压 Redis**
    ```bash
@@ -37,7 +37,7 @@
      redis-cli
      ```
 
-#### 在Windows上安装Redis
+## 在Windows上安装Redis
 
 1. **下载 Redis**
    - Redis 官方没有提供 Windows 安装包：Windows 上通常通过 WSL 运行 Linux 版 Redis，或使用社区维护的 Windows 移植版（如 [MicrosoftArchive/redis](https://github.com/microsoftarchive/redis/releases)，下面步骤即针对该版本），两种方式详见[在 Windows 上安装 Redis](./installation-on-windows.md)。
@@ -53,7 +53,7 @@
      redis-server redis.windows.conf
      ```
 
-#### Redis配置文件详解
+## Redis配置文件详解
 
 Redis 的配置文件 `redis.conf` 包含了 Redis 服务器的各种配置选项。常见的配置选项包括：
 
@@ -111,7 +111,7 @@ Redis 的配置文件 `redis.conf` 包含了 Redis 服务器的各种配置选�
      daemonize yes
      ```
 
-#### 连接与认证
+## 连接与认证
 
 1. **连接到 Redis 服务器**
    - 使用 `redis-cli` 客户端连接到 Redis 服务器：

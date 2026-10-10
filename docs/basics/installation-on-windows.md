@@ -1,8 +1,8 @@
-### 在Windows上安装Redis
+# 在Windows上安装Redis
 
 Redis 官方并没有提供直接的 Windows 版本，但可以通过以下步骤在 Windows 上安装 Redis：
 
-#### 1. 使用 Windows 子系统 Linux（WSL）
+## 1. 使用 Windows 子系统 Linux（WSL）
 
 1. **启用 WSL**
    - 打开 PowerShell 以管理员身份运行，输入以下命令启用 WSL：
@@ -42,7 +42,7 @@ Redis 官方并没有提供直接的 Windows 版本，但可以通过以下步�
      # 应该返回 "Hello, Redis!"
      ```
 
-#### 2. 使用 Redis 预编译的 Windows 版本
+## 2. 使用 Redis 预编译的 Windows 版本
 
 1. **下载 Redis 预编译版本**
    - 从以下 GitHub 仓库下载 Redis Windows 版本：
@@ -75,7 +75,7 @@ Redis 官方并没有提供直接的 Windows 版本，但可以通过以下步�
      # 应该返回 "Hello, Redis!"
      ```
 
-### 注意事项
+## 注意事项
 
 - 使用 Windows 版本的 Redis 主要用于开发和测试。在生产环境中，建议使用 Linux 系统运行 Redis。
 - Redis 在 Windows 上的性能和稳定性可能不如 Linux 版本，尤其是在高负载或生产环境中。
