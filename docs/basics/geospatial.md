@@ -4,6 +4,10 @@
 
 Redis 的地理空间数据功能使得可以存储和操作地理位置数据（如经纬度坐标）。这些功能主要依赖于 Redis 的有序集合（sorted set）和 GeoHash 编码。Redis 提供了若干命令来处理地理空间数据，支持存储、查询和计算位置距离等操作。
 
+## 结构图
+
+![Redis Geospatial 结构](/structures/geospatial.png)
+
 ## 常用命令
 
 ### 1. **`GEOADD`**
@@ -117,12 +121,31 @@ GEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC
 GEOSEARCHSTORE dest Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC
 ```
 
-## 应用场景
+## 特点
+
+- **本质是 ZSet**：经纬度编码成 geohash 52 位整数当 score 存进有序集合。
+- **半径检索**：`GEORADIUS` 按经纬度 + 半径找范围内成员，可附带 `WITHDIST`/`COUNT`。
+- **距离计算**：`GEODIST` 返回两坐标球面距离（米/公里）。
+- **精度**：约厘米级，超出地名级场景（城际）足够，不适合工程测量。
+
+## 使用场景
 
 - **位置查询**：找出附近的商店、餐厅或其他兴趣点。
 - **物流和配送**：计算配送范围、估算运输距离。
 - **社交网络**：为用户提供基于位置的推荐或匹配服务。
 - **导航**：支持路线规划和导航功能。
+
+```plaintext
+# 1. 附近的人 / 门店
+GEOADD shops 116.397 39.909 "shop:1" 116.405 39.915 "shop:2"
+GEORADIUS shops 116.39 39.91 5 km WITHDIST COUNT 10
+
+# 2. 电子围栏：判断是否进入区域
+GEORADIUS fence:office 116.397 39.909 0.5 km
+
+# 3. 两点距离
+GEODIST shop:1 shop:2 km
+```
 
 ## 小结
 

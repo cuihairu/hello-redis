@@ -4,6 +4,10 @@
 
 Redis 哈希是一种以键值对形式存储字段和值的数据结构。哈希是一个非常适合存储对象的结构，例如用户信息或商品属性。每个哈希都是由一个键（即哈希的名字）和若干个字段值对组成。
 
+## 结构图
+
+![Redis Hash 结构](/structures/hash.png)
+
 ## 常用命令
 
 ### 1. **`HSET`**
@@ -153,6 +157,30 @@ HMGET user:1000 name age
 
 # 遍历哈希表中的字段和字段值
 HSCAN user:1000 0 MATCH name*
+```
+
+## 特点
+
+- **字段级读写**：`HGET`/`HSET` 只取需要的字段，比整读 JSON 省带宽。
+- **field 唯一无序**：同一 key 下 field 不可重复，遍历顺序不保证。
+- **内存紧凑**：小哈希（field 数 ≤ hash-max-listpack-entries，默认 128）用 listpack 编码，比字符串存 JSON 更省。
+- **字段自增**：`HINCRBY` 对单个字段原子加减。
+- **无整体过期**：过期是键级的，不能给单个 field 设 TTL。
+
+## 使用场景
+
+```plaintext
+# 1. 对象存储：单个字段可改，不必重写整个对象
+HSET user:1001 name Alice
+HSET user:1001 email alice@example.com
+HGET user:1001 email
+
+# 2. 购物车：商品数量用字段计数
+HSET cart:u1001 sku:1001 2
+HINCRBY cart:u1001 sku:1001 1   # 再买 1 件
+
+# 3. 配置集合：按字段读取局部配置
+HGETALL app:config
 ```
 
 ## 小结

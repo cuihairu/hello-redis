@@ -4,6 +4,10 @@
 
 Redis 位图（Bitmap）是 Redis 中的一个数据结构，用于以紧凑的形式表示大量的二进制位。每一位（bit）可以是 0 或 1，非常适合用于表示开关状态、标记、计数等场景。位图通过对单个比特位的操作来实现空间效率的优化，适合用于处理大规模的标记数据。
 
+## 结构图
+
+![Redis Bitmap 结构](/structures/bitmap.png)
+
 ## 常用命令
 
 ### 1. **`SETBIT`**
@@ -87,12 +91,34 @@ BITOP OR destkey key1 key2
 BITPOS mybitmap 1
 ```
 
-## 应用场景
+## 特点
+
+- **按位存储**：一个键存二进制位串，1 位 = 1 bit，2^32 位约 512MB。
+- **极省内存**：100 万用户签到位约 122KB（10^6 bit ÷ 8）。
+- **位运算**：`BITOP` 支持 AND/OR/XOR/NOT，跨键批量运算。
+- **统计快**：`BITCOUNT` 统计 1 的个数，`BITPOS` 找首个 1。
+
+## 使用场景
 
 - **用户行为跟踪**：可以用位图记录用户的行为状态，例如是否在某天登录过。
 - **广告点击统计**：通过位图记录用户对广告的点击状态。
 - **权限标记**：用位图标记用户的权限或访问控制位。
 - **内存效率**：使用位图处理大量二进制状态数据，减少内存占用。
+
+```plaintext
+# 1. 签到：某用户第 N 天签到
+SETBIT sign:2026:alice 285 1        # 第 286 天
+BITCOUNT sign:2026:alice            # 本年签到天数
+
+# 2. 日活统计：一个 offset 一个用户
+SETBIT dau:2026-10-12 10086 1
+BITCOUNT dau:2026-10-12
+
+# 3. 两个集合求交：同时在线
+BITOP AND both:online online:a online:b
+
+# 4. 布隆过滤器底层（RediSearchBloom / RedisBloom 的位数组）
+```
 
 ## 小结
 

@@ -4,6 +4,10 @@
 
 Redis 集合是一种无序的数据结构，可以存储多个唯一的字符串值。集合不允许重复的元素，并且提供了多种操作集合的方法。它们特别适用于需要去重或执行集合运算（如交集、并集、差集）的场景。
 
+## 结构图
+
+![Redis Set 结构](/structures/set.png)
+
 ## 常用命令
 
 ### 1. **`SADD`**
@@ -196,6 +200,30 @@ SRANDMEMBER myset 3
 # 从集合中移除并返回一个随机成员
 SPOP myset
 SPOP myset 2
+```
+
+## 特点
+
+- **唯一且无序**：元素自动去重，遍历顺序不保证。
+- **判存极快**：`SISMEMBER` O(1)，适合做成员存在性检查。
+- **集合运算**：`SINTER`（交）、`SUNION`（并）、`SDIFF`（差）。
+- **底层自适应**：纯整数小集合用 intset（连续内存），否则用 hashtable。
+
+## 使用场景
+
+```plaintext
+# 1. 标签 / 去重：UV 统计
+SADD uv:2026-10-12 "user-1" "user-2"
+SCARD uv:2026-10-12          # 独立访客数
+
+# 2. 共同好友：集合求交
+SINTER following:alice following:bob
+
+# 3. 抽奖：随机取中奖者且不放回
+SRANDMEMBER lottery:1001 3
+
+# 4. 黑白名单
+SISMEMBER blacklist:ip "1.2.3.4"
 ```
 
 ## 小结

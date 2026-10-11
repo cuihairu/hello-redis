@@ -4,6 +4,10 @@
 
 Redis 有序集合（Sorted Set）是 Redis 的一种数据结构，它是一个有序的集合，其中的每个成员都有一个分数（score）。成员按分数排序，分数相同的成员按字典顺序排序。Sorted Set 支持多种高效的操作，例如范围查询和排名计算，非常适用于需要按顺序处理数据的场景。
 
+## 结构图
+
+![Redis ZSet 结构](/structures/zset.png)
+
 ## 常用命令
 
 ### 1. **`ZADD`**
@@ -187,6 +191,30 @@ ZUNIONSTORE unionset 2 set1 set2
 
 # 将多个有序集合的交集存储到一个新的集合中
 ZINTERSTORE interset 2 set1 set2
+```
+
+## 特点
+
+- **唯一 + 有序**：member 不可重复，按 score 排序；score 为 double。
+- **跳表实现**：增删改查、排名、范围查询都是 O(logN)。
+- **范围能力**：`ZRANGE`（按下标）、`ZRANGEBYSCORE`（按分值区间）、`ZCOUNT`（区间计数）。
+- **双索引**：跳表负责排序，哈希表负责按 member 直取 score。
+
+## 使用场景
+
+```plaintext
+# 1. 排行榜
+ZADD rank:game 980 "player:7"
+ZREVRANGE rank:game 0 9 WITHSCORES   # Top10
+ZRANK rank:game "player:7"           # 名次
+
+# 2. 延时队列：score = 执行时间戳
+ZADD delay:queue 1791800000 "task-1"
+ZRANGEBYSCORE delay:queue -inf 1791799999   # 到期任务
+
+# 3. 滑动窗口限流：score = 时间戳，ZREMRANGEBYSCORE 清旧
+ZADD rate:api 1791799001 "req-1"
+ZCOUNT rate:api (now-60 now            # 60 秒内请求数
 ```
 
 ## 小结

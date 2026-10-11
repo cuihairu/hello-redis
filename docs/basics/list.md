@@ -4,6 +4,10 @@
 
 Redis 列表是一种有序的数据结构，可以存储多个字符串值。它们类似于链表，支持在两端插入和删除元素。Redis 列表的常见用途包括实现队列、堆栈和日志等。
 
+## 结构图
+
+![Redis List 结构](/structures/list.png)
+
 ## 常用命令
 
 ### 1. **`LPUSH`**
@@ -153,6 +157,30 @@ BLPOP mylist 10
 
 # 阻塞地从 mylist 的右侧移除并返回元素，超时时间为 10 秒
 BRPOP mylist 10
+```
+
+## 特点
+
+- **双向链表**：头尾 `LPUSH`/`RPUSH`/`LPOP`/`RPOP` 都是 O(1)，中间插入删除 O(N)。
+- **有序可重复**：按插入顺序保留，元素可以重复。
+- **按下标访问**：`LRANGE key 0 -1` 遍历，O(S+N)，长列表深翻页代价高。
+- **定长裁剪**：`LTRIM` 配合 `LPUSH` 只保留最新 N 条。
+
+## 使用场景
+
+```plaintext
+# 1. 消息队列：生产者左推，消费者阻塞右取
+LPUSH queue:task "job-1"
+BRPOP queue:task 30
+
+# 2. 最新 N 条：时间线只留最近 10 条
+LPUSH timeline:alice "post-1"
+LTRIM timeline:alice 0 9
+LRANGE timeline:alice 0 -1
+
+# 3. 栈：同端进出
+LPUSH stack:undo "op-1"
+LPOP stack:undo
 ```
 
 ## 小结

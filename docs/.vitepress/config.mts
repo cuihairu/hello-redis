@@ -11,8 +11,7 @@ export default defineConfig({
   lastUpdated: true,
 
   head: [
-    // 品牌资产空位：favicon.svg 到位后启用
-    // ['link', { rel: 'icon', type: 'image/svg+xml', href: '/hello-redis/favicon.svg' }]
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/hello-redis/favicon.svg' }]
   ],
 
   // mdbook 遗留的目录文件保留在仓库作映射底稿，不作为页面构建
@@ -21,8 +20,7 @@ export default defineConfig({
   ignoreDeadLinks: false,
 
   themeConfig: {
-    // 品牌资产空位：logo.svg 到位后启用
-    // logo: '/logo.svg',
+    logo: '/logo.svg',
     siteTitle: 'Hello Redis',
 
     nav: [

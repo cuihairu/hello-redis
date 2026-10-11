@@ -4,6 +4,10 @@
 
 Redis 字符串是 Redis 中最基本的数据类型，它是二进制安全的，可以包含任何类型的数据（如文本、图像、序列化的对象等）。Redis 字符串的操作非常高效，是 Redis 的默认数据类型。
 
+## 结构图
+
+![Redis String 结构](/structures/string.png)
+
 ## 常用命令
 
 ### 1. **`SET`**
@@ -178,6 +182,31 @@ SETRANGE user:1000 10 "new_value"
 
 # 获取键的值的子串
 GETRANGE user:1000 0 5
+```
+
+## 特点
+
+- **二进制安全**：可存文本、数字、图片、序列化对象，最大 512MB。
+- **原子计数**：整数值支持 `INCR` / `DECR` / `INCRBY`，单线程保证原子性。
+- **条件写**：`NX`（不存在才写）与 `XX`（存在才写）配合过期实现锁与占位。
+- **底层 SDS**：动态字符串记录长度，取 `STRLEN` 为 O(1)，预分配减少扩容拷贝。
+- **过期**：键级 TTL（`EXPIRE` / `PSETEX`），到期由惰性删除 + 定期删除回收。
+
+## 使用场景
+
+```plaintext
+# 1. 缓存：对象 JSON / session token
+SET user:1001:profile '{"name":"Alice","age":28}' EX 600
+GET  user:1001:profile
+
+# 2. 计数器：页面浏览量（原子自增）
+INCR page:home:pv
+
+# 3. 分布式锁：不存在才设置 + 5 秒过期
+SET lock:order:10086 1 NX PX 5000
+
+# 4. 自增 ID：发号器
+INCRBY order:id 100
 ```
 
 ## 小结

@@ -4,6 +4,10 @@
 
 Redis 流（Streams）是 Redis 5.0 引入的一种新的数据结构，用于处理流式数据。它允许以时间序列的形式存储和处理数据，适合用来管理事件日志、消息队列和实时数据流等场景。Redis 流的设计理念借鉴了传统的消息队列系统，同时提供了强大的数据访问和管理能力。
 
+## 结构图
+
+![Redis Stream 结构](/structures/streams.png)
+
 ## 常用命令
 
 ### 1. **`XADD`**
@@ -92,12 +96,37 @@ XDEL mystream 1609459200000-0
 XTRIM mystream MAXLEN 1000
 ```
 
-## 应用场景
+## 特点
+
+- **追加日志**：条目按 ID（时间戳-序号）单调递增，`XADD` 尾部追加 O(1)。
+- **消费者组**：`XGROUP` 建组，组内每条消息只投递一次，组间互不影响。
+- **断点续读**：`last-delivered-id` 记录进度，重启后 `XREADGROUP` 从断点继续。
+- **pending 列表（PEL）**：已投递未 `XACK` 的消息留在 PEL，可 `XAUTOCLAIM` 超时转手重试。
+- **可裁剪**：`XTRIM MAXLEN` 限制长度，或 `XADD MAXLEN` 追加即裁剪。
+
+## 使用场景
 
 - **消息队列**：用作高性能、持久化的消息队列，支持按顺序处理消息。
 - **实时数据流**：存储和处理实时生成的数据流，如用户活动日志、传感器数据等。
 - **事件日志**：记录系统事件和操作日志，以便后续分析和审计。
 - **分布式系统**：在分布式系统中实现事件发布-订阅模式，传递和处理事件。
+
+```plaintext
+# 1. 事件流 / 消息队列
+XADD events * type "order.created" id 10086
+XREADGROUP GROUP g1 c1 COUNT 10 BLOCK 2000 STREAMS events >   # 消费新消息
+XACK events g1 1791799001000-0                                 # 确认消费
+
+# 2. 多组独立消费：A 组审计、B 组通知，互不干扰
+XGROUP CREATE events g-a 0
+XGROUP CREATE events g-b 0
+
+# 3. 断点续读 + 失败重投（PEL）
+XAUTOCLAIM events g1 c2 60000 0-0                              # 认领超时未确认消息
+
+# 4. 限制长度防膨胀
+XADD events MAXLEN 100000 * type "tick"
+```
 
 ## 小结
 
