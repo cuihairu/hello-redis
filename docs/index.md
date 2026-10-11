@@ -5,6 +5,9 @@ hero:
   name: Hello Redis
   text: Redis 知识手册
   tagline: 从五种基础数据类型到 Lua 脚本、持久化与高可用架构、源码分析与真实使用场景，把 Redis 讲全也讲透。
+  image:
+    src: /illustrations/hero.png
+    alt: hello-redis hero illustration
   actions:
     - theme: brand
       text: 开始阅读
