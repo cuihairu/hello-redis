@@ -82,3 +82,15 @@ if __name__ == '__main__':
 
 - 计数器与 Set 是两个键，极端情况下（如进程中断）可能出现不一致，可以定期用 `SCARD` 校准 `like:count`。
 - 热点内容的点赞键是热点键，必要时对计数器做分片累加再定期合并。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Sets](https://redis.io/docs/latest/develop/data-types/sets/)
+- SADD（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)

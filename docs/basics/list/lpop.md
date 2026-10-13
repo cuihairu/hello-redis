@@ -65,3 +65,20 @@ DEL ba:l:job
 ## 小结
 
 `LPOP` 从列表头部弹出元素，配合 `RPUSH` 是最经典的队列组合；`count` 参数让批量消费变得简单。不带 `count` 返回单值、带 `count` 返回数组，客户端需要把这两种返回形态分开处理。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- LPOP（未找到权威出处（待核））
+
+## 相关页面
+
+- [rpop](rpop.md)
+- [rpush](rpush.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [rpop](rpop.md)
+- [rpush](rpush.md)
+- [knowledge](/knowledge.md)

@@ -131,3 +131,16 @@ XADD events MAXLEN 100000 * type "tick"
 ## 小结
 
 Redis 流是一种强大的数据结构，适用于处理和管理时间序列数据。通过 `XADD`、`XRANGE`、`XREAD`、`XDEL` 和 `XTRIM` 等命令，用户可以高效地操作和查询流数据。Redis 流的高性能和灵活性使其在实时数据处理、消息队列和事件日志等应用场景中表现出色。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Streams](https://redis.io/docs/latest/develop/data-types/streams/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [other-commands](/basics/streams/other-commands.md)
+- [xadd](/basics/streams/xadd.md)
+- [xread](/basics/streams/xread.md)

@@ -79,3 +79,16 @@ $ redis-cli -p 6399 del bc:o1 bc:o2
 ## 小结
 
 把“类型—编码—结构”三层对应关系记住，再对照上表找到各自源码文件，就能在阅读任何一条 `t_*.c` 命令实现时迅速明白它在操作哪种结构。下一节将逐一拆解这些底层结构的具体实现细节。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [implementation](implementation.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [implementation](implementation.md)

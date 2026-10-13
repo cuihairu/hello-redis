@@ -186,3 +186,13 @@ LPOP stack:undo
 ## 小结
 
 Redis 列表是一个功能强大的数据结构，支持高效的插入和删除操作，适用于实现各种数据处理模式，如队列和堆栈等。通过掌握这些常用命令，可以灵活地操作和管理存储在 Redis 中的列表数据。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Lists](https://redis.io/docs/latest/develop/data-types/lists/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

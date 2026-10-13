@@ -130,3 +130,14 @@ def get_chat_history(chat_id, start=0, end=-1):
 ### 5. 总结
 
 Redis 提供了强大的数据结构和功能来实现高效的聊天消息存储和处理。通过合理选择数据结构（如 `LIST`, `STREAM`）和功能（如 `PUB/SUB`），可以实现实时消息推送、消息存储与检索、聊天记录管理等功能。根据实际需求，可以对 Redis 的数据结构和功能进行优化，以提高聊天系统的性能和用户体验。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Streams](https://redis.io/docs/latest/develop/data-types/streams/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/use-cases/README.md)
+- [chat-system](/use-cases/chat-system.md)

@@ -118,3 +118,15 @@ XADD bb:stream:orders 1-3 user u3 amount 300
 - [XADD](./xadd.md)：向流中追加条目。
 - [其他流命令](./other-commands.md)：`XRANGE`、消费者组与 `XREADGROUP` 等。
 - 返回专题目录：[Redis 流（Streams）](../streams.md)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- XREAD（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other-commands](other-commands.md)
+- [xadd](xadd.md)
+- [knowledge](/knowledge.md)

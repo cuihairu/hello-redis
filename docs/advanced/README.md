@@ -36,3 +36,13 @@ Redis 提供了多种机制来确保系统的高可用性。高可用性配置�
 - **网络安全**：讨论如何保护 Redis 实例免受网络攻击，包括使用加密和配置防火墙。
 - **数据加密**：介绍 Redis 数据加密的选项，保护存储的数据不被未经授权的访问。
 
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

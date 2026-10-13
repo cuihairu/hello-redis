@@ -140,3 +140,14 @@ if __name__ == '__main__':
 #### 实际案例总结
 
 实时数据仪表盘能够提供实时的数据监控和分析功能，帮助用户快速获取和响应关键信息。通过Redis的高性能数据存储和处理能力，结合前端技术，可以实现流畅的实时数据展示和互动体验。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Probabilistic](https://redis.io/docs/latest/develop/data-types/probabilistic/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/use-cases/README.md)
+- [real-time-analysis](/use-cases/real-time-analysis.md)

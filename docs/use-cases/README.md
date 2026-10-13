@@ -50,3 +50,13 @@
 - [用户消息时间线](user-message-timeline.md)
 
 这一部分将展示Redis在不同场景下的应用，帮助读者理解如何将Redis应用到实际项目中，以解决常见问题和提升系统性能。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)

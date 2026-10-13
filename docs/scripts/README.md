@@ -69,3 +69,12 @@ RedisJSON 是 Redis 的一个模块，支持 JSON 数据类型和操作。它使
 优化脚本性能，包括提高脚本执行效率、减少执行时间以及优化 Redis 服务器的性能设置。
 
 
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

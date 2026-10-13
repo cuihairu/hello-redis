@@ -62,3 +62,16 @@
 ## 小结
 
 在 Redis 中使用脚本功能时，安全性和性能是两个重要的考虑因素。通过合理的安全措施和性能优化策略，可以确保脚本的安全运行，并最大程度地提高 Redis 实例的性能。定期审查和优化脚本，并结合 Redis 提供的工具进行监控，是实现这一目标的有效方法。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [appendix](appendix.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [appendix](appendix.md)

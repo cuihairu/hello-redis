@@ -68,3 +68,17 @@
 - **安装与配置**: 参见 Redis 官方文档 RedisBloom 项目
 - **应用场景**: 数据去重、流量监控
 
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 命令索引](https://redis.io/docs/latest/commands/)
+
+## 相关页面
+
+- [basic-operations](basic-operations.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [basic-operations](basic-operations.md)

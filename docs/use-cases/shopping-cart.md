@@ -86,3 +86,16 @@ if __name__ == '__main__':
 - **合并游客购物车**：用户登录后，把未登录时的临时购物车（`cart:anon:{uuid}`）用 `HGETALL` 读出、逐字段 `HINCRBY` 合并到用户购物车，再删除临时键。
 - **批量取详情**：`HMGET` 一次取出全部商品数量后，用管道或 `MGET` 批量查询商品信息，避免 N+1 查询。
 - **防超卖**：数量允许手动改写时，下单前仍需在服务端重新校验库存，哈希里的数量不能直接信任。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Hashes](https://redis.io/docs/latest/develop/data-types/hashes/)
+- HSET（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)

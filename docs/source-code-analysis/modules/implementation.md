@@ -122,3 +122,12 @@ bd.incrby bd:c 0                    ->  8     （RDB 往返后值仍在）
 ## 小结
 
 写模块本质上是"用核心的视角实现命令"：初始化时注册、执行时遵守单线程约定、数据类型五件套（load/save/free/mem/digest）决定能否被持久化与自省。把示例扩展成生产模块时，下一步通常是 `RedisModule_BlockClient` 实现阻塞语义、`RedisModule_CreateTimer` 做周期任务，以及用 `RedisModule_SubscribeToServerEvent` 感知主从切换。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

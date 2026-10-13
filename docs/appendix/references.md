@@ -39,3 +39,13 @@
 - rdb_tools：离线解析 RDB 统计内存 <https://github.com/sripathikrishnan/redis-rdb-tools>
 
 提示：外部链接会随版本演进变化，请以 Redis 官方站点当前内容为准；本书示例基于 Redis 8.x 验证。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [knowledge](/knowledge.md)

@@ -96,3 +96,14 @@ process_order('order123')
 #### 总结
 
 在这个分布式电商系统的示例中，我们使用 Redis 实现了一个分布式锁机制，以确保在处理订单支付时的数据一致性和系统可靠性。分布式锁可以有效地解决多个实例对共享资源的竞争问题，提高系统的稳定性。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [官方模式 · 分布式锁](https://redis.io/docs/latest/develop/use/patterns/distributed-locks/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/use-cases/README.md)
+- [distributed-locks](/use-cases/distributed-locks.md)

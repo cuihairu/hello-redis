@@ -179,3 +179,16 @@ Redis 提供了丰富的键操作命令，用于管理数据的存储、过期�
 ## 小结
 
 Redis 提供了多种命令来管理和操作键，包括创建、获取、删除键，设置和管理过期时间，以及查看键的类型。通过这些命令，用户可以灵活地控制 Redis 数据的存储和生命周期，以满足不同的应用需求。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- DEL（未找到权威出处（待核））
+- EXPIRE（未找到权威出处（待核））
+- TTL（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)

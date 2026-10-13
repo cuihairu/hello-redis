@@ -73,3 +73,17 @@ $ redis-cli -p 6399 del bc:d1 bc:d2 bc:d3 bc:d4
 ## 小结
 
 Redis 的数据结构体系是“类型系统 + 多编码 + 底层结构”的三明治：上层类型对用户稳定，中间编码按数据规模自动切换，底层结构各自承担最优场景。掌握 `OBJECT ENCODING` 与源码中编码常量的对应关系，就掌握了阅读 8.0 源码数据结构部分的地图。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [object.c（对象系统）](https://github.com/redis/redis/blob/unstable/src/object.c)
+- [dict.c（字典）](https://github.com/redis/redis/blob/unstable/src/dict.c)
+- [sds.c（简单动态字符串）](https://github.com/redis/redis/blob/unstable/src/sds.c)
+- [listpack.c](https://github.com/redis/redis/blob/unstable/src/listpack.c)
+- [quicklist.c](https://github.com/redis/redis/blob/unstable/src/quicklist.c)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)

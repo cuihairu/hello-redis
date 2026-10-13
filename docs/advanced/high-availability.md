@@ -103,3 +103,16 @@ Redis 的高可用性机制包括主从复制、哨兵模式和集群模式。�
 - **集群模式**：支持数据分片和分布式高可用，适合需要水平扩展的应用场景。
 
 根据实际需求选择合适的高可用性方案，可以有效提高 Redis 系统的可靠性和稳定性。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 复制](https://redis.io/docs/latest/operate/oss_and_stack/management/replication/)
+- [Redis 运维手册 · Sentinel](https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

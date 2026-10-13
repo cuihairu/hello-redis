@@ -59,3 +59,14 @@ SLOWLOG GET 10           # 最近 10 条慢查询
 ```
 
 理解执行路径后，排查延迟问题的思路就很直接：先看慢日志定位慢命令，再用 `LATENCY` 与 `CLIENT LIST` 区分是命令本身慢、持久化抖动还是网络/缓冲区问题。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [ae.c（事件循环）](https://github.com/redis/redis/blob/unstable/src/ae.c)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [architecture-and-design](architecture-and-design.md)

@@ -150,3 +150,15 @@ subscribe_messages(f"chat_updates:{chat_id}")
 ### 总结
 
 通过结合 Redis 的 `STREAM`, `PUB/SUB`, `HASH`, `LIST` 数据结构和功能，可以构建高效的实时聊天应用。消息存储、实时推送、用户会话管理和历史消息查询均可以通过 Redis 的不同特性实现，满足高并发和实时性的需求。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Pub/Sub](https://redis.io/docs/latest/develop/pubsub/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](/use-cases/README.md)
+- [chat-system](/use-cases/chat-system.md)

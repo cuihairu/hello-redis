@@ -164,3 +164,13 @@ for message in messages:
 ## 总结
 
 Redis 的消息队列功能和数据结构提供了强大的实时数据处理能力。通过其 Pub/Sub 模型和 Stream 数据结构，Redis 可以与其他消息队列系统（如 Kafka 和 RabbitMQ）集成，满足不同的消息传递和处理需求。结合 Redis 的高性能和灵活性，您可以根据实际需求选择最适合的集成方案。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Streams](https://redis.io/docs/latest/develop/data-types/streams/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

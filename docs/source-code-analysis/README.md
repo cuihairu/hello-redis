@@ -68,3 +68,12 @@ Redis 源码分析章节旨在从源代码视角，系统性地解析 Redis 7.x/
 - **子目录文件**（如 `architecture/overview.md`、`command-processing/parsing.md` 等）：深入到具体流程和实现要点，结合源文件路径和关键函数说明底层细节。
 
 建议读者先阅读各主题的顶层章节，再按需深入对应的细分页面。所有文件均采用统一的结构，力求清晰、准确且避免冗余。通过对这些章节的学习，读者能够更深入地理解 Redis 的源码设计，从而在实际应用中更好地发挥 Redis 的性能优势。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

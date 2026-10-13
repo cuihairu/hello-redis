@@ -46,3 +46,14 @@ redis-cli
 - **需要多主写入**：Active Replication 适合多机房写入的场景，但要理解冲突解决语义（按版本与时间戳）。
 - **兼容性验证先行**：KeyDB 的版本迭代与 Redis 主线不同步，新命令（如 Redis 7 的 Functions）支持情况需在所用版本上实测。
 - **许可变化**：KeyDB 在 6.3.x 后转向 BSPL 许可（要求署名），商业使用前请阅读其 LICENSE。
+
+## 参考资料
+
+- Redis 官网（未找到权威出处（待核））
+- [KeyDB 文档](https://docs.keydb.dev/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other](/basics/other.md)
+- [README](README.md)

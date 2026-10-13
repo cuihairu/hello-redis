@@ -95,3 +95,14 @@ BITFIELD_RO bb:bitmap:ro GET u8 0
 - [SETBIT](./setbit.md)：设置指定偏移量上的比特位。
 - [GETBIT](./getbit.md)：读取指定偏移量上的比特位。
 - 返回专题目录：[Redis 位图](../bitmap.md)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [getbit](getbit.md)
+- [setbit](setbit.md)
+- [knowledge](/knowledge.md)

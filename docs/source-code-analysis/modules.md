@@ -66,3 +66,17 @@ ERR MODULE command not allowed. If the enable-module-command option is set to "l
 ## 小结
 
 模块系统的设计核心是"同一个进程、同一个事件循环、一套自省 API"：命令表、数据类型、RDB/AOF、复制、`INFO`/`COMMAND` 自省对模块一视同仁。代价是必须与核心线程模型保持一致——所有回调在主线程执行，任何阻塞都会阻塞整个服务器，这也是模块文档反复强调"不要在回调里做耗时操作"的根源。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [模块 API 参考](https://redis.io/docs/latest/develop/reference/modules/)
+
+## 相关页面
+
+- [architecture](architecture.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [architecture](architecture.md)

@@ -21,3 +21,13 @@
 
 - Streams + ZSET 的完整数据处理链路见[实时数据处理](real-time-analysis/data-processing.md)；
 - 指标聚合与看板设计见[实时看板](real-time-analysis/dashboard.md)。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Streams](https://redis.io/docs/latest/develop/data-types/streams/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

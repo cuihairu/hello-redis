@@ -109,3 +109,18 @@
 ## 总结
 
 通过配置合适的网络安全措施，您可以有效保护 Redis 实例免受未授权访问和潜在的攻击。确保应用密码保护、启用加密传输、限制客户端连接、配置防火墙、监控日志，以及保持软件的最新状态，都是保障 Redis 网络安全的关键步骤。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 安全](https://redis.io/docs/latest/operate/oss_and_stack/management/security/)
+
+## 相关页面
+
+- [aof-log](aof-log.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [aof-log](aof-log.md)

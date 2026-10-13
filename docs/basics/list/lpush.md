@@ -59,3 +59,13 @@ DEL ba:l:stack ba:l:nolist
 ## 小结
 
 `LPUSH` 是列表头部插入的标准命令，配合 `LRANGE`、`LPOP`、`LTRIM` 可以实现栈、最新动态列表等典型结构。多个值一起插入时注意参数顺序与最终排列是相反的。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- LPUSH（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

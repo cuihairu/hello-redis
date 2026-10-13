@@ -90,3 +90,17 @@ PFCOUNT active:hour
 ## 小结
 
 Redis 的 HyperLogLog 实现提供了一种高效的方式来估计大规模数据集中的唯一元素数量。通过 `PFADD`、`PFCOUNT` 和 `PFMERGE` 等命令，用户可以有效地管理和查询 HyperLogLog 数据。由于其概率性特征，HyperLogLog 可以在大数据量的情况下保持较低的内存占用。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Probabilistic](https://redis.io/docs/latest/develop/data-types/probabilistic/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)
+- [other-commands](/basics/hyperloglog/other-commands.md)
+- [pfadd](/basics/hyperloglog/pfadd.md)
+- [pfcount](/basics/hyperloglog/pfcount.md)

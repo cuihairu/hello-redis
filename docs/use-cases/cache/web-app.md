@@ -122,3 +122,14 @@ def data(data_id):
 - **缓存分区**：使用Redis的分区功能将缓存数据分散到不同的Redis实例中，提高缓存的扩展性和性能。
 
 通过以上实际案例和策略，Web应用可以有效地利用Redis缓存来提升系统性能、降低数据库负载，并改善用户体验。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/use-cases/README.md)
+- [cache](/use-cases/cache.md)
+- [caching](/use-cases/caching.md)

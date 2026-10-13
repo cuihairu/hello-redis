@@ -65,3 +65,17 @@ DEL ba:h:user:1000 ba:h:notahash
 ## 小结
 
 `HGET` 是哈希类型的单字段读取命令，语义与字符串的 `GET` 类似，只是多了字段维度。批量取值用 `HMGET`，全量读取用 `HGETALL`，三者结合可以覆盖绝大多数读取场景。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- HGET（未找到权威出处（待核））
+
+## 相关页面
+
+- [hset](hset.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [hset](hset.md)

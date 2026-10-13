@@ -136,3 +136,18 @@ auto-aof-rewrite-min-size 64mb
 ## 4. 总结
 
 Redis 性能优化包括内存管理、命令优化、性能监控等多个方面。通过合理配置 Redis 参数、选择合适的数据结构、优化命令和监控性能，可以提高 Redis 的整体性能和可靠性。根据实际应用场景的需求，结合具体的优化策略，能够实现更高效、更稳定的 Redis 运行环境。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 优化](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/)
+
+## 相关页面
+
+- [aof-log](aof-log.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [aof-log](aof-log.md)

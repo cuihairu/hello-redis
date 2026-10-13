@@ -212,3 +212,14 @@ INCRBY order:id 100
 ## 小结
 
 Redis 字符串是 Redis 中最基本且最常用的数据类型，支持多种高效的操作。它适用于多种场景，如缓存、计数器等。掌握这些基本操作将有助于你高效地使用 Redis 进行数据存储和处理。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Strings](https://redis.io/docs/latest/develop/data-types/strings/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [knowledge](/knowledge.md)

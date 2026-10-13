@@ -77,3 +77,14 @@ rdb_last_save_time:1790903507
 ## 小结
 
 RDB 的实现要点可以压缩成一句话：**用 fork 换取一致性快照，用 COW 换取在线服务不中断，用紧凑二进制加 CRC64 换取小体积与完整性**。源码阅读建议从 `rdbSaveBackground()` 进入，顺序过 `rdbSave()` → `rdbSaveRio()` → 各 `rdbSave*Object()`，再对称地看 `rdbLoad()` → `rdbLoadRio()` → 各 `rdbLoad*Object()`，即可覆盖全部实现。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [rdb.c](https://github.com/redis/redis/blob/unstable/src/rdb.c)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

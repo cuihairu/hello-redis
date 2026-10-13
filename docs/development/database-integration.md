@@ -177,3 +177,13 @@ def update_elasticsearch(doc_id, new_data):
 ## 总结
 
 Redis 与数据库的集成可以提高系统性能和数据一致性。作为缓存层，Redis 可以减少数据库负载，提高数据访问速度。与关系型和 NoSQL 数据库的集成有助于实现高效的数据存取和同步。在实际应用中，根据业务需求选择合适的集成方式和策略，可以显著提升系统的响应能力和可靠性。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

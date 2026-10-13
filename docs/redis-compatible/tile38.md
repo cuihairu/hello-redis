@@ -42,3 +42,14 @@ redis-cli -p 9851
 当业务只需要"半径内查询"时，Redis 的 GEO 命令足够；一旦涉及多边形围栏、面数据与围栏推送，Tile38 是更合适的选择。
 
 项目地址：<https://github.com/tidwall/tile38>
+
+## 参考资料
+
+- Redis 官网（未找到权威出处（待核））
+- [Tile38 官网](https://tile38.com/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)

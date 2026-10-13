@@ -100,3 +100,13 @@ app.config.update(
 ```
 
 通过遵循这些最佳实践，可以确保Redis作为会话存储的有效性、安全性和可靠性，从而提升Web应用的整体性能和用户体验。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/use-cases/README.md)
+- [session-management](/use-cases/session-management.md)

@@ -39,3 +39,15 @@ AOF（Append-Only File）日志是 Redis 的另一种持久化机制，通过记
 - **策略选择**：通常情况下，结合使用 RDB 和 AOF 可以提供更高的数据持久性和灵活性。RDB 用于快速恢复，AOF 用于最小化数据丢失。
 
 在实际应用中，您应根据系统的性能要求、数据安全需求以及备份策略来选择最合适的持久化配置。适当的配置和管理可以确保 Redis 的高可用性和数据可靠性。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 持久化](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

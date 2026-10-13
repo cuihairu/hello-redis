@@ -90,3 +90,19 @@ appendfsync everysec
    - 同时启用 RDB 和 AOF 持久化，通过配置 `appendfsync everysec` 和定期快照来平衡性能和数据安全性。
 
 合理配置 Redis 的持久化策略，可以在保证数据安全的同时优化性能。选择适合自己应用场景的持久化策略是确保 Redis 高效、稳定运行的关键。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 配置](https://redis.io/docs/latest/operate/oss_and_stack/management/config/)
+- [Redis 运维手册 · 持久化](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/)
+
+## 相关页面
+
+- [aof-log](aof-log.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [aof-log](aof-log.md)

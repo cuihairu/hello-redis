@@ -55,3 +55,17 @@ DEL ba:h:user:1000 ba:h:user:1001
 ## 小结
 
 `HSET` 是哈希类型的标准写入命令，支持单字段与多字段两种写法，返回新建字段数量。旧命令 `HMSET` 已废弃，新代码统一使用 `HSET` 即可。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- HSET（未找到权威出处（待核））
+
+## 相关页面
+
+- [hget](hget.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [hget](hget.md)

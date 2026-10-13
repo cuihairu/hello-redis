@@ -150,3 +150,17 @@ GEODIST shop:1 shop:2 km
 ## 小结
 
 Redis 的地理空间数据功能为处理地理位置数据提供了强大的支持。通过使用 Redis 的地理空间命令，可以高效地存储、查询和计算地理位置信息。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Geospatial](https://redis.io/docs/latest/develop/data-types/geospatial/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)
+- [geoadd](/basics/geospatial/geoadd.md)
+- [georadius](/basics/geospatial/georadius.md)
+- [other-commands](/basics/geospatial/other-commands.md)

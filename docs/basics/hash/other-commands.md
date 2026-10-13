@@ -102,3 +102,12 @@ HRANDFIELD ba:h:user:1000 2 WITHVALUES
 ## 小结
 
 这批命令覆盖了哈希的批量读取、字段删除、存在性判断、原子计数和随机取样。单字段用 `HGET`，多字段用 `HMGET`，全量遍历优先 `HSCAN`，数值变更一律用 `HINCRBY` 系列。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

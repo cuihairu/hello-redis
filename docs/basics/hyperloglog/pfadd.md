@@ -66,3 +66,15 @@ PFADD bb:hll:str a
 - [PFCOUNT](./pfcount.md)：读取基数估算值。
 - [其他HyperLogLog命令](./other-commands.md)：`PFMERGE`。
 - 返回专题目录：[Redis HyperLogLog](../hyperloglog.md)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- PFADD（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other-commands](other-commands.md)
+- [pfcount](pfcount.md)
+- [knowledge](/knowledge.md)

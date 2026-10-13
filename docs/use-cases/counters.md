@@ -61,3 +61,16 @@ return redis.call('DECR', KEYS[1])" 1 stock:1001
 - 计数键同样要考虑 TTL 或定期归档（写入数据库后删除），避免键无限增长。
 - 高频自增键是典型热点键，若单键压力过大，可以拆成多个分片键（如 `page:home:pv:0` 到 `:9` 随机写入）再汇总。
 - 需要浮点计数时使用 `INCRBYFLOAT`。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- INCR（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)
+- [ranking-and-counting](ranking-and-counting.md)
+- [redis-use-cases](redis-use-cases.md)

@@ -98,3 +98,18 @@ HELLO 3 AUTH u p   ->  -WRONGPASS invalid username-password pair or user is disa
 ## 小结
 
 RESP 用不到 20 种报文形态覆盖了 Redis 全部交互：请求侧 inline/multibulk 二选一，回复侧由类型字节驱动。RESP2 与 RESP3 的差别集中在"类型保真度"上——map/set/bool/double/push 让客户端不再猜测，也让服务器能把 pub/sub 等带外消息显式标记出来。熟悉这些字节形态后，下一章进入 `networking.c`，看它们是如何被逐字节解析与拼装的。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [implementation](implementation.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)
+- [implementation](implementation.md)

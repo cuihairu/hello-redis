@@ -60,3 +60,12 @@ Redis（Remote Dictionary Server）是一个开源的内存数据结构存储系
    - Redis 的地理空间索引支持位置服务应用，如位置跟踪和地点搜索。
 
 Redis 的设计使其在许多高性能、高可用性的应用场景中表现优异，是现代软件架构中不可或缺的组成部分。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

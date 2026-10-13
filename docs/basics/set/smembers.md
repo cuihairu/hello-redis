@@ -59,3 +59,13 @@ DEL ba:s:framework ba:s:nonotexist
 ## 小结
 
 `SMEMBERS` 是集合的全量读取命令，简单直观，但只适合小集合。生产环境中对大集合应使用 `SSCAN` 增量遍历，判断成员是否存在则交给 `SISMEMBER`。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- SMEMBERS（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

@@ -297,3 +297,21 @@ XREAD COUNT 2 STREAMS mystream 0
 ```
 
 以上命令仅为 Redis 基本操作的一部分，Redis 还提供了许多其他功能和命令。有关 Redis 命令的详细信息，可以参考 [Redis 官方文档](https://redis.io/commands/)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · 使用命令](https://redis.io/docs/latest/develop/using-commands/)
+
+## 相关页面
+
+- [installation-on-macos](installation-on-macos.md)
+- [other](other.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)
+- [installation-on-macos](installation-on-macos.md)
+- [other](other.md)

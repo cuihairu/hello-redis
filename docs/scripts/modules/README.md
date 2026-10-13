@@ -21,3 +21,16 @@ RedisJSON 是一个 Redis 模块，用于在 Redis 中处理 JSON 数据。它�
 
 - **基本 JSONPath 查询命令**  
   介绍 RedisJSON 中的常用 JSONPath 查询命令，包括 JSON 数据的创建、查询、修改等操作。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [redisgraph](redisgraph.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [redisgraph](redisgraph.md)

@@ -107,3 +107,14 @@ hz 10
 ## 5. 总结
 
 Redis 内存优化涉及合理配置内存限制、选择合适的数据结构、使用压缩、内存分析和监控等多个方面。通过精确配置和优化 Redis，可以显著提高性能并减少内存消耗。根据实际应用需求，结合以上策略，可以实现高效的 Redis 内存管理。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 优化](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

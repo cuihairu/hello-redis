@@ -27,3 +27,14 @@
 - **内存管理**: Redis 将数据存储在内存中，确保配置足够的内存并合理管理内存使用，以防止内存溢出。
 - **安全性**: 配置 Redis 的访问控制和认证机制，确保只有授权用户才能访问 Redis 实例。使用密码保护、访问控制列表（ACL）等手段提高安全性。
 
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · 使用命令](https://redis.io/docs/latest/develop/using-commands/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)

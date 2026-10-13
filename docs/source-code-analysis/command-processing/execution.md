@@ -110,3 +110,16 @@ EXEC         ->  *3\r\n+OK\r\n:2\r\n$1\r\n2\r\n
 ## 小结
 
 `call()` 是一个"带副作用的函数调用器"：执行函数本体只是其中一步，统计、慢日志、延迟采样与传播同样重要。排查性能问题时的三层证据——`INFO commandstats`（平均耗时）、`SLOWLOG GET`（最慢样本）、`LATENCY LATEST`（事件级毛刺）——全部由这同一段代码产生，因此三者之间天然可以相互印证。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [parsing](parsing.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [parsing](parsing.md)

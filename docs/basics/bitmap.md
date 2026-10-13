@@ -123,3 +123,16 @@ BITOP AND both:online online:a online:b
 ## 小结
 
 Redis 位图是一种内存高效的二进制数据结构，非常适合用于存储和处理大量的二进制标记数据。通过掌握位图相关命令，可以实现高效的数据操作和统计。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Strings（位图）](https://redis.io/docs/latest/develop/data-types/strings/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [getbit](/basics/bitmap/getbit.md)
+- [other-commands](/basics/bitmap/other-commands.md)
+- [setbit](/basics/bitmap/setbit.md)

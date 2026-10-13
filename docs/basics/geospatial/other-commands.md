@@ -93,3 +93,14 @@ ZRANGE bb:geo:dest 0 -1 WITHSCORES
 - [GEOADD](./geoadd.md)：写入地理空间数据。
 - [GEORADIUS](./georadius.md)：传统的圆形区域查询命令。
 - 返回专题目录：[Redis 地理空间数据](../geospatial.md)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [geoadd](geoadd.md)
+- [georadius](georadius.md)
+- [knowledge](/knowledge.md)

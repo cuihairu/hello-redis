@@ -107,3 +107,16 @@ redis-cli --cluster reshard <existing-node-ip>:<existing-node-port>
 ## 6. 总结
 
 Redis 集群模式提供了一种高可用性和可扩展性的解决方案，通过将数据分布在多个节点上，Redis 集群能够处理大量数据和高并发请求。通过合理配置和管理 Redis 集群，可以实现高效、可靠的分布式数据存储解决方案。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 扩缩容与集群](https://redis.io/docs/latest/operate/oss_and_stack/management/scaling/)
+- [Redis 集群规范](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

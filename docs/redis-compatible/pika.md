@@ -47,3 +47,14 @@ OK
 - **运维**：关注磁盘容量与 compaction、主从同步带宽、以及与 Redis 版本协议的对应关系。
 
 项目地址：<https://github.com/OpenAtomFoundation/pika>
+
+## 参考资料
+
+- Redis 官网（未找到权威出处（待核））
+- [Pika（PikiwiDB）](https://github.com/OpenAtomFoundation/pikiwidb)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)

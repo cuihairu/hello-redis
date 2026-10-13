@@ -84,3 +84,25 @@ Lua 值到 Redis 回复：
 3. 是否对 `redis.pcall` 的返回值做了 `err` 字段判断。
 4. 脚本内容变更后，是否重新计算 SHA1 并重新加载。
 5. 生产环境是否使用 `SCRIPT LOAD` + `EVALSHA`（或 `FUNCTION LOAD` + `FCALL`）来减少网络传输。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [introduction](introduction.md)
+- [modules-support](modules-support.md)
+- [performance](performance.md)
+- [security-and-performance](security-and-performance.md)
+- [security](security.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [introduction](introduction.md)
+- [modules-support](modules-support.md)
+- [performance](performance.md)
+- [security-and-performance](security-and-performance.md)
+- [security](security.md)

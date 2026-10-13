@@ -70,3 +70,14 @@ redis-cli -p 6399 info persistence | grep -E 'rdb_bgsave_in_progress|latest_fork
 ## 小结
 
 把 Redis 的并发模型总结成一句话：**数据面单线程（免锁），控制面多线程（I/O、后台任务、子进程）**。I/O 线程扩展的是网络吞吐，bio 扩展的是"脏活"的隔离，fork 扩展的是持久化的并行度；而所有对数据结构的修改永远只有主线程在执行。后续两章分别深入线程的创建与调度细节，以及在这套模型之上的并发控制原语。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [bio.c（后台线程）](https://github.com/redis/redis/blob/unstable/src/bio.c)
+- [networking.c](https://github.com/redis/redis/blob/unstable/src/networking.c)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

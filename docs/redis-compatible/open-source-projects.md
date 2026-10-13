@@ -65,3 +65,14 @@
 1. 先确认瓶颈类型：内存容量（考虑 Pika/Dragonfly）、多核吞吐（Valkey/Dragonfly/KeyDB）、许可（Valkey）或功能（模块/专业数据库）；
 2. 兼容性用真实业务命令清单验证，而非只跑 `SET/GET`；
 3. 代理类方案要评估运维复杂度与故障模式（代理本身是新的单点）。
+
+## 参考资料
+
+- Redis 官网（未找到权威出处（待核））
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)

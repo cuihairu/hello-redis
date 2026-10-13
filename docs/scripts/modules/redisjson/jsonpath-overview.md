@@ -125,3 +125,12 @@ JSONPath 广泛应用于处理和分析 JSON 数据的各种场景，包括：
 - **配置管理：** 在应用程序中使用 JSONPath 查询配置文件，以动态地读取和应用配置设置。
 
 JSONPath 的灵活性和强大功能使其成为处理和操作 JSON 数据的重要工具。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/scripts/README.md)

@@ -112,3 +112,14 @@ redis-benchmark -q -c 50 -n 100000
 ## 3. 总结
 
 Redis 性能监控与调优涉及使用内置命令和外部工具进行性能监控、优化内存和命令使用、调整持久化和高可用性配置、网络和连接优化等多个方面。通过合理的配置和监控，可以确保 Redis 在高负载和大规模环境中稳定高效地运行。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 调试](https://redis.io/docs/latest/operate/oss_and_stack/management/debugging/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)

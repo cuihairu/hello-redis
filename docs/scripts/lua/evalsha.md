@@ -45,3 +45,14 @@ EVALSHA f18d3d793916e36d0190b2df2092383385a0d1a0 2 key1 key2
 ## 性能对比
 
 相比于 `EVAL`，`EVALSHA` 省去了脚本的编译步骤，尤其在脚本内容较大或需要频繁执行时，能带来显著的性能提升。为了最优性能，推荐在需要多次调用相同脚本时使用 `EVALSHA`。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)
+- [README](/scripts/README.md)

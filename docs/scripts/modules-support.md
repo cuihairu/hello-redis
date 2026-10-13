@@ -70,3 +70,16 @@ redis-cli FCALL get_user 1 user:1000 name
 ## 5. 小结
 
 模块负责"扩展 Redis 能做什么"，脚本负责"把这些能力组合成原子操作"。良好的实践是：数据建模交给模块命令，多步业务逻辑交给脚本或 Function，并始终通过 `KEYS` 声明键、保持脚本简短。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [appendix](appendix.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [appendix](appendix.md)

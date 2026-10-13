@@ -24,3 +24,15 @@ Redlock 向多数节点加锁才算成功，但依赖系统时钟：时钟跳变
 
 - 加锁、续期、Lua 释放的完整实现见[分布式锁的实现](distributed-locks/implementation.md)；
 - Redlock 争论与故障场景分析见[分布式系统中的应用](distributed-locks/distributed-systems.md)。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [官方模式 · 分布式锁](https://redis.io/docs/latest/develop/use/patterns/distributed-locks/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)
+- [README](README.md)

@@ -73,3 +73,16 @@
 ## 小结
 
 确保 Redis 脚本的安全性需要遵循最佳实践，防止脚本注入、限制脚本执行时间、避免使用不安全的 Lua 功能，以及控制脚本的并发执行。通过采取这些措施，可以大大降低脚本引入安全隐患的风险，并确保 Redis 实例的安全性和稳定性。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [appendix](appendix.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [appendix](appendix.md)

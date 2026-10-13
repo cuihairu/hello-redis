@@ -62,3 +62,17 @@ DEL ba:s:lang ba:s:notaset
 ## 小结
 
 `SADD` 是集合类型的标准写入命令，返回新增成员数量，天然实现去重。配合 `SISMEMBER`、`SCARD`、`SPOP` 等命令，可以把集合用作标签集、白名单和抽奖池。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- SADD（未找到权威出处（待核））
+
+## 相关页面
+
+- [other-commands](other-commands.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other-commands](other-commands.md)

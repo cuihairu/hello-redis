@@ -30,3 +30,13 @@
 - [分布式锁](distributed-lock.md)
 - [限流器](rate-limiter.md)
 - [聊天应用](chat-application.md)
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [knowledge](/knowledge.md)

@@ -98,3 +98,15 @@ while True:
 #### 4. 总结
 
 通过使用Redis实现异步任务处理，您可以将耗时的操作从用户请求中分离出来，避免阻塞用户请求并提高系统的响应速度。任务生产者将任务数据添加到Redis队列，任务消费者从队列中获取并处理任务。使用Redis的List数据结构和阻塞操作（`BRPOP`）可以有效地管理任务队列，实现高效的异步处理。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Lists](https://redis.io/docs/latest/develop/data-types/lists/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/use-cases/README.md)
+- [task-queue](/use-cases/task-queue.md)
+- [design](design.md)

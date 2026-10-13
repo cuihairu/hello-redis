@@ -92,3 +92,17 @@ redis-cli -p 6399 slowlog get 3
 ## 小结
 
 命令处理流程是一条严格串行的流水线：事件驱动读入 -> 解析 -> 查表 -> 检查 -> `call()` 执行 -> 传播 -> 回复。所有"为什么这个命令被拒绝""为什么这条命令没有写进 AOF"的问题，答案都在 `processCommand()` 与 `call()` 的这条路径上。理解它之后，才能进一步讨论多线程 I/O、阻塞命令与事务这些"主干上的分叉"。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [ae.c（事件循环）](https://github.com/redis/redis/blob/unstable/src/ae.c)
+
+## 相关页面
+
+- [architecture](architecture.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [architecture](architecture.md)

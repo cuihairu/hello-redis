@@ -140,3 +140,12 @@
 ## 结论
 
 有效的监控和故障排除是确保 Redis 集群稳定和高效运行的关键。通过使用适当的监控工具和遵循故障排除步骤，可以快速识别和解决 Redis 集群中的问题，保持系统的高可用性和良好的性能。
+
+## 参考资料
+
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)

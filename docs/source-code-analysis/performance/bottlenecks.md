@@ -119,3 +119,16 @@ redis-cli -p 6399 config get save appendonly    # 确认持久化是否开启
 ## 小结
 
 瓶颈分析没有玄学：慢命令看慢日志，事件毛刺看延迟监控，结构问题看采样扫描，磁盘问题看 fork 与 AOF 指标。四个工具分别对应 `call()`、`latencyAddSample()`、`SCAN` 与 `INFO` 四处源码埋点，把它们串起来就能从现象直接落到代码。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [strategies](strategies.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [strategies](strategies.md)

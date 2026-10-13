@@ -35,3 +35,18 @@ EVAL "return redis.call('GET', KEYS[1]) + redis.call('GET', KEYS[2])" 2 key1 key
 - 脚本的执行是原子操作，执行过程中不会被其他命令中断。
 - `EVAL` 命令在每次调用时都会重新编译和执行脚本，因此对于需要频繁执行的脚本，建议使用 `EVALSHA` 命令来避免重复编译。
 - 脚本执行完后，Redis 会自动把它缓存起来（生成的 SHA1 可用 `SCRIPT LOAD` 或 `EVAL` 的返回值查到），供后续 `EVALSHA` 使用。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [commands](commands.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](/scripts/README.md)
+- [commands](commands.md)

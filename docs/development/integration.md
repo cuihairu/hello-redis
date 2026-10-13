@@ -205,3 +205,13 @@ spec:
 ```
 
 Redis 的灵活性和广泛的社区支持使得它可以与许多技术栈和系统无缝集成，从而提升系统性能、扩展性和实时数据处理能力。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

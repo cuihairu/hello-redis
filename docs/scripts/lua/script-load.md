@@ -52,3 +52,12 @@ EVALSHA d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37 1 mykey myvalue
 ## 优势
 
 通过预加载脚本并使用 SHA1 校验和来执行，可以减少网络带宽的使用和 Redis 的处理开销，这在高频率执行的场景下能带来显著的性能提升。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/scripts/README.md)

@@ -69,3 +69,14 @@ else:
 #### 4. 总结
 
 使用 Redis 实现 API 限流是一种简单且有效的方法，可以帮助我们管理系统资源，防止滥用，并保证服务的公平性。根据实际需求，可以调整限流策略和参数，以满足特定的业务要求。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- INCR（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/use-cases/README.md)
+- [rate-limiting](/use-cases/rate-limiting.md)

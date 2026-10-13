@@ -89,3 +89,12 @@
 ## 结论
 
 使用合适的 Redis 监控工具可以帮助您实时了解 Redis 实例的健康状况和性能。选择适合您需求的工具，并定期监控 Redis 实例，以确保其高效、稳定运行。
+
+## 参考资料
+
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)

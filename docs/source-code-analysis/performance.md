@@ -79,3 +79,18 @@ redis-cli -p 6399 info memory | grep -E 'used_memory_human|mem_fragmentation_rat
 ## 小结
 
 性能优化在 Redis 里是"先测量、后动手"的工程：`INFO`/`SLOWLOG`/`LATENCY` 提供量化证据，编码与 pipeline 提供低成本收益，lazy-free 与集群分片提供结构性收益。下一章按瓶颈类型给出完整的排查路径。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [Redis 运维手册 · 优化](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/)
+- [ae.c（事件循环）](https://github.com/redis/redis/blob/unstable/src/ae.c)
+
+## 相关页面
+
+- [architecture](architecture.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [architecture](architecture.md)

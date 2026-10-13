@@ -85,3 +85,13 @@ if __name__ == '__main__':
 - 明细数据（几点打的卡）与统计位图分开存储，明细用于展示，位图用于快速统计。
 - 按天建键并设置较长的 TTL（如 90 天），历史数据定期归档到数据库后删除。
 - 位偏移依赖用户 ID，若用户 ID 不连续（如雪花 ID很大），不要用全局位图按 ID 置位，改用"按用户建键"的方案一。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Strings（位图）](https://redis.io/docs/latest/develop/data-types/strings/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

@@ -73,3 +73,15 @@ if __name__ == '__main__':
 - `INCR` 结果是 64 位有符号整数，最大 9223372036854775807，实际业务远用不到上限。
 - 需要可读性（如带日期前缀）时，可以拼接日期与序号，例如 `20240603` + 6 位补零序号。
 - 需要"趋势递增"而非严格递增时，也可以用 `TIME` 时间戳部分拼接毫秒与计数，减少单键压力。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- INCR（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)

@@ -63,3 +63,17 @@ DEL ba:l:log ba:l:call
 ## 小结
 
 `RPOP` 从列表尾部弹出元素，与 `LPOP` 一起构成列表的两端消费能力。与 `LPUSH` 组合即得到栈结构；涉及跨列表的原子搬运时，优先使用 `LMOVE`。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- RPOP（未找到权威出处（待核））
+
+## 相关页面
+
+- [lpop](lpop.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [lpop](lpop.md)

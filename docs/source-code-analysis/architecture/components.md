@@ -101,3 +101,16 @@ cmdstat_zrevrange:calls=6,usec=49,usec_per_call=8.17,rejected_calls=0,failed_cal
 ## 小结
 
 阅读 Redis 源码的推荐路径是：先用 `server.c` 建立全局认知，再按命令类型下钻到 `t_*.c`，遇到内存与编码问题回查 `object.c`、`dict.c`、`listpack.c`，涉及落盘与同步时进入 `rdb.c`、`aof.c`、`bio.c`。配合 `INFO`、`COMMAND`、`CONFIG GET` 等只读命令，可以在运行实例上验证每个组件的行为。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [overview](overview.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [overview](overview.md)

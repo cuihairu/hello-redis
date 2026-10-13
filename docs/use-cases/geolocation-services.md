@@ -18,3 +18,13 @@
 
 - 存储、查询、附近的人完整实现见[基于位置的服务](geolocation-services/location-based.md)；
 - GeoHash 原理与 GEO 命令详解见[地理位置索引](geospatial-indexing.md)。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Geospatial](https://redis.io/docs/latest/develop/data-types/geospatial/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

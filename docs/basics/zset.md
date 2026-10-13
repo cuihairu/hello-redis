@@ -220,3 +220,14 @@ ZCOUNT rate:api (now-60 now            # 60 秒内请求数
 ## 小结
 
 Redis 有序集合是一个非常强大的数据结构，适用于需要按顺序处理数据的场景，如排行榜、排名系统等。通过掌握这些常用命令，可以高效地管理和操作 Redis 中的有序集合数据。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Sorted sets](https://redis.io/docs/latest/develop/data-types/sorted-sets/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)

@@ -76,3 +76,16 @@ blocked_clients:1
 ## 小结
 
 Redis 的并发控制是"分层"的：最底层靠单线程执行消除竞态；中间层用 `MULTI/EXEC + WATCH` 提供事务与 CAS；上层用阻塞命令、暂停、副本水位与异步删除控制延迟与可用性。读源码时抓住两个入口——`processCommand()` 的前置检查与 `blocked.c` 的挂起/唤醒——就能解释绝大多数"客户端视角的并发行为"。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [model](model.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [model](model.md)

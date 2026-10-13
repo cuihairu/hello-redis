@@ -81,3 +81,15 @@ if __name__ == '__main__':
 - 键名里带上日期，按天清理和跨天对比都方便，历史键要么设 TTL，要么导出后删掉。
 - 单键 `INCR` 是热点时拆成 `stats:x:{date}:0` 到 `:9` 十个键分摊，汇总时相加。
 - 分析数据丢几秒能接受就不用管持久化，不能接受就开 AOF everysec，代价是写放大。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Probabilistic](https://redis.io/docs/latest/develop/data-types/probabilistic/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)
+- [README](README.md)

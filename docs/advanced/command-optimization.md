@@ -100,3 +100,14 @@ redis-cli --latency
 ## 5. 总结
 
 Redis 命令优化涉及选择合适的命令、避免不必要的操作、优化数据访问模式和监控调整性能等多个方面。通过合理配置和优化 Redis 命令，可以显著提高系统性能和响应速度。根据实际应用需求，结合以上策略，有效管理和优化 Redis 命令的使用。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · 使用命令](https://redis.io/docs/latest/develop/using-commands/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

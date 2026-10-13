@@ -74,3 +74,13 @@
     - Redis 的集合、哈希和位图可以用来实现点赞、签到和打卡功能，适用于记录用户的行为和状态。
 
 Redis 的特点和应用场景使其成为广泛使用的内存数据存储系统，适用于各种需求，从简单的缓存到复杂的实时数据处理和分布式系统支持。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

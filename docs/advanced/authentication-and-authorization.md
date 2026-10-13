@@ -87,3 +87,15 @@
 - **监控与审计：** 定期审计用户活动日志，确保没有异常或未经授权的操作。
 
 通过配置身份验证和授权，您可以有效地控制对 Redis 实例的访问，增强系统的安全性。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- ACL SETUSER（未找到权威出处（待核））
+- [Redis 运维手册 · 安全](https://redis.io/docs/latest/operate/oss_and_stack/management/security/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)

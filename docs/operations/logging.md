@@ -104,3 +104,11 @@ find /var/log/redis/ -type f -name "*.log" -mtime +30 -exec rm {} \;
 ```
 
 以上命令会删除 30 天前的日志文件。
+
+## 参考资料
+
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

@@ -54,3 +54,13 @@ Hash、Sorted Set 等类型的紧凑编码统一改用 listpack，消除 ziplist
 - 配置文件中旧配置名（`*-max-ziplist-*`）仍可用，但建议改为 listpack 命名。
 
 总体来看，Redis 7 的方向是"把开发者的常见痛点产品化"：脚本持久化、AOF 简化、集群内消息按需传播，以及更安全的内存结构。后续版本（8.x）则在查询能力（向量检索）、多线程 I/O 默认化等方向继续演进。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [Redis 函数与可编程性](https://redis.io/docs/latest/develop/interact/programmability/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

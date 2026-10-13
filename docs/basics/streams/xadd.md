@@ -110,3 +110,15 @@ XADD bb:stream:str * a b
 - [XREAD](./xread.md)：从流中读取条目。
 - [其他流命令](./other-commands.md)：`XRANGE`、`XLEN`、消费者组相关命令等。
 - 返回专题目录：[Redis 流（Streams）](../streams.md)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- XADD（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other-commands](other-commands.md)
+- [xread](xread.md)
+- [knowledge](/knowledge.md)

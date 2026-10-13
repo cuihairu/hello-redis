@@ -90,3 +90,18 @@ $ redis-cli -p 6399 del bc:ttl
 ## 小结
 
 内存优化在源码里对应一条清晰的链路：`tryObjectEncoding()` 压缩单个字符串，`*_max_listpack_*` 等配置控制集合编码切换点，`objectComputeSize()` 提供度量，`performEvictions()` 与 `activeExpireCycle()` 提供回收。理解了这条链路，线上任何“内存为什么涨”的问题都可以沿着编码、阈值、淘汰策略三步定位。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [allocating](allocating.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)
+- [allocating](allocating.md)

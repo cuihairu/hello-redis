@@ -43,3 +43,12 @@ SCRIPT EXISTS d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37 a3b8d30a5f32e6d4b0c15c9ba
 ## 优势
 
 使用 `SCRIPT EXISTS` 可以有效地管理和验证 Redis 脚本的存在性，有助于优化脚本的执行流程和减少潜在的错误。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/scripts/README.md)

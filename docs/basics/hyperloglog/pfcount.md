@@ -62,3 +62,15 @@ PFCOUNT bb:hll:uv bb:hll:uv bb:hll:uv2
 - [PFADD](./pfadd.md)：向 HyperLogLog 添加元素。
 - [其他HyperLogLog命令](./other-commands.md)：`PFMERGE`。
 - 返回专题目录：[Redis HyperLogLog](../hyperloglog.md)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- PFCOUNT（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other-commands](other-commands.md)
+- [pfadd](pfadd.md)
+- [knowledge](/knowledge.md)

@@ -129,3 +129,17 @@ RedisJSON 适用于需要存储和操作复杂 JSON 数据结构的场景。例�
 - **日志存储：** 将日志信息以 JSON 格式存储，便于搜索和分析。
 
 RedisJSON 使得在 Redis 中处理 JSON 数据变得简单直观，特别适合需要快速读写和处理 JSON 数据的应用场景。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · JSON](https://redis.io/docs/latest/develop/data-types/json/)
+
+## 相关页面
+
+- [redisgraph](redisgraph.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [redisgraph](redisgraph.md)

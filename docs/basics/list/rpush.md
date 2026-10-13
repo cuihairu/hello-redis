@@ -62,3 +62,17 @@ DEL ba:l:queue ba:l:nonotexist
 ## 小结
 
 `RPUSH` 是列表尾部插入命令，常与 `LPOP`/`BLPOP` 组成先进先出队列。多个值一次插入时按参数顺序排列，与 `LPUSH` 的"倒序"效果正好相反。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- RPUSH（未找到权威出处（待核））
+
+## 相关页面
+
+- [lpop](lpop.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [lpop](lpop.md)

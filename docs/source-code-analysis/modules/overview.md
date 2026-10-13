@@ -67,3 +67,12 @@ loadmodule /usr/lib/redis/modules/my_module.so arg1 arg2
 ## 小结
 
 模块系统用"函数指针表 + 生命周期回调"两件事搭起了扩展框架：前者解决 ABI 兼容，后者把持久化、复制、自省这些核心职责无缝接给第三方代码。理解了 `OnLoad` 里注册的命令与类型如何进入服务器的统一命令表，就能把任何模块源码当作"普通命令实现"来读。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

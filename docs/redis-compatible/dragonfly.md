@@ -34,3 +34,13 @@ Dragonfly 直接使用 Redis 的协议，主流客户端库无需改动即可连
 - **单实例数据量超出 Redis 舒适区（几十 GB 以上）**：Dragonfly 单节点可支撑 TB 级内存。
 - **高并发读写、需要利用多核**：无需把数据拆成多个 Redis 实例即可横向利用 CPU。
 - **迁移评估要点**：Lua 脚本兼容性、持久化恢复流程、监控指标对接（其 Prometheus 指标与 Redis 不同）、以及许可证（Dragonfly 采用 BSL 1.1，转 Apache 2.0 的时间表见其仓库说明）。
+
+## 参考资料
+
+- Redis 官网（未找到权威出处（待核））
+- [Dragonfly 官网](https://www.dragonflydb.io/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

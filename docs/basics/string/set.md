@@ -66,3 +66,13 @@ TTL ba:str:session
 ## 小结
 
 `SET` 通过丰富的选项覆盖了字符串写入的绝大多数场景：普通赋值、带过期时间的缓存写入、`NX/XX` 的条件写入以及取回旧值。优先使用一条 `SET` 命令及其选项，而不是拆分成多条旧命令。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- SET（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

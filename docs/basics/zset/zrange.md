@@ -68,3 +68,13 @@ DEL ba:z:board ba:z:lex
 ## 小结
 
 `ZRANGE` 是有序集合最重要的读取命令：按下标取区间是默认行为，`BYSCORE`/`BYLEX` 扩展到按分数和字典序，`REV` 与 `LIMIT` 负责反向和分页。掌握端点写法（负数下标、`(` 开区间、`+inf`）即可覆盖排行榜的全部查询需求。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- ZRANGE（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

@@ -117,3 +117,17 @@ check_and_notify('user123', *user_location)
 ### 总结
 
 基于位置的服务可以利用 Redis 的地理位置功能来实现高效的地理数据处理和查询。通过 Redis 提供的 `GEOADD`、`GEOSEARCH`、`GEODIST` 等命令，可以轻松实现商家推荐、实时导航、地理围栏以及动态促销等应用。注意 `GEORADIUS`、`GEORADIUSBYMEMBER` 已在 6.2 废弃，新代码统一使用 `GEOSEARCH`。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Geospatial](https://redis.io/docs/latest/develop/data-types/geospatial/)
+- GEOSEARCH（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](/use-cases/README.md)
+- [geolocation-services](/use-cases/geolocation-services.md)
+- [geospatial-indexing](/use-cases/geospatial-indexing.md)

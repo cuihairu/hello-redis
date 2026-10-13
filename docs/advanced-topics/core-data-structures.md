@@ -56,3 +56,16 @@ MEMORY USAGE h              # 估算键占用内存
 ## 小结
 
 Redis 的内存效率来自"小数据用紧凑编码、大数据用高性能结构"的双轨策略。运维上表现为：控制单键大小可以让数据长期停留在 listpack/intset 等省内存的编码上；而一旦超过阈值，编码转换会带来内存与性能的变化。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [object.c（对象系统）](https://github.com/redis/redis/blob/unstable/src/object.c)
+- [dict.c（字典）](https://github.com/redis/redis/blob/unstable/src/dict.c)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [architecture-and-design](architecture-and-design.md)
+- [knowledge](/knowledge.md)

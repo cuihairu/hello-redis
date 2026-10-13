@@ -84,3 +84,16 @@
 ## 小结
 
 通过优化脚本逻辑、限制执行时间、选择高效的数据结构、避免长时间锁定，以及进行性能监控和调优，可以显著提高 Redis 脚本的性能。这些优化措施有助于保持 Redis 实例的高效运行，并提供更好的性能表现。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [appendix](appendix.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [appendix](appendix.md)

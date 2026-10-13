@@ -114,3 +114,13 @@ get testkey
 ```
 
 这样，你就完成了 Redis 在 Linux 系统上的安装和配置。如果你遇到任何问题，可以检查 Redis 的日志文件来进行故障排除。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 安装 Stack](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

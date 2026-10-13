@@ -19,3 +19,11 @@
 - [Redis监控工具](monitoring-tools.md)：redis-cli 自带命令、Redis Exporter 与 Prometheus/Grafana。
 - [常见问题与解决方法](common-issues.md)：内存、连接、持久化、集群等典型问题速查。
 - [性能调优与故障排查](performance-tuning.md)：从配置、命令、网络到持久化的系统性优化。
+
+## 参考资料
+
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

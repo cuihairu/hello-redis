@@ -186,3 +186,14 @@ HGETALL app:config
 ## 小结
 
 Redis 哈希是一种非常灵活的数据结构，适用于存储和操作复杂的对象数据。通过掌握哈希表的常用操作，可以高效地管理和访问存储在 Redis 中的对象数据。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Hashes](https://redis.io/docs/latest/develop/data-types/hashes/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)

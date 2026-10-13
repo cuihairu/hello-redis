@@ -117,3 +117,12 @@ EVAL "return redis.sha1hex('foo')" 0
 ## 7. 小结
 
 把 Redis 当成脚本的"运行时"来理解：`KEYS`/`ARGV` 是函数入参，`redis.call` 是函数体里的数据库访问层，返回值转换是序列化边界。遵循"键走 `KEYS`、值走 `ARGV`、先校验后写入、保持脚本简短"这四条原则，就能写出在单实例与集群下都稳定可用的 Lua 脚本。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

@@ -19,3 +19,14 @@
 - 投递语义、重试与死信队列的完整设计见[任务队列设计](task-queue/design.md)；
 - 异步任务、延迟任务的实现见[异步任务与延迟队列](task-queue/async-tasks.md)；
 - 与 Kafka、RabbitMQ 的对比见[消息队列](message-queues.md)。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Lists](https://redis.io/docs/latest/develop/data-types/lists/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [message-queues](message-queues.md)

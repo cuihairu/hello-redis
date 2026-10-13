@@ -6,3 +6,16 @@
 - [常见问题解答](faq.md)：关于持久化、内存、缓存、集群等问题的简明解答。
 - [术语表](glossary.md)：Redis 相关术语与缩写的中英文对照。
 - [参考文献](references.md)：官方文档、书籍与社区资源。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [command-reference](command-reference.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [command-reference](command-reference.md)

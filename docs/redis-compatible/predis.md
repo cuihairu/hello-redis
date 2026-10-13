@@ -79,3 +79,13 @@ $sentinel = new Predis\Client([
 已有生产环境且追求极致性能时选 phpredis；快速开发、容器化部署或需要支持新命令时选 Predis。
 
 项目地址：<https://github.com/predis/predis>
+
+## 参考资料
+
+- Redis 官网（未找到权威出处（待核））
+- [Predis 客户端](https://github.com/predis/predis)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

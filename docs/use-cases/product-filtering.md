@@ -85,3 +85,15 @@ if __name__ == '__main__':
 - **结果需要排序时**：把集合换成有序集合（分数存销量/价格），用 `ZINTERSTORE`/`ZUNIONSTORE` 求交并集后再 `ZINTER` 排序，注意聚合后的分数语义（`AGGREGATE MAX/MIN/SUM`）。
 - **临时集合要及时删除**：`SINTERSTORE` 等会生成临时键，用完 `DEL`，或在集群模式下使用 `STORE` 前注意所有输入键需在同一分片。
 - **维度过多时**：不要为每个组合都建集合，只对高频条件建索引，长尾组合回源查询。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Sets](https://redis.io/docs/latest/develop/data-types/sets/)
+- SINTER（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)

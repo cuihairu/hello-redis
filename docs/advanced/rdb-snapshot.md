@@ -66,3 +66,16 @@ RDB 快照适用于以下场景：
    ```
 
 通过理解和配置 RDB 快照，您可以有效地管理 Redis 数据持久化，提高数据的安全性和可靠性。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 持久化（RDB）](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [faq](/appendix/faq.md)
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

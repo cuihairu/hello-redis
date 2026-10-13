@@ -136,3 +136,18 @@
 | `MONITOR` | 实时命令流（调试用） |
 
 配合速查的实践技巧：在 `redis-cli` 中输入 `COMMAND INFO <命令>` 可查看参数个数与文档，`COMMAND DOCS <命令>` 输出完整文档（7.0+）。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 命令索引](https://redis.io/docs/latest/commands/)
+
+## 相关页面
+
+- [README](README.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [knowledge](/knowledge.md)

@@ -80,3 +80,12 @@ $ redis-cli -p 16400 cluster nodes | grep fail
 ## 小结
 
 集群架构的精髓是"无中心 + 多数派"：数据面用槽位图做 O(1) 路由，控制面用 epoch 与投票避免脑裂。读 `cluster_legacy.c` 时建议按"消息类型 -> 状态机 -> epoch 变更点"三条线索展开，任何一次故障切换都能在这条线索上找到对应代码。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

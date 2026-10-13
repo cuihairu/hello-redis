@@ -121,3 +121,16 @@ Redis 提供了多种数据结构和命令来实现排行榜功能：
 - **Redis Streams** 适用于处理时间序列数据，可以用于实时更新和查询排行榜。
 
 选择合适的方法取决于具体的应用需求和性能要求。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Sorted sets](https://redis.io/docs/latest/develop/data-types/sorted-sets/)
+- ZREVRANGE（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](/use-cases/README.md)
+- [ranking-and-counting](/use-cases/ranking-and-counting.md)

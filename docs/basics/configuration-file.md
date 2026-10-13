@@ -149,3 +149,14 @@ slowlog-log-slower-than 10000
 这个配置文件将 Redis 设置为非守护进程模式，绑定到本地回环地址，并配置了基本的持久化和内存管理选项。同时启用了密码保护，并设置了慢查询日志记录。
 
 完整的配置项列表可以参考 Redis 源码中自带的 `redis.conf` 示例文件，其中每一项都附带了详细的英文注释。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 配置](https://redis.io/docs/latest/operate/oss_and_stack/management/config/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)

@@ -98,3 +98,14 @@ GEOSEARCH bb:geo:sicily FROMLONLAT 15 37 BYRADIUS 200 km WITHDIST ASC
 - [GEOADD](./geoadd.md)：写入地理空间数据。
 - [其他地理空间命令](./other-commands.md)：`GEOPOS`、`GEODIST`、`GEOSEARCH` 等。
 - 返回专题目录：[Redis 地理空间数据](../geospatial.md)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- GEORADIUS（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [geoadd](geoadd.md)
+- [other-commands](other-commands.md)

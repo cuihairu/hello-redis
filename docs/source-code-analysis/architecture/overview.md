@@ -85,3 +85,17 @@ instantaneous_ops_per_sec:0
 ## 小结
 
 Redis 架构可以压缩成一句话：**一条主线程事件循环（ae.c）串起网络协议（networking.c）、命令表（server.c）、键空间（db.c/dict.c）三大环节，持久化（rdb.c/aof.c）与慢操作（bio.c、lazyfree.c）则被推到线程池与子进程中**。掌握了这条主线，阅读具体子系统源码时就能随时定位它在架构中的位置。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [components](components.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [components](components.md)

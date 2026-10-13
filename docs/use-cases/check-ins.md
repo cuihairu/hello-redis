@@ -84,3 +84,16 @@ BITFIELD sign:42:202406 GET u32 0
 
 - **补签**：直接 `SETBIT` 指定日期的位为 1，并记录补签次数（`INCR sign:makeup:{用户ID}:{年月}`）。
 - **签到总人数统计**：如果还需要"今天有多少人签到"，可以再用一个以用户 ID 为偏移的全局位图 `sign:users:{日期}`，签到成功时同时置位并 `BITCOUNT`。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Strings（位图）](https://redis.io/docs/latest/develop/data-types/strings/)
+- SETBIT（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)

@@ -41,3 +41,16 @@ return old_value
 
 该脚本展示了如何在 Redis 中使用 Lua 脚本实现键值的更新和旧值的返回。
 
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [commands](commands.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [commands](commands.md)

@@ -51,3 +51,14 @@ print(r.get('k'))
 - **多核吞吐优化**：Valkey 8+ 的 I/O 线程在高并发场景收益明显。
 - **注意版本差异**：Valkey 8 引入了一些新命令与配置（如 `dual-channel-replication`），与 Redis 最新版本并不完全同步；生产切换前应做兼容性验证。
 - **生态工具**：redis-cli、redis_exporter 等工具大多可兼容使用，部分新特性需使用 valkey 自带的 valkey-cli。
+
+## 参考资料
+
+- Redis 官网（未找到权威出处（待核））
+- [Valkey 官网](https://valkey.io/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)

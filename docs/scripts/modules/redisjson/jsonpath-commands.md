@@ -166,3 +166,12 @@ JSONPath 提供了一些基本的查询命令，可以用来提取和操作 JSON
   ```
 
 JSONPath 的基本查询命令提供了多种方式来访问和操作 JSON 数据，使得处理复杂 JSON 数据结构变得更加高效。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/scripts/README.md)

@@ -134,3 +134,13 @@ Redis 的配置文件 `redis.conf` 包含了 Redis 服务器的各种配置选�
      ```
 
 通过以上步骤，你可以在 Linux 和 Windows 系统上成功安装和配置 Redis，并了解了常见的配置选项及其功能。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 安装](https://redis.io/docs/latest/operate/oss_and_stack/install/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

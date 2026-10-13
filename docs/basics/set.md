@@ -229,3 +229,13 @@ SISMEMBER blacklist:ip "1.2.3.4"
 ## 小结
 
 Redis 集合是一种强大的数据结构，适用于去重、集合运算等需求。通过掌握这些常用命令，可以有效地管理和操作 Redis 中的集合数据。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Sets](https://redis.io/docs/latest/develop/data-types/sets/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

@@ -105,3 +105,18 @@ ZUNIONSTORE ba:z:total 2 ba:z:week1 ba:z:week2 WEIGHTS 1 2 AGGREGATE SUM
 ## 小结
 
 分数与排名类命令（`ZSCORE`、`ZRANK`、`ZINCRBY`）支撑排行榜的核心读写，弹出与清理类命令（`ZPOPMIN`/`ZPOPMAX`、`ZREMRANGEBYSCORE`/`ZREMRANGEBYRANK`）支撑延时队列与榜单维护，`ZUNIONSTORE`/`ZINTERSTORE` 负责跨集合的聚合统计。区间读取统一收敛到 `ZRANGE` 是当前推荐写法。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [zadd](zadd.md)
+- [zrem](zrem.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [zadd](zadd.md)
+- [zrem](zrem.md)

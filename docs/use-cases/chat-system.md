@@ -15,3 +15,13 @@ Pub/Sub 把消息广播给频道的所有订阅者，消费者在线就能收到
 
 - 私聊、群聊、消息分页的存储设计见[聊天消息的存储](chat-system/message-storage.md)；
 - 在线状态、实时推送的完整设计见[实时聊天系统](chat-system/real-time-chat.md)。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Pub/Sub](https://redis.io/docs/latest/develop/pubsub/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

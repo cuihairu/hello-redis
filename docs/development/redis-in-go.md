@@ -326,3 +326,13 @@ func main() {
 ```
 
 以上示例展示了在 Go 中使用 Redis 的基本操作和应用。`go-redis` 是一个功能丰富的库，支持 Redis 的大部分功能，并且在性能和易用性上表现出色。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Go 客户端](https://redis.io/docs/latest/develop/clients/go/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

@@ -55,3 +55,18 @@ DEL ba:str:greeting ba:str:missing ba:str:queue
 ## 小结
 
 `GET` 是字符串类型的读取入口，简单高效。使用时注意它对非字符串类型会报 `WRONGTYPE` 错误、对不存在的键返回 `nil`，批量读取场景应改用 `MGET`。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- GET（未找到权威出处（待核））
+
+## 相关页面
+
+- [other-commands](other-commands.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other-commands](other-commands.md)
+- [knowledge](/knowledge.md)

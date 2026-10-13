@@ -40,3 +40,13 @@ OK
 - **测试与开发环境**：以较低成本模拟 Redis 接口，配合磁盘容量跑大数据量集成测试。
 
 项目地址：<https://github.com/yinqiwen/ardb>
+
+## 参考资料
+
+- Redis 官网（未找到权威出处（待核））
+- [ArDB 仓库](https://github.com/yinqiwen/ardb)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

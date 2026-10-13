@@ -76,3 +76,18 @@
 - **审计日志：** 定期审计 Redis 的日志文件，检查异常操作或未授权访问的迹象。
 
 通过以上措施，您可以有效地提高 Redis 实例的安全性，保护数据不被泄露或篡改。在配置 Redis 安全性时，请根据实际应用场景和需求采取适当的措施。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 安全](https://redis.io/docs/latest/operate/oss_and_stack/management/security/)
+
+## 相关页面
+
+- [aof-log](aof-log.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [aof-log](aof-log.md)

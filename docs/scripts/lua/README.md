@@ -42,3 +42,16 @@ Redis 提供了一系列命令用于加载、执行和管理 Lua 脚本。以下
 
 在编写和执行 Lua 脚本时，可能会遇到一些常见问题，例如脚本执行超时、内存使用过多等。此小节将介绍如何调试 Lua 脚本，解决常见问题，并通过调整 Redis 配置或优化脚本来提高脚本的稳定性和性能。
 
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [commands](commands.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [commands](commands.md)

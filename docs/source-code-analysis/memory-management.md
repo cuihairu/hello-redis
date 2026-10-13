@@ -93,3 +93,15 @@ Hi Sam, this instance is empty or is using very little memory, my issues detecto
 ## 小结
 
 Redis 的内存管理可以概括为“一个计量层 + 一个分配层 + 一个策略层”：zmalloc.c 统一计量与分配（默认 jemalloc），object.c 与各类型实现用编码切换控制单个对象的体积，evict.c 与 expire.c 在全局与键两个粒度上回收内存。排查内存问题时，按 `INFO memory` → `memory stats` → `memory usage <key>` → `OBJECT ENCODING <key>` 的顺序逐层下钻，通常能快速定位大头。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [object.c（对象系统与引用计数）](https://github.com/redis/redis/blob/unstable/src/object.c)
+- [expire.c（过期删除）](https://github.com/redis/redis/blob/unstable/src/expire.c)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

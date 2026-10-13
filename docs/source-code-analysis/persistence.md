@@ -80,3 +80,19 @@ $ redis-cli -p 6399 lastsave
 ## 小结
 
 RDB 与 AOF 在源码里共享同一套 fork + COW 骨架：rdb.c 生成全量快照，aof.c 追加命令日志并周期性重写。7.0 的 multi-part AOF 把“快照 + 增量”统一成 base/incr/manifest 三类文件；混合持久化（`aof-use-rdb-preamble`，5.0 起默认开启）决定 base 文件采用 RDB 还是命令格式。后面两节分别深入 RDB 与 AOF 的实现细节。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [rdb.c](https://github.com/redis/redis/blob/unstable/src/rdb.c)
+- [aof.c](https://github.com/redis/redis/blob/unstable/src/aof.c)
+- [Redis 运维手册 · 持久化](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/)
+
+## 相关页面
+
+- [architecture](architecture.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [architecture](architecture.md)

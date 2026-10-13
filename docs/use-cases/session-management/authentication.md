@@ -108,3 +108,15 @@ if __name__ == '__main__':
 - **HTTPS**：使用HTTPS协议保护会话数据在传输过程中的安全。
 
 通过以上设计和实现，您可以使用Redis高效地管理用户认证和会话，提升Web应用的安全性和用户体验。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- AUTH（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](/use-cases/README.md)
+- [session-management](/use-cases/session-management.md)

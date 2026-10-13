@@ -79,3 +79,15 @@ redis-server /path/to/sentinel.conf --sentinel
 ## 总结
 
 Redis 哨兵模式是一种高可用性解决方案，提供了监控、故障转移和通知功能。通过配置哨兵实例和主从节点，Redis 可以在主节点失效时自动进行故障转移，并将新的主节点的信息通知给应用程序。哨兵模式是实现 Redis 高可用性的重要机制，适用于需要高可靠性的场景。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · Sentinel](https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

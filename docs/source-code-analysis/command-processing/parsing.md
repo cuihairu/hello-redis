@@ -84,3 +84,17 @@ EOF
 ## 小结
 
 命令解析是把"协议规范"翻译成"状态机"的过程：两个入口（inline/multibulk）、两个游标（`qb_pos`、`bulklen`）、两条性能路径（小参数快拷贝、大参数零拷贝）。它对上层承诺"每次返回一个完整 argv"，对下层承诺"绝不阻塞等待数据"。理解了这一点，事件循环中"读到哪、执行到哪"的边界就清楚了。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [execution](execution.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [execution](execution.md)

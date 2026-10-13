@@ -82,3 +82,18 @@ Redis 本身不提供内建的数据存储加密功能，但可以通过操作�
 ## 总结
 
 数据加密在 Redis 中涉及两个主要方面：数据传输加密和数据存储加密。通过启用 TLS/SSL 加密传输、使用操作系统级别的加密、在应用级别加密数据以及配置访问密码，可以有效保护 Redis 中的数据安全。这些措施可以确保数据在传输和存储过程中都得到适当的保护，防止潜在的安全威胁。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 安全](https://redis.io/docs/latest/operate/oss_and_stack/management/security/)
+
+## 相关页面
+
+- [aof-log](aof-log.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [aof-log](aof-log.md)

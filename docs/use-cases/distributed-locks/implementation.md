@@ -195,3 +195,15 @@ else:
 ### 总结
 
 以上方法各有优缺点，适用于不同的场景。选择合适的分布式锁实现方案需要根据系统的具体需求、现有基础设施和性能要求来决定。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [官方模式 · 分布式锁](https://redis.io/docs/latest/develop/use/patterns/distributed-locks/)
+- SET（NX 选项）（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/use-cases/README.md)
+- [distributed-locks](/use-cases/distributed-locks.md)

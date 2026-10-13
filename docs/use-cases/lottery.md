@@ -75,3 +75,15 @@ if __name__ == '__main__':
 - 用 `SADD` 报名天然防重复；若中奖记录也需要保留，可把中奖者 `SADD` 到 `lottery:1001:winners`，并在候选集合里 `SREM`。
 - 抽奖结果需要可回滚时，先用 `SPOP` 取出后把结果写入另一个键，失败时再 `SADD` 回原集合。
 - 大型活动抽奖建议先把候选集快照（`SUNIONSTORE` 或复制键），避免活动期间新报名影响已开始的轮次。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Sets](https://redis.io/docs/latest/develop/data-types/sets/)
+- SPOP（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)

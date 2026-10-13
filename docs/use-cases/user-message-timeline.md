@@ -82,3 +82,14 @@ if __name__ == '__main__':
 - 时间线只做"ID + 时间戳"的轻量索引，正文等大数据放独立键或数据库，用 `MGET`/管道批量取。
 - 用 `ZREMRANGEBYRANK` 限制长度，历史消息归档后再读。
 - 分页一定要用时间戳游标（`ZRANGE ... (score BYSCORE REV`），不要用 `ZRANGE ... REV` 的大 offset，避免新消息插入导致重复或漏读。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Lists](https://redis.io/docs/latest/develop/data-types/lists/)
+- [Redis 开发文档 · Streams](https://redis.io/docs/latest/develop/data-types/streams/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

@@ -76,3 +76,15 @@ maxclients 10000
 ## 总结
 
 Redis 的主从复制是实现数据备份和读写分离的基础机制。通过主从复制，可以将数据从主节点同步到多个从节点，从而提高数据的可靠性和系统的读性能。尽管主从复制本身不提供自动故障转移，但可以与 Redis 哨兵模式或 Redis 集群模式结合使用，以实现更高的可用性和容错能力。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 复制](https://redis.io/docs/latest/operate/oss_and_stack/management/replication/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

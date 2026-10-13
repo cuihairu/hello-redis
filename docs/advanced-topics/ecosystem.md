@@ -62,3 +62,13 @@ KeyDB、Valkey、Dragonfly、Pika、SSDB 等项目在协议或 API 层与 Redis 
 ## 小结
 
 选型时建议分三层考虑：核心缓存/队列需求直接用原生 Redis + 成熟客户端；扩展数据类型优先使用模块；规模或成本驱动时再评估兼容实现与代理方案。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

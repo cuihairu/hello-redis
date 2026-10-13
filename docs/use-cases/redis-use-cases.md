@@ -31,3 +31,13 @@ Redis 是一款基于内存的高性能键值数据库，读写延迟通常在�
 - **设置过期时间**：除持久化队列外，大多数缓存类键都应设置 TTL，避免内存无限增长。
 - **控制大键**：单个集合或哈希的成员数应控制在合理范围，避免阻塞主线程的慢命令。
 - **不要把 Redis 当唯一存储**：Redis 通常作为缓存或辅助存储，重要数据仍应落库备份。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)

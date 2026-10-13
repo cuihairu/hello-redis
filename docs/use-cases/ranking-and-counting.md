@@ -17,3 +17,13 @@
 
 - 榜单实现、同分排序、分页与性能优化见[排行榜实现](ranking-and-counting/ranking.md)；
 - 计数器进阶：计数同步、分片与持久化见[计数器应用实例](counters.md)。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Sorted sets](https://redis.io/docs/latest/develop/data-types/sorted-sets/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

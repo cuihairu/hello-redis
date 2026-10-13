@@ -176,3 +176,13 @@ node server.js
 - **性能**：通过 Redis 集群和负载均衡器来支持大规模的并发用户。
 
 通过上述步骤，你可以创建一个基本的聊天应用，利用 Redis 处理实时消息传递和聊天记录存储。在实际项目中，可以根据需求进一步扩展和优化功能。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 开发文档 · Pub/Sub](https://redis.io/docs/latest/develop/pubsub/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

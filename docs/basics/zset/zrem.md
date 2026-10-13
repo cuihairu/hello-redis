@@ -65,3 +65,17 @@ DEL ba:z:board ba:z:nomember
 ## 小结
 
 `ZREM` 是有序集合按成员删除的标准命令，返回实际删除数量，宽松地处理不存在的成员。按分数或排名的批量清理分别交给 `ZREMRANGEBYSCORE` 和 `ZREMRANGEBYRANK`。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- ZREM（未找到权威出处（待核））
+
+## 相关页面
+
+- [other-commands](other-commands.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other-commands](other-commands.md)

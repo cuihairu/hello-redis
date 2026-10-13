@@ -47,3 +47,14 @@ v
 - **运维**：需要关注 RocksDB 的 compaction 与磁盘空间；主从切换需自行配合脚本或使用其 sentinel 类工具（ssdb 的主从为手动/脚本管理）。
 
 项目地址：<https://github.com/ideawu/ssdb>
+
+## 参考资料
+
+- Redis 官网（未找到权威出处（待核））
+- [SSDB 官网](https://ssdb.io/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)

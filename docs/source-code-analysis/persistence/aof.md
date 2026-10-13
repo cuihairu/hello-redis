@@ -79,3 +79,14 @@ aof_last_bgrewrite_status:ok
 ## 小结
 
 AOF 实现的关键词是“缓冲 + 分频落盘 + 周期重写”：`aof_buf` 聚合命令、`beforeSleep` 统一刷写、`BIO_AOF_FSYNC` 把 fsync 移出主线程、multi-part 结构让重写变成一次纯粹的文件替换。阅读源码建议从 `feedAppendOnlyFile()` 进入写路径，从 `rewriteAppendOnlyFileBackground()` 进入重写路径，最后对照 `aof.c` 头部注释里给出的 manifest 示例理解文件切换时机。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [aof.c](https://github.com/redis/redis/blob/unstable/src/aof.c)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

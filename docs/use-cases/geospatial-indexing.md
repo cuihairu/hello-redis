@@ -64,3 +64,16 @@ if __name__ == '__main__':
 - **先粗筛后精排**：GEOSEARCH 筛出候选集后，如有业务过滤条件（库存、营业状态），再在应用层二次过滤。
 - **附近无结果时扩大半径**：常用"5 km → 10 km → 50 km"的渐进式扩大策略。
 - **大量静态地理数据**：如地图瓦片、行政区划等，更适合使用专业地理数据库（PostGIS 等），Redis GEO 适合中小规模的动态点数据。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Geospatial](https://redis.io/docs/latest/develop/data-types/geospatial/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)
+- [geolocation-services](geolocation-services.md)
+- [redis-use-cases](redis-use-cases.md)

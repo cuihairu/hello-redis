@@ -110,3 +110,18 @@ $ redis-cli -p 6399 del bc:i3
 ## 小结
 
 这几种结构的取舍逻辑非常清晰：单值用 sds，映射关系用 dict（配合渐进式 rehash 防止长尾延迟），小规模序列用 listpack 省内存，大规模序列用 quicklist 兼顾两端操作与内存，排序需求用 skiplist 补 dict 的短板。阅读源码时建议按“结构定义 → 创建/插入 → 迭代/查找 → 释放”的顺序过每个文件，并用 `OBJECT ENCODING` 与 `MEMORY USAGE` 在真实实例上对照验证。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [overview](overview.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)
+- [overview](overview.md)

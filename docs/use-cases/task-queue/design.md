@@ -59,3 +59,15 @@ List 方案的任务在 `BRPOP` 取出后即从队列删除，Worker 崩溃会�
 
 - 延迟任务与异步任务的实现见[异步任务处理](async-tasks.md)；
 - 与 Kafka、RabbitMQ 的对比见[消息队列](../message-queues.md)。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Lists](https://redis.io/docs/latest/develop/data-types/lists/)
+- BLPOP（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/use-cases/README.md)
+- [task-queue](/use-cases/task-queue.md)

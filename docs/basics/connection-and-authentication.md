@@ -148,3 +148,14 @@ bind 127.0.0.1
 ## 小结
 
 Redis 提供了多种连接和认证方式来保证数据的安全性和访问控制。通过 `redis-cli` 和各种编程语言客户端，可以方便地连接 Redis 实例并进行操作。配置密码和限制连接地址可以有效提高 Redis 实例的安全性，防止未经授权的访问。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- AUTH（未找到权威出处（待核））
+- [Redis 运维手册 · 安全](https://redis.io/docs/latest/operate/oss_and_stack/management/security/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

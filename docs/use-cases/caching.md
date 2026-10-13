@@ -66,3 +66,18 @@ if __name__ == '__main__':
 ## 与数据库的一致性
 
 先更新数据库再删除缓存（Cache-Aside）在绝大多数场景下是简单且安全的选择。若对一致性要求更高，可以通过订阅数据库 binlog（如 Canal）异步删除缓存，或给缓存设置兜底 TTL 以限制不一致窗口。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [客户端缓存](https://redis.io/docs/latest/develop/use/client-side-caching/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [faq](/appendix/faq.md)
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)
+- [README](README.md)
+- [cache](cache.md)
+- [redis-use-cases](redis-use-cases.md)

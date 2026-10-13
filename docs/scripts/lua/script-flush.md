@@ -41,3 +41,12 @@ OK
 ## 优势
 
 `SCRIPT FLUSH` 命令提供了一种清空 Redis 脚本缓存的简单方法，这在脚本管理和维护过程中非常有用。它确保缓存中的所有旧脚本都被移除，为新的脚本提供干净的环境。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/scripts/README.md)

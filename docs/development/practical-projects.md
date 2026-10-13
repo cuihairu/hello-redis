@@ -184,3 +184,12 @@ def update_data(url, new_data):
 ## 总结
 
 通过这些实战项目，你可以展示 Redis 在缓存系统中的强大功能和灵活性。每个项目都有其特定的应用场景，通过具体的实现示例，可以帮助读者更好地理解和应用 Redis 进行缓存优化。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

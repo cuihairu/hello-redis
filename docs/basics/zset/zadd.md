@@ -69,3 +69,17 @@ DEL ba:z:board
 ## 小结
 
 `ZADD` 通过 `NX/XX/GT/LT/CH/INCR` 选项覆盖了"新增、条件更新、增量"三类写入需求。默认返回新增数量，`CH` 改为返回修改数量，`INCR` 直接返回新分数，这三点在业务代码中最容易混淆。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- ZADD（未找到权威出处（待核））
+
+## 相关页面
+
+- [other-commands](other-commands.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other-commands](other-commands.md)

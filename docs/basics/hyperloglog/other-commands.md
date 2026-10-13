@@ -47,3 +47,13 @@ HyperLogLog 命令集非常小而专注：`PFADD` 写、`PFCOUNT` 读、`PFMERGE
 - [PFADD](./pfadd.md)：向 HyperLogLog 添加元素。
 - [PFCOUNT](./pfcount.md)：读取基数估算值。
 - 返回专题目录：[Redis HyperLogLog](../hyperloglog.md)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [pfadd](pfadd.md)
+- [pfcount](pfcount.md)

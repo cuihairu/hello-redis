@@ -76,3 +76,19 @@ MGET 跨槽                          ->  CROSSSLOT Keys in request don't hash to
 ## 小结
 
 集群实现的骨架是"槽表 + gossip + epoch 选举"：数据面靠 CRC16 + MOVED/ASK 把请求导向属主，控制面靠总线广播与多数派投票决定槽归属与故障切换。理解 `cluster_legacy.c` 中 `clusterProcessPacket()`（约 2721 行）处理的每一种消息类型，就理解了集群所有看似"神秘"的行为。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [cluster.c](https://github.com/redis/redis/blob/unstable/src/cluster.c)
+- [Redis 集群规范](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/)
+
+## 相关页面
+
+- [architecture](architecture.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [architecture](architecture.md)

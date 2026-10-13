@@ -73,3 +73,29 @@ AOF 日志适用于以下场景：
    ```
 
 通过有效配置和管理 AOF 日志，您可以确保 Redis 数据的持久化，提高系统的可靠性和数据安全性。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 持久化（AOF）](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/)
+
+## 相关页面
+
+- [data-encryption](data-encryption.md)
+- [network-security](network-security.md)
+- [performance-optimization](performance-optimization.md)
+- [persistence-configuration](persistence-configuration.md)
+- [security](security.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [data-encryption](data-encryption.md)
+- [network-security](network-security.md)
+- [performance-optimization](performance-optimization.md)
+- [persistence-configuration](persistence-configuration.md)
+- [security](security.md)
+- [faq](/appendix/faq.md)
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

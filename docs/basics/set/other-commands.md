@@ -107,3 +107,18 @@ SINTERSTORE ba:s:result ba:s:a ba:s:b
 ## 小结
 
 成员级别的操作（`SREM`、`SISMEMBER`、`SMOVE`）解决单点问题，集合级别的运算（`SINTER`、`SUNION`、`SDIFF` 及对应 `*STORE` 命令）解决关系计算问题。需要随机但保留成员用 `SRANDMEMBER`，随机且删除用 `SPOP`。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [sadd](sadd.md)
+- [spop](spop.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [sadd](sadd.md)
+- [spop](spop.md)

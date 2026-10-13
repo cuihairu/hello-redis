@@ -121,3 +121,11 @@ redis-cli --cluster reshard <node-ip>:<port>
 
 确保集群中的主从节点配置合理，主节点和从节点之间的延迟最小，以提高集群的高可用性。
 
+
+## 参考资料
+
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

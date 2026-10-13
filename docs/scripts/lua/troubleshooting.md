@@ -79,3 +79,12 @@ return result
 ## 总结
 
 Lua 脚本在 Redis 中的使用提供了强大的功能，但也可能会遇到各种问题。通过了解常见问题及其解决方法，并使用调试技巧，可以有效地开发和维护高效的 Redis Lua 脚本。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

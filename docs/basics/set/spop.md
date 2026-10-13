@@ -62,3 +62,17 @@ DEL ba:s:lottery
 ## 小结
 
 `SPOP` 集随机选择与删除于一体，是"不放回抽样"的标准实现。记住两个关键点：`count` 必须为正整数，返回即删除；与 `SRANDMEMBER`（只读不删，负数 count 允许重复）的语义差异要区分清楚。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- SPOP（未找到权威出处（待核））
+
+## 相关页面
+
+- [other-commands](other-commands.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other-commands](other-commands.md)

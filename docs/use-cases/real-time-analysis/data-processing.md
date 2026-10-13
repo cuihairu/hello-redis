@@ -113,3 +113,14 @@ while True:
 
 - Streams 要设 `MAXLEN` 上限，避免日志型结构无限增长。
 - 实时聚合的 ZSET 只在内存中，进程重启即丢，需要时用 `ZADD` 快照持久化或定期回写数据库。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Streams](https://redis.io/docs/latest/develop/data-types/streams/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/use-cases/README.md)
+- [real-time-analysis](/use-cases/real-time-analysis.md)

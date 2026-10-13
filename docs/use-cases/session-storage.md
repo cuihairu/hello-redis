@@ -75,3 +75,16 @@ if __name__ == '__main__':
 - 每个会话键都带 TTL，用户停手 30 分钟就自动失效；活跃请求顺手 `EXPIRE` 一次，把过期时间往后推，就是滑动续期。
 - 会话里只放必要字段，密码、支付凭证这类信息留在数据库，出事时影响面才小。
 - Redis 默认不持久化，重启后登录态全掉。业务确实要求重启不掉登录态，才去开 RDB 或 AOF。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- SETEX（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)
+- [session-management](session-management.md)

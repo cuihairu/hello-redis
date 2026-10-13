@@ -66,3 +66,16 @@ if __name__ == '__main__':
 ## 与普通列表方案的对比
 
 用 `LIST` 或在数据库里 `ORDER BY` 也能实现排序，但每次分数变化都需要重新排序或回库查询；有序集合则把排序维护在写入时完成，读取排名是 O(log N)，读写比例越高优势越明显。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Sorted sets](https://redis.io/docs/latest/develop/data-types/sorted-sets/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)

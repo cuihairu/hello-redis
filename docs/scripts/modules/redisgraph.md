@@ -50,3 +50,18 @@ Cypher 是 RedisGraph 使用的查询语言，专为图数据库设计。它的�
   查找所有 `Person` 节点之间的 `FRIENDS_WITH` 关系，并返回相关节点和关系信息。
 
 通过 Cypher 语言，RedisGraph 能够高效地执行图数据的创建、查询和修改操作，支持复杂的图模式和分析任务。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [README](README.md)
+- [redisjson](redisjson.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [redisjson](redisjson.md)

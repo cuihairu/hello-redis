@@ -166,3 +166,13 @@ client = redis.Redis(connection_pool=pool)
 ```
 
 以上是 Python 中使用 Redis 的一些基本操作和应用示例。`redis-py` 提供了丰富的 API 和功能，可以支持大多数 Redis 操作，适用于各种应用场景。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [redis-py](https://redis.io/docs/latest/develop/clients/redis-py/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

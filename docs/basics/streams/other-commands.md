@@ -126,3 +126,13 @@ XINFO STREAM bb:stream:mq
 - [XADD](./xadd.md)：向流中追加条目。
 - [XREAD](./xread.md)：从流中读取条目。
 - 返回专题目录：[Redis 流（Streams）](../streams.md)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [xadd](xadd.md)
+- [xread](xread.md)

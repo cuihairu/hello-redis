@@ -57,3 +57,15 @@ Redis 的淘汰行为由 `maxmemory-policy` 决定，内存达到 `maxmemory` �
 - **页面缓存**：将动态生成的页面内容缓存到 Redis 中，减少页面生成时间，提高响应速度。
 - **数据缓存**：缓存频繁查询的数据库结果，如用户资料、热门文章等，减少对数据库的重复查询。
 - **分布式缓存**：在多个服务器之间共享 Redis 缓存，确保所有服务器获取到一致的缓存数据，提高系统的可靠性和一致性。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](/use-cases/README.md)
+- [cache](/use-cases/cache.md)
+- [caching](/use-cases/caching.md)

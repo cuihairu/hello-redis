@@ -51,3 +51,17 @@ Redis 使用自己实现的事件库（ae.c）封装操作系统 I/O 多路复�
 ## 小结
 
 "内存存储 + 单线程命令执行 + 事件驱动 I/O"是 Redis 高性能的三大支柱，也是其使用约束（避免慢命令、避免大键、数据量受内存限制）的根源。相关实现细节可进一步阅读[核心数据结构与算法](core-data-structures.md)与[命令执行与事件处理](command-execution.md)。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [server.h（核心数据结构）](https://github.com/redis/redis/blob/unstable/src/server.h)
+
+## 相关页面
+
+- [README](README.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

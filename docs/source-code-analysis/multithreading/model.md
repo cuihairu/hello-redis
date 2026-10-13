@@ -78,3 +78,17 @@ PING elapsed: 0.315 s     # 正常 <1ms，被暂停阻塞约 300ms
 ## 小结
 
 线程模型的原则是"能不加锁就不加锁"：命令执行只在主线程，I/O 线程只碰字节流不碰键空间，bio 只碰文件系统与内存释放，子进程靠 COW 复制数据。对照 `INFO` 中 `io_threads_active`、`lazyfree_pending_objects`、`rdb_bgsave_in_progress` 等字段，可以把每个线程的活动状态量化出来。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [concurrency](concurrency.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [concurrency](concurrency.md)

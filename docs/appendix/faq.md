@@ -62,3 +62,14 @@ RDB 是时间点快照，恢复快、文件小，但两次快照之间的数据�
 
 **Q：`error READONLY` 是什么原因？**
 连接的主节点发生了故障转移，原主节点变为从节点并拒绝写入。客户端应根据哨兵通知或集群重定向机制重新获取主节点地址。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 故障排查](https://redis.io/docs/latest/operate/oss_and_stack/management/troubleshooting/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [knowledge](/knowledge.md)

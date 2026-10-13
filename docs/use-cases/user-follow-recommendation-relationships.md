@@ -93,3 +93,14 @@ if __name__ == '__main__':
 - 关注/取关必须同时更新两个集合，否则会出现"单向数据"，推荐结果失真；用管道提交减少不一致窗口。
 - 粉丝数、关注数可以用独立的计数器（`INCR`）缓存，避免频繁 `SCARD`。
 - 只做统计不关心成员时，HyperLogLog 比集合更省内存（如"可能认识的人"只需估算规模时）。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Sets](https://redis.io/docs/latest/develop/data-types/sets/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)

@@ -90,3 +90,25 @@ instantaneous_ops_per_sec:1
 ## 小结
 
 Redis 整体架构的关键词是“分层”与“协作”：主线程用事件循环串起网络 IO 与命令执行，保证单线程内的原子性与可预期延迟；后台线程与子进程承担慢速 IO 与持久化；内存分配、对象系统、键空间则作为公共基础设施支撑上层所有命令。读懂 `server.c` 的 `main()` → `aeMain()` 这条主线，再顺着 `readQueryFromClient()` → `processCommand()` → `call()` 的命令链路往下钻，就能覆盖 Redis 源码的绝大部分内容。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [server.h（核心数据结构）](https://github.com/redis/redis/blob/unstable/src/server.h)
+
+## 相关页面
+
+- [cluster](cluster.md)
+- [command-processing](command-processing.md)
+- [modules](modules.md)
+- [performance](performance.md)
+- [persistence](persistence.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [cluster](cluster.md)
+- [command-processing](command-processing.md)
+- [modules](modules.md)
+- [performance](performance.md)
+- [persistence](persistence.md)

@@ -111,3 +111,16 @@ SETNX ba:str:only-once v2
 ## 小结
 
 这些命令覆盖了字符串的典型进阶用法：`MSET`/`MGET` 批量读写以减少网络往返，`INCR` 系列做原子计数，`GETRANGE`/`SETRANGE` 按偏移量处理内容。带过期时间或条件写入的需求，统一交给 `SET` 的选项。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [get](get.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [get](get.md)

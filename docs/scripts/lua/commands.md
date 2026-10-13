@@ -109,3 +109,22 @@ SCRIPT FLUSH
 此命令将清除所有已加载的 Lua 脚本缓存。
 
 通过这些基本命令，您可以灵活地在 Redis 中使用 Lua 脚本，实现复杂的数据操作和逻辑处理。接下来的小节将进一步探讨 Lua 脚本的编写技巧和调试方法。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [README](README.md)
+- [eval](eval.md)
+- [overview](overview.md)
+- [writing-tips](writing-tips.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [eval](eval.md)
+- [overview](overview.md)
+- [writing-tips](writing-tips.md)

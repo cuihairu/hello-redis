@@ -142,3 +142,16 @@
 ### 总结
 
 限流是系统设计中的重要组成部分，可以有效地防止过度请求对系统造成压力。不同的限流策略适用于不同的场景，选择合适的策略可以根据系统的需求和特点来决定。Redis 提供了高效的操作和原子性支持，使得实现限流策略变得相对简单和高效。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- INCR（未找到权威出处（待核））
+- EXPIRE（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [README](/use-cases/README.md)
+- [rate-limiting](/use-cases/rate-limiting.md)

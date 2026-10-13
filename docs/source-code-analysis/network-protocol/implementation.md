@@ -72,3 +72,16 @@ printf 'SET bd:pipe1 1\r\nGET bd:pipe1\r\nDEL bd:pipe1\r\n' | redis-cli -p 6399 
 ## 小结
 
 `networking.c` 的设计要点可以概括为三句话：读入用 sds 弹性缓冲并按需扩容；解析是有状态可中断的状态机（一个不完整的请求会等到下一个读事件）；输出先静态缓冲后链表，并受分类限额保护。把 `CLIENT LIST` 的 `qbuf/obl/oll/omem` 字段与这三条机制对应起来，就能在读源码时随时用生产数据验证自己的理解。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [protocol-overview](protocol-overview.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [protocol-overview](protocol-overview.md)

@@ -81,3 +81,15 @@ Redis 官方并没有提供直接的 Windows 版本，但可以通过以下步�
 - Redis 在 Windows 上的性能和稳定性可能不如 Linux 版本，尤其是在高负载或生产环境中。
 
 通过以上步骤，你可以在 Windows 上安装和配置 Redis。如果有任何问题，可以参考 Redis 的官方文档或相关的社区支持。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 安装](https://redis.io/docs/latest/operate/oss_and_stack/install/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [installation-and-configuration](installation-and-configuration.md)
+- [knowledge](/knowledge.md)

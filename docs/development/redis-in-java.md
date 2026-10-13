@@ -339,3 +339,14 @@ public class LettucePoolExample {
 ```
 
 以上示例展示了在 Java 中使用 Redis 的基本操作和应用。`Jedis` 和 `Lettuce` 各有其特点，`Jedis` 是一个同步客户端，容易上手；而 `Lettuce` 是一个异步和反应式客户端，适合高性能和响应式应用场景。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Java 客户端](https://redis.io/docs/latest/develop/clients/java/)
+- [Jedis](https://redis.io/docs/latest/develop/clients/jedis/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

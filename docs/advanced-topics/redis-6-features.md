@@ -57,3 +57,15 @@ io-threads-do-reads yes
 - 使用 ACL 逐步替代裸 `requirepass`，为不同业务分配只读/读写账号；
 - 评估 I/O 线程：小实例或 CPU 紧张的机器不需要开启；
 - 客户端需要升级到支持 RESP3 与客户端缓存的版本才能使用对应特性，旧客户端以 RESP2 兼容模式工作。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- ACL LIST（未找到权威出处（待核））
+- [Redis 客户端](https://redis.io/docs/latest/develop/clients/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [glossary](/appendix/glossary.md)

@@ -70,3 +70,12 @@ Cypher 查询语言的基本构造包括节点、关系和属性。以下是 Cyp
   这条语句计算标签为 `Person` 的所有节点的数量。
 
 Cypher 语言通过这些功能，允许用户以简单而强大的方式在图数据库中进行复杂的查询和数据操作，适用于各种图数据处理任务。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/scripts/README.md)

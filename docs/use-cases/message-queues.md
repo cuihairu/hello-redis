@@ -89,3 +89,19 @@ if __name__ == '__main__':
 - Stream 建议设置 `MAXLEN` 上限，避免日志型结构无限增长。
 - 长期未确认的消息用 `XPENDING`/`XCLAIM` 认领处理，防止消息"卡死"。
 - 需要严格一次投递（exactly-once）时，消费端要对业务做幂等处理。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Streams](https://redis.io/docs/latest/develop/data-types/streams/)
+- [Redis 开发文档 · Pub/Sub](https://redis.io/docs/latest/develop/pubsub/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)
+- [task-queue](task-queue.md)
+- [design](/use-cases/task-queue/design.md)

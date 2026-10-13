@@ -83,3 +83,14 @@ GETBIT bb:bitmap:getbit abc
 - [SETBIT](./setbit.md)：设置指定偏移量上的比特位。
 - [其他位图命令](./other-commands.md)：`BITCOUNT`、`BITOP`、`BITPOS`、`BITFIELD` 等。
 - 返回专题目录：[Redis 位图](../bitmap.md)。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- GETBIT（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [other-commands](other-commands.md)
+- [setbit](setbit.md)

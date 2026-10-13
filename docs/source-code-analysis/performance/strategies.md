@@ -74,3 +74,17 @@
 ## 小结
 
 优化策略的本质是"把工作从主线程挪走"：pipeline 挪走网络等待，`UNLINK` 挪走内存释放，io-threads 挪走字节流处理，集群挪走容量上限——唯独命令执行始终留在单线程里。策略选型的依据永远来自测量：`SLOWLOG`、`LATENCY`、`INFO` 三者给出证据链，再按上面的顺序逐层落地。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [bottlenecks](bottlenecks.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)
+- [bottlenecks](bottlenecks.md)

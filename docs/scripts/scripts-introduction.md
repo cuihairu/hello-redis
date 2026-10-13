@@ -60,3 +60,12 @@ EVAL "local n = tonumber(redis.call('GET', KEYS[1])) if n > 0 then return redis.
 - **限流器**：结合 `INCR` 与 `EXPIRE` 实现固定窗口计数。
 - **排行榜更新**：一次脚本内更新分数并返回新排名。
 - **库存扣减**：读取库存、判断余量、扣减并记录，一步完成。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

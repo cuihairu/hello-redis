@@ -109,3 +109,12 @@ RETURN n.name, n.age
 这条命令返回所有 `Person` 节点的 `name` 和 `age` 属性。
 
 这些基本 Cypher 查询命令使用户能够高效地操作图数据库中的数据，通过简洁的语法完成复杂的查询和数据管理任务。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](/scripts/README.md)

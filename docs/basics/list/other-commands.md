@@ -104,3 +104,12 @@ BRPOP ba:l:demo 5
 ## 小结
 
 范围与定位类命令（`LRANGE`、`LINDEX`、`LPOS`）解决「看清和修改列表内容」的问题，`LSET`/`LTRIM`/`LREM` 负责改写和清理，`LMOVE` 与阻塞命令 `BLPOP`/`BRPOP` 则是构建可靠队列的关键。跨列表搬运统一使用 `LMOVE`，不再新用 `RPOPLPUSH`。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

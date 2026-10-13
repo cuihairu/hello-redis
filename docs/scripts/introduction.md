@@ -25,3 +25,16 @@ Redis 支持两种主要的脚本类型：
 2. **Redis 模块脚本**：Redis 模块允许用户扩展 Redis 的功能，包括定义新的数据类型和操作。Redis 模块脚本通常基于特定的模块（如 RedisGraph 和 RedisJSON），提供特定的功能和查询语言。
 
 通过掌握这些脚本功能，用户可以更高效地使用 Redis 进行复杂的数据处理和操作。接下来的章节将详细介绍 Lua 脚本和 Redis 模块脚本的具体使用方法和应用场景。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [appendix](appendix.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [appendix](appendix.md)

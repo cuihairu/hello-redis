@@ -79,3 +79,14 @@ if __name__ == '__main__':
 - **两个方向的键都要维护**：正向（商品→标签）用于展示，反向（标签→商品）用于筛选；打标、删标时用管道同时更新。
 - **标签数量大时**：单个标签的商品集合可能很大，可以用 `SSCAN` 分页遍历，或按热度把标签分库/分片存储。
 - **需要按销量等排序**：把反向索引从 Set 换成 Sorted Set（分数存销量），交集运算改用 `ZINTERSTORE`。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Sets](https://redis.io/docs/latest/develop/data-types/sets/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [redis-use-cases](redis-use-cases.md)

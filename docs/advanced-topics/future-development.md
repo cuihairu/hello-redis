@@ -36,3 +36,13 @@ ACL v2（选择器）、客户端跟踪、`CLIENT NO-EVICT` 等能力表明 Redi
 - **关注长期支持与许可**：商业项目需关注不同分支的许可协议与维护周期，避免选型风险。
 
 本篇为趋势性描述，具体特性以官方仓库的发布说明与文档为准。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [knowledge](/knowledge.md)

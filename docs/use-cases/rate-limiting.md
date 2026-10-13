@@ -15,3 +15,13 @@
 
 - 四种策略的 Lua 实现见[限流策略](rate-limiting/strategies.md)；
 - API 网关限流案例见[API 限流实践](rate-limiting/api.md)。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- INCR（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

@@ -35,3 +35,12 @@
 - **[连接与认证](connection-and-authentication.md)**：说明如何连接到Redis实例，并进行认证。
 - **[键的操作](key-operations.md)**：介绍Redis中对键的各种操作，包括键的创建、修改和删除。
 
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/knowledge.md)

@@ -31,3 +31,13 @@ Medis 是一款面向开发者的 Redis 桌面 GUI 客户端（最初为 macOS �
 - **SSH 隧道**：连接内网 Redis 时建议通过 SSH 隧道，不要把 Redis 端口直接暴露公网。
 
 项目地址：<https://github.com/luin/medis>
+
+## 参考资料
+
+- Redis 官网（未找到权威出处（待核））
+- [Medis 官网](https://getmedis.com/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

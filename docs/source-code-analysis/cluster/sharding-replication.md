@@ -110,3 +110,13 @@ SET bd:mr2 ...   ->  NOREPLICAS Not enough good replicas to write.
 ## 小结
 
 分片与复制的衔接点是"槽的属主可以换人"：路由层用 MOVED/ASK 屏蔽迁移细节，复制层保证新属主有完整数据。把 `CLUSTER SETSLOT` 的四种状态（STABLE/NODE/MIGRATING/IMPORTING）与 `PSYNC` 的两种结果（FULLRESYNC/CONTINUE）当作两张状态图来读，集群的数据面就没有黑盒了。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [knowledge](/knowledge.md)

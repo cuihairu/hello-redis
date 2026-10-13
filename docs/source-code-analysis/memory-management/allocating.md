@@ -92,3 +92,16 @@ $ redis-cli -p 6399 unlink bc:big
 ## 小结
 
 Redis 的内存分配机制可以总结为：**编译期选定分配器，运行期用 zmalloc.c 统一计量，用 jemalloc 的 size class 承接所有小对象，用 lazyfree + bio 线程消化大对象释放**。读源码时抓住三个函数即可建立框架：`zmalloc()`（分配与计量）、`zmalloc_size()`（真实占用）、`zfree()`（同步释放）；再配合 `INFO memory` 的 `allocator_*` 字段和 `memory usage` 命令，就能把源码行为与线上指标对应起来。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+## 相关页面
+
+- [optimization](optimization.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [optimization](optimization.md)

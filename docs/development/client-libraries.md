@@ -69,3 +69,15 @@
 - **语言特性**: 客户端库应与项目使用的编程语言和框架兼容。
 
 通过使用适当的 Redis 客户端库，可以有效地将 Redis 集成到应用程序中，实现高性能的数据存储和管理。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 客户端](https://redis.io/docs/latest/develop/clients/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [ecosystem](/advanced-topics/ecosystem.md)
+- [README](README.md)
+- [knowledge](/knowledge.md)

@@ -140,3 +140,14 @@ Redlock 是一种常用的分布式锁算法，它通过多个 Redis 实例来�
 - 对于更复杂的情况，可以使用 Redlock 算法来实现高可用的分布式锁。
 
 这样，你就可以在你的分布式应用程序中实现分布式锁，确保数据的一致性和任务的原子性。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [官方模式 · 分布式锁](https://redis.io/docs/latest/develop/use/patterns/distributed-locks/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)

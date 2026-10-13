@@ -85,3 +85,17 @@ Redis 可以通过 Homebrew 来轻松安装，以下是安装步骤：
 - 如果遇到任何问题，可以参考 Redis 的官方文档或 Homebrew 的相关支持资源。
 
 通过这些步骤，你可以在 macOS 上成功安装和配置 Redis。如果在安装过程中遇到问题，可以先查看 Homebrew 的安装日志和 Redis 的配置文件路径是否与本文一致。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 安装 Stack](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/)
+
+## 相关页面
+
+- [basic-operations](basic-operations.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [basic-operations](basic-operations.md)

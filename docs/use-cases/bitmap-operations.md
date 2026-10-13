@@ -62,3 +62,14 @@ BITFIELD dau:2024-06-03 GET u8 1001
 - 位偏移是基于字节串的，单个位图键理论上限为 512 MB（2^32 位）；实际按天/按月建键即可。
 - 位偏移过大时会创建很大的字符串（中间空字节），如 `SETBIT k 100000000 1` 会占用约 12.5 MB，务必按合理维度拆分键。
 - 用户 ID 不连续时（如雪花 ID），不要直接把 ID 当偏移，可以用 `MOD` 取模或改用 HyperLogLog 做基数统计。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [Redis 开发文档 · Strings（位图）](https://redis.io/docs/latest/develop/data-types/strings/)
+- SETBIT（未找到权威出处（待核））
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)

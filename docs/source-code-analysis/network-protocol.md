@@ -103,3 +103,14 @@ $ redis-cli -p 16390 debug protocol map      # 本地自建实例
 ## 小结
 
 RESP 是一套为"每秒百万次往返"设计的极简协议：类型字节 + 行文本 + 长度前缀。它把复杂度留给了两端实现——客户端要处理 RESP2/RESP3 双轨与 push/attribute 等新类型，服务器要在单次事件循环里完成"读入-解析-执行-回复"。后续两章分别展开协议格式细节与 `networking.c` 内部的实现机制。
+
+## 参考资料
+
+- [Redis 源码仓库](https://github.com/redis/redis)
+- [RESP 协议规范](https://redis.io/docs/latest/develop/reference/protocol-spec/)
+- [networking.c](https://github.com/redis/redis/blob/unstable/src/networking.c)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)

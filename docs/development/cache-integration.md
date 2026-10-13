@@ -163,3 +163,14 @@ def update_data(url, new_data):
 ## 总结
 
 Redis 作为缓存层可以显著提高系统的性能和响应速度。通过合理配置缓存策略、维护缓存一致性、处理缓存问题以及进行缓存预热，可以有效地利用 Redis 提升应用程序的效率。与数据库的集成也是缓存优化中的重要环节，需要确保数据的一致性和系统的稳定性。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [客户端缓存](https://redis.io/docs/latest/develop/use/client-side-caching/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/appendix/glossary.md)
+- [README](README.md)

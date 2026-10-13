@@ -65,3 +65,14 @@ Redis 是由 Salvatore Sanfilippo（别名 antirez）于 2009 年创建的开源
    - Redis 拥有活跃的开源社区和广泛的生态系统。许多企业和开源项目都依赖于 Redis，并为其发展贡献了大量资源和代码。
 
 Redis 的持续发展和社区支持使其成为现代软件架构中不可或缺的组件，适用于从简单的缓存到复杂的实时数据处理等各种应用场景。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 源码仓库](https://github.com/redis/redis)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [README](README.md)
+- [knowledge](/knowledge.md)

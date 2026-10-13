@@ -61,3 +61,16 @@ end
 为 Lua 脚本编写文档和注释可以提高其可维护性。描述脚本的功能、输入参数和预期输出可以帮助其他开发人员理解和使用脚本。
 
 通过遵循这些编写技巧，可以提高 Redis Lua 脚本的效率和可靠性，确保其在实际使用中的稳定性和性能。
+
+## 参考资料
+
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+
+## 相关页面
+
+- [commands](commands.md)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [commands](commands.md)
