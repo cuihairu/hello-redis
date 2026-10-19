@@ -1,6 +1,8 @@
 # 缓存
 
-缓存是 Redis 最经典的使用场景。通过把热点数据放在内存中，可以大幅降低数据库压力并提升接口响应速度。关于缓存在项目中的策略与实战案例，还可以参阅[缓存策略与实践](cache/strategies.md)与[Web应用缓存](cache/web-app.md)。
+本文聚焦 Cache-Aside 读写模式及相关问题的处理。项目策略与实践案例见[缓存策略与实践](cache/strategies.md)和[Web应用缓存](cache/web-app.md)。
+
+场景收益和系统维护成本的概览见[缓存总览](cache.md)；本文集中记录 Cache-Aside、缓存问题和一致性处理。
 
 ## Cache-Aside 模式
 
