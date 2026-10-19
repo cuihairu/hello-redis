@@ -34,8 +34,7 @@ export default defineConfig({
       { text: '知识点', link: '/knowledge' }
     ],
 
-    // 由 mdbook SUMMARY.md 结构映射而来（vitepress-migration/parse_summary.py），
-    // 7 个部分 + 未入目录散页归入「附录 · 未入目录」
+    // sidebar.json 是侧栏唯一编辑源；8 个编号部分及进阶话题、附录、知识点总纲均在此维护。
     sidebar: sidebar as never,
 
     socialLinks: [
