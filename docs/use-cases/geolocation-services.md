@@ -14,7 +14,7 @@
 - GEO 依赖 ZSET，删除点位用 `ZREM`，不要用不存在的结构；
 - 范围查询的结果是 GeoHash 网格近似值，需要精确距离时用 `GEODIST` 复核。
 
-## 深入阅读
+## 相关记录
 
 - 存储、查询、附近的人完整实现见[基于位置的服务](geolocation-services/location-based.md)；
 - GeoHash 原理与 GEO 命令详解见[地理位置索引](geospatial-indexing.md)。

@@ -13,15 +13,15 @@
   <img src="docs/public/badges/langs.svg" alt="langs" />
 </p>
 
-Redis 知识手册 · [在线阅读](https://cuihairu.github.io/hello-redis/)
+Redis 开发者笔记 · [在线浏览](https://cuihairu.github.io/hello-redis/)
 
 </div>
 
 ---
 
-覆盖 Redis 基础数据类型、Lua 脚本、持久化与高可用、开发集成、运维管理与源码分析的知识站点。
+这里记录 Redis 基础数据类型、Lua 脚本、持久化与高可用、开发集成、运维管理和源码分析中的实践与观察。
 
-知识点收拢：[知识点总纲](https://cuihairu.github.io/hello-redis/knowledge)——核心概念、书籍与官方文档要点、应用场景与常见坑，逐条回链正文页。
+索引：[知识点总纲](https://cuihairu.github.io/hello-redis/knowledge)——核心概念、书籍与官方文档要点、应用场景与常见坑，逐条链接到相关记录。
 
 ## 本地开发
 

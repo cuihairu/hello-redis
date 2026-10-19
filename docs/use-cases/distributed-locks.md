@@ -20,7 +20,7 @@
 
 Redlock 向多数节点加锁才算成功，但依赖系统时钟：时钟跳变会让锁提前过期，Martin Kleppmann 与 Redis 作者 antirez 对这一点有公开争论。对正确性要求高的场景，用分布式锁之外的一致性方案更稳。
 
-## 深入阅读
+## 相关记录
 
 - 加锁、续期、Lua 释放的完整实现见[分布式锁的实现](distributed-locks/implementation.md)；
 - Redlock 争论与故障场景分析见[分布式系统中的应用](distributed-locks/distributed-systems.md)。

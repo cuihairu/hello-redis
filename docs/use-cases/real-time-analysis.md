@@ -6,7 +6,7 @@
 
 本文关注持续写入到指标刷新的处理链路，重点是 Streams 承接事件、消费者异步聚合。PV、UV、排行榜等常用命令与数据结构示例见[实时分析要点](real-time-analytics.md)。
 
-## 深入阅读
+## 相关记录
 
 - Streams + ZSET 的完整数据处理链路见[实时数据处理](real-time-analysis/data-processing.md)；
 - 指标聚合与看板设计见[实时看板](real-time-analysis/dashboard.md)。

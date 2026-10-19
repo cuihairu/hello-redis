@@ -1,9 +1,9 @@
 
-## 第7部分：使用场景
+## Redis 使用场景
 
-第7部分将探讨Redis在不同应用场景中的使用方法，包括如何在实际项目中应用Redis来解决各种问题。内容涵盖了Redis在不同领域和场景下的实际应用，提供了具体的案例和最佳实践。
+这里收录 Redis 在不同项目场景中的实现记录，涉及常见问题、案例和实践取舍。
 
-### [第7部分：使用场景](README.md)
+### [Redis 使用场景](README.md)
 - [使用场景总览](redis-use-cases.md)
 - [缓存](cache.md)
     - [Cache-Aside 与缓存三大问题](caching.md)
@@ -49,7 +49,7 @@
 - [用户关注与好友关系](user-follow-recommendation-relationships.md)
 - [用户消息时间线](user-message-timeline.md)
 
-这一部分将展示Redis在不同场景下的应用，帮助读者理解如何将Redis应用到实际项目中，以解决常见问题和提升系统性能。
+这些页面记录 Redis 在不同场景中的用法，以及我在实现时关注的问题与性能取舍。
 
 ## 参考资料
 

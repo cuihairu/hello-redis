@@ -1,6 +1,6 @@
 [
   {
-    "text": "第1部分：基础知识",
+    "text": "基础知识",
     "link": "/basics/README",
     "collapsed": true,
     "items": [
@@ -255,7 +255,7 @@
     ]
   },
   {
-    "text": "第2部分：Redis 脚本功能",
+    "text": "Redis 脚本功能",
     "link": "/scripts/README",
     "collapsed": true,
     "items": [
@@ -387,7 +387,7 @@
     ]
   },
   {
-    "text": "第3部分：进阶功能",
+    "text": "进阶功能",
     "link": "/advanced/README",
     "collapsed": true,
     "items": [
@@ -470,7 +470,7 @@
     ]
   },
   {
-    "text": "第4部分：开发与集成",
+    "text": "开发与集成",
     "link": "/development/README",
     "collapsed": true,
     "items": [
@@ -538,7 +538,7 @@
     ]
   },
   {
-    "text": "第5部分：运维与管理",
+    "text": "运维与管理",
     "link": "/operations/README",
     "collapsed": true,
     "items": [
@@ -583,7 +583,7 @@
     ]
   },
   {
-    "text": "第6部分 Redis源码分析",
+    "text": "Redis源码分析",
     "link": "/source-code-analysis/README",
     "collapsed": true,
     "items": [
@@ -740,7 +740,7 @@
     ]
   },
   {
-    "text": "第7部分：使用场景",
+    "text": "使用场景",
     "link": "/use-cases/README",
     "collapsed": true,
     "items": [
@@ -950,7 +950,7 @@
     ]
   },
   {
-    "text": "第8部分：兼容实现",
+    "text": "兼容实现",
     "link": "/redis-compatible/README",
     "collapsed": true,
     "items": [

@@ -6,7 +6,7 @@
 
 Cache-Aside 与这三类问题的定义和处理方式统一整理在[Cache-Aside 与缓存三大问题](caching.md)；本页保留场景收益与成本的概览。
 
-## 深入阅读
+## 相关记录
 
 - Cache-Aside 读写模式、Python 完整示例和三个问题的对策，见[Cache-Aside 与缓存三大问题](caching.md)；
 - 穿透、雪崩、击穿的展开解法（布隆过滤器、空值缓存、多级缓存），见[缓存策略与实践](cache/strategies.md)；

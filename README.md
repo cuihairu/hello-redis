@@ -13,15 +13,15 @@
   <img src="docs/public/badges/langs.svg" alt="langs" />
 </p>
 
-Redis Knowledge Handbook · [Read online](https://cuihairu.github.io/hello-redis/)
+Redis Developer Notes · [Browse online](https://cuihairu.github.io/hello-redis/)
 
 </div>
 
 ---
 
-A knowledge site covering Redis core data types, Lua scripting, persistence and high availability, development integration, operations management, and source code analysis.
+A collection of notes on Redis data types, Lua scripting, persistence and high availability, application integration, operations, and source code.
 
-Knowledge index: [Knowledge Notes](https://cuihairu.github.io/hello-redis/knowledge) — core concepts, book and official-doc key points, application scenarios, and common pitfalls, each linked back to its body page.
+Index: [Knowledge Notes](https://cuihairu.github.io/hello-redis/knowledge) — core concepts, book and official-doc notes, application scenarios, and common pitfalls, linked to related pages.
 
 ## Local development
 

@@ -37,7 +37,7 @@ cd redis-7.0.4
 make
 ```
 
-编译成功后，你将会在目录下看到 `redis-server` 和 `redis-cli` 等二进制文件。
+编译成功后，目录中会生成 `redis-server` 和 `redis-cli` 等二进制文件。
 
 ## 6. 安装 Redis
 

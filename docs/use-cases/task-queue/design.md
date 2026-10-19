@@ -57,7 +57,7 @@ def worker(max_retries=3, dead_letter='dead_letter_queue'):
 
 List 方案的任务在 `BRPOP` 取出后即从队列删除，Worker 崩溃会丢任务；不能丢的场景换 Streams 消费者组，读取后确认、失败转交。
 
-## 深入阅读
+## 相关记录
 
 - 延迟任务与异步任务的实现见[异步任务处理](async-tasks.md)；
 - 与 Kafka、RabbitMQ 的对比见[消息队列](../message-queues.md)。

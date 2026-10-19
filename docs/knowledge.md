@@ -55,7 +55,7 @@
 
 | 书名 | 作者 | 对应知识点 | 站内出处 |
 | --- | --- | --- | --- |
-| 《Redis 设计与实现》 | 黄健宏 | 以源码为线索讲解数据结构、持久化与集群实现，与源码分析篇互为对照 | [参考文献](/appendix/references) |
+| 《Redis 设计与实现》 | 黄健宏 | 以源码为线索梳理数据结构、持久化与集群实现，可与源码分析篇对照 | [参考文献](/appendix/references) |
 | 《Redis 深度历险：核心原理与应用实践》 | 钱文品 | 侧重工程应用与业务场景，与使用场景篇互补 | [参考文献](/appendix/references) |
 | 《Redis 实战》（Redis in Action） | Josiah Carlson | 案例驱动的经典入门书 | [参考文献](/appendix/references) |
 | 《分布式系统：概念与设计》 | Coulouris 等 | 复制、一致性与共识的背景读物，进阶篇高可用内容的理论底座 | [参考文献](/appendix/references) |

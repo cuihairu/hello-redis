@@ -3,14 +3,14 @@ layout: home
 
 hero:
   name: Hello Redis
-  text: Redis 知识手册
-  tagline: 从五种基础数据类型到 Lua 脚本、持久化与高可用架构、源码分析与真实使用场景，把 Redis 讲全也讲透。
+  text: Redis 开发者笔记
+  tagline: 记录我在 Redis 数据结构、脚本、持久化、运维和项目集成中的实践与源码观察。
   image:
     src: /illustrations/hero.png
     alt: hello-redis hero illustration
   actions:
     - theme: brand
-      text: 开始阅读
+      text: 浏览笔记
       link: /basics/README
     - theme: alt
       text: GitHub

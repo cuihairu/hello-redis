@@ -33,7 +33,7 @@ SCRIPT EXISTS d8f2fad9f8e86a53d2a6ebd960b33c4972cacc37 a3b8d30a5f32e6d4b0c15c9ba
 
 ## 示例场景
 
-使用 `SCRIPT EXISTS` 可以帮助你在执行 `EVALSHA` 命令之前确认脚本是否已经存在于缓存中，从而避免因脚本未被加载而导致的 `NOSCRIPT` 错误。
+执行 `EVALSHA` 前可用 `SCRIPT EXISTS` 检查脚本缓存，避免因脚本未加载而返回 `NOSCRIPT`。
 
 ## 注意事项
 

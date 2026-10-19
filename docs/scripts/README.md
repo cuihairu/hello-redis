@@ -1,18 +1,18 @@
 # Redis 脚本功能
 
-在这一部分，我们将深入探讨 Redis 的脚本功能，这些功能可以使 Redis 的操作更加高效和灵活。Redis 脚本功能主要包括 Lua 脚本和 Redis 模块脚本。我们将详细介绍这两种脚本类型的功能、使用方法及其应用场景。
+这里是我整理的 Redis 脚本实践记录，涵盖 Lua 脚本和 Redis 模块脚本的执行方式、用法与适用场景。
 
 ## 1. 概述
 
-Redis 提供了强大的脚本功能，以帮助用户在 Redis 服务器端执行复杂的操作，从而减少网络延迟并提高操作效率。这些脚本功能主要包括 Lua 脚本和 Redis 模块脚本。
+Redis 提供了强大的脚本功能，让复杂操作在 Redis 服务端完成，减少网络往返并提高操作效率。这些脚本功能主要包括 Lua 脚本和 Redis 模块脚本。
 
-### 脚本功能介绍
+### 执行能力与用途
 
 Redis 的脚本功能允许用户编写脚本在服务器端进行复杂的数据操作。使用脚本可以实现批量操作、复杂计算和数据转换等任务。这些功能可以显著提高性能并简化数据处理。
 
 ### 脚本执行原理
 
-Redis 的脚本功能基于 Lua 脚本语言，所有脚本在 Redis 服务器端执行，确保操作的原子性和一致性。了解脚本执行的基本原理对于编写高效的脚本至关重要。
+Redis 的脚本功能基于 Lua 脚本语言，所有脚本在 Redis 服务器端执行，确保操作的原子性和一致性。脚本执行原理会影响脚本的效率与行为。
 
 ## 2. Lua 脚本
 
@@ -20,7 +20,7 @@ Lua 是 Redis 内置的脚本语言，它允许用户在 Redis 服务器端编�
 
 ### Lua 脚本概述
 
-Lua 脚本为 Redis 提供了灵活的编程能力，使得用户可以在一个命令中执行复杂的操作。掌握 Lua 脚本的基本概念和用法是有效使用 Redis 的关键。
+Lua 脚本为 Redis 提供了灵活的编程能力，使得用户可以在一个命令中执行复杂的操作。Lua 脚本的基本概念和用法决定了它是否适合具体场景。
 
 ### 基本命令
 
@@ -32,11 +32,11 @@ Lua 脚本为 Redis 提供了灵活的编程能力，使得用户可以在一个
 
 ### Lua 脚本编写技巧
 
-编写高效的 Lua 脚本需要掌握一些技巧，例如如何优化脚本、处理错误以及管理脚本中的状态等。
+这里记录 Lua 脚本优化、错误处理和状态管理时用到的一些技巧。
 
 ### 常见问题与调试
 
-在编写 Lua 脚本时，可能会遇到各种问题，包括执行错误和性能瓶颈。了解如何调试和解决这些问题是确保脚本正确运行的关键。
+在编写 Lua 脚本时，可能会遇到各种问题，包括执行错误和性能瓶颈。调试与问题定位方式会直接影响脚本的稳定性。
 
 ## 3. Redis 模块脚本
 
@@ -46,15 +46,15 @@ Redis 模块脚本通过 Redis 模块扩展了 Redis 的功能。不同的 Redis
 
 RedisGraph 是一个扩展 Redis 的模块，支持图数据模型。它使用 Cypher 查询语言来执行图数据的查询操作。
 
-- **[Cypher 查询语言概述](modules/redisgraph/cypher-overview.md)**：介绍 Cypher 查询语言的基本概念和语法。
-- **[基本 Cypher 查询命令](modules/redisgraph/cypher-commands.md)**：介绍如何使用 Cypher 查询语言在 RedisGraph 中执行基本查询。
+- **[Cypher 查询语言概述](modules/redisgraph/cypher-overview.md)**：Cypher 查询语言的概念与语法速览。
+- **[基本 Cypher 查询命令](modules/redisgraph/cypher-commands.md)**：RedisGraph 中常见 Cypher 查询的写法。
 
 ### RedisJSON
 
 RedisJSON 是 Redis 的一个模块，支持 JSON 数据类型和操作。它使用 JSONPath 查询语言来执行 JSON 数据的查询和修改。
 
-- **[JSONPath 查询语言概述](modules/redisjson/jsonpath-overview.md)**：介绍 JSONPath 查询语言的基本概念和语法。
-- **[基本 JSONPath 查询命令](modules/redisjson/jsonpath-commands.md)**：介绍如何使用 JSONPath 查询语言在 RedisJSON 中执行基本操作。
+- **[JSONPath 查询语言概述](modules/redisjson/jsonpath-overview.md)**：JSONPath 查询语言的概念与语法速览。
+- **[基本 JSONPath 查询命令](modules/redisjson/jsonpath-commands.md)**：RedisJSON 中常见 JSONPath 操作的写法。
 
 ## 4. 脚本安全与性能
 
@@ -62,7 +62,7 @@ RedisJSON 是 Redis 的一个模块，支持 JSON 数据类型和操作。它使
 
 ### 脚本安全性
 
-了解脚本的安全性，包括如何防止恶意脚本攻击以及如何保护数据安全。
+记录脚本安全边界、恶意脚本防护和数据保护方式。
 
 ### 性能优化
 

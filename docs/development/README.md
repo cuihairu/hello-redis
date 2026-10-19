@@ -1,11 +1,11 @@
 
 # [开发与集成](README.md)
 
-在本部分，我们将介绍如何将 Redis 集成到不同的开发环境中，包括使用各种编程语言的客户端库，如何将 Redis 与其他系统进行集成，以及如何进行性能调优和监控。
+这里整理我在不同开发环境中接入 Redis 的实践：客户端库选择、与其他系统集成，以及性能调优和监控。
 
 ## [Redis 客户端库](client-libraries.md)
 
-介绍不同编程语言中的 Redis 客户端库，包括其特性、使用方法和最佳实践。
+记录 Python、Java 和 Go 客户端的特性、用法与项目中的取舍。
 
 - [Python 客户端](redis-in-python.md)
 - [Java 客户端](redis-in-java.md)
@@ -13,11 +13,11 @@
 
 ## [使用 Redis 开发](using-redis.md)
 
-介绍在开发过程中高效使用 Redis 的核心概念、常用开发模式以及最佳实践和注意事项。
+整理开发中常见的 Redis 模式、使用经验和容易忽略的边界。
 
 ## [Redis 与应用程序集成](integration.md)
 
-探讨如何将 Redis 与不同类型的应用程序进行集成，包括缓存系统、消息队列和数据存储。
+记录 Redis 接入缓存、消息队列和数据库时遇到的问题与实现方式。
 
 - [缓存系统集成](cache-integration.md)
 - [消息队列集成](message-queue-integration.md)
@@ -25,7 +25,7 @@
 
 ## [实战项目](practical-projects.md)
 
-通过实际项目展示 Redis 在开发中的典型用法。
+几个 Redis 项目实现记录，覆盖开发中常见的用法。
 
 - [分布式锁](distributed-lock.md)
 - [限流器](rate-limiter.md)

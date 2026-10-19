@@ -6,7 +6,7 @@ Web 集群下会话不能只存在单台应用服务器的内存里：负载均�
 
 Hash 字段设计与滑动续期示例见[会话存储](session-storage.md)；安全、过期和监控清单见[会话存储的最佳实践](session-management/best-practices.md)。
 
-## 深入阅读
+## 相关记录
 
 - Hash 存储、滑动续期的完整示例见[会话存储](session-storage.md)；
 - 过期策略、加密、监控等十条清单见[会话存储的最佳实践](session-management/best-practices.md)；

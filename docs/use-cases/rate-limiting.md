@@ -11,7 +11,7 @@
 | 漏桶 | ZSET 或 List 按速率消费 | 输出速率恒定，无法应对突发 |
 | 令牌桶 | Lua 脚本补令牌 | 允许一定突发，控制平均速率 |
 
-## 深入阅读
+## 相关记录
 
 - 四种策略的 Lua 实现见[限流策略](rate-limiting/strategies.md)；
 - API 网关限流案例见[API 限流实践](rate-limiting/api.md)。
