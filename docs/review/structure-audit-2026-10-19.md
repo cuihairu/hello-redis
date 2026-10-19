@@ -100,7 +100,7 @@ API 目前是 `use-cases/rate-limiting/api.md` 一篇场景实践页，不存在
 - **根 README 双语言版本：** 两份 README 语言不同且已互链，不应当作重复文件删除。
 - **SUMMARY 保留：** 配置把它排除在 VitePress 页面构建之外，且作为历史/映射底稿有明确用途；是否移除要先确认迁移工作流不再依赖它。
 
-## 三期收口方案
+## 三期收口方案（实施前建议；已执行事项以文末记录为准）
 
 | 阶段 | 动作清单 | 影响范围 | 风险（链接/搜索/外链） | 用户拍板 |
 |---|---|---|---|---|
@@ -108,8 +108,53 @@ API 目前是 `use-cases/rate-limiting/api.md` 一篇场景实践页，不存在
 | 二期：统一导航源并处理重定向 | 确认 SUMMARY/sidebar 谁是编辑源；建立生成或校验流程；把 8 部分与无编号专题的层级说清；决定首页是否加入 sidebar（当前顶栏已有入口）；若移动任何页面，保留旧路径兼容页/重定向并检查站内引用。 | `docs/SUMMARY.md`、`docs/.vitepress/sidebar.json`、`docs/.vitepress/config.mts`、`docs/index.md` 与可能迁移的页面。 | **中**：新导航会改变用户点击路径；移动页面可能影响搜索索引、已有书签与外链，需保留重定向至少一个发布周期。 | **必须拍板**：主目录源文件、首页是否加入 sidebar、编号是否仅展示；任何 URL 移动与重定向策略。 |
 | 三期：章节删并与内容深度重构 | 对缓存、限流、会话、实时分析、消息队列等重复主题逐篇确定权威页；拆清基础原理/用例/开发实现；删并前迁移内容并留重定向；重审 `advanced-topics/` 与 `source-code-analysis/` 边界，统一专题入口和搜索标题。 | `docs/use-cases/`、`docs/development/`、`docs/advanced-topics/`、`docs/source-code-analysis/`、对应 SUMMARY/sidebar 与交叉链接。 | **高**：内容合并可能改变页面标题、锚点、搜索权重和外链；遗漏迁移会造成实质死链或信息丢失，应逐页核对并保留旧 URL。 | **必须拍板**：哪些内容保留为独立章节、各主题权威归属、是否接受删并/改名及旧链接维护期限。 |
 
-## 最该先做的三件事
+## 最该先做的三件事（实施前建议；已执行事项以文末记录为准）
 
 1. **修正文档入口说明**：说明 1–8 是连续章节、后续“进阶话题/附录/知识总纲”是补充入口，并修正 sidebar 来源注释的“7 个部分”陈旧数字（`docs/SUMMARY.md:198-222`、`docs/.vitepress/config.mts:37-39`）。
 2. **给重复主题做归属表，不先搬文件**：优先缓存、限流、会话管理，标明总览/策略/实战/开发实现各自职责（证据见上表 `docs/use-cases/README.md:8-19` 和 `docs/development/rate-limiter.md`）。
 3. **在有依赖的环境跑构建并设为重构前门禁**：当前 `vitepress` 缺失，死链状态未核实；配置已启用死链失败策略（`docs/.vitepress/config.mts:20`）。
+
+## 本次实施记录（2026-10-19）
+
+口径：这是个人学习笔记、心得与开发者分享，不是课程或学习路径。保持现有 URL 和不同视角的独立笔记；以下“真重复”均指同一组事实曾在两页重复展开，整理后只在权威页完整保留，另一页给要点摘要和链接。未删除 Markdown 文件。
+
+### A：导航真源
+
+- `docs/.vitepress/config.mts:37-38` 明确 `sidebar.json` 是唯一编辑源，8 个编号部分及无编号补充入口都在其中维护。
+- `docs/SUMMARY.md:1-5` 保留文件，改为说明页：指出 sidebar 的真源位置、禁止手工维护副本、修改规则及其不参与构建的事实。
+- sidebar 共 222 条链接、222 个唯一链接；同一侧栏重复链接 **0**，死条目 **0**。跨侧栏的相同路由未作去重。
+
+### B：跨主题重复及不同角度
+
+**真重复 5 组（各有两处原文对照证据）：**
+
+| 组 | 整理前的两处文本证据 | 收敛后的权威页与摘要/互链 |
+|---|---|---|
+| 缓存定义与三类问题 | `e090330` 中 `cache.md:7-9` 逐条定义穿透、击穿、雪崩及空值缓存、互斥锁、TTL 抖动；`caching.md:55-59` 再逐条写相同问题与对策。 | 完整的 Cache-Aside 和三类问题只留在 [`caching.md:7-13,57-61`](../use-cases/caching.md)；[`cache.md:3-13`](../use-cases/cache.md) 保留场景收益/成本概览及摘要链接。 |
+| 会话基础做法 | `e090330` 中 `session-management.md:3,7-10` 写共享登录态、Hash、随机键、TTL/滑动续期；`session-storage.md:3,7-14` 又写共享会话及 Hash/TTL 命令。 | [`session-management.md:3-12`](../use-cases/session-management.md) 保留多实例登录态问题和链接摘要；[`session-storage.md:3-9`](../use-cases/session-storage.md) 聚焦 Hash 命令与示例。 |
+| 实时指标结构与命令 | `e090330` 中 `real-time-analysis.md:7-18` 列 INCR、HyperLogLog、ZSET、Streams；`real-time-analytics.md:3,5-15` 再列 PV/UV、排名、分时指标与结构。 | [`real-time-analysis.md:3-12`](../use-cases/real-time-analysis.md) 保留事件聚合链路；[`real-time-analytics.md:3-15`](../use-cases/real-time-analytics.md) 集中列指标结构和命令。 |
+| 队列结构的选择与语义 | `e090330` 中 `task-queue.md:7-9` 列 List/Stream/ZSET 的投递语义；`message-queues.md:3,7-20,83-84` 又讲 List/Stream 命令与确认能力。 | [`message-queues.md:3-18,20-36`](../use-cases/message-queues.md) 是 List/Stream 命令和能力的权威展开；[`task-queue.md:5-19`](../use-cases/task-queue.md) 转向幂等、重试、死信等任务可靠性设计。 |
+| 排行榜/计数器基础命令 | `e090330` 中 `ranking-and-counting.md:5-14` 写 ZADD/ZINCRBY、排名和 INCR/HINCRBY；`leaderboards.md:3,7-25` 与 `counters.md:3,7-16` 分别再写榜单和计数器基础命令。 | [`leaderboards.md:3-28`](../use-cases/leaderboards.md) 和 [`counters.md:3-20`](../use-cases/counters.md) 分别作为权威页；[`ranking-and-counting.md:3-12`](../use-cases/ranking-and-counting.md) 仅作场景索引并链接两页。 |
+
+**保留不同角度 7 组，均保留页面并互链：**
+
+1. 缓存策略分类 vs Flask 页面/数据/分布式缓存案例：[`cache/strategies.md:33-60`](../use-cases/cache/strategies.md) 与 [`cache/web-app.md:1-16,39-50`](../use-cases/cache/web-app.md)，入口见 [`cache.md:9-13`](../use-cases/cache.md)。
+2. 限流策略速览 vs Lua 策略展开：[`rate-limiting.md:5-17`](../use-cases/rate-limiting.md) 与 [`rate-limiting/strategies.md:3-32`](../use-cases/rate-limiting/strategies.md)。
+3. API 网关每用户固定窗口案例 vs 开发页多种限流实现：[`rate-limiting/api.md:1-19`](../use-cases/rate-limiting/api.md) 与 [`development/rate-limiter.md:1-14,50-55,94-100`](../development/rate-limiter.md)，两页第 3 行明确标注角度并互链。
+4. 会话安全/过期清单与 Flask 登录注销案例：[`session-management/best-practices.md:1-20`](../use-cases/session-management/best-practices.md) 与 [`session-management/authentication.md:1-19`](../use-cases/session-management/authentication.md)，入口见 [`session-management.md:7-13`](../use-cases/session-management.md)。
+5. 实时事件聚合链路与仪表盘案例：[`real-time-analysis/data-processing.md:1-14`](../use-cases/real-time-analysis/data-processing.md) 与 [`real-time-analysis/dashboard.md:1-19`](../use-cases/real-time-analysis/dashboard.md)，入口见 [`real-time-analysis.md:7-12`](../use-cases/real-time-analysis.md)。
+6. 任务可靠性设计/死信处理 vs 队列命令与消费组：[`task-queue.md:7-19`](../use-cases/task-queue.md)、[`task-queue/design.md:5-20`](../use-cases/task-queue/design.md) 与 [`message-queues.md:5-36,80-90`](../use-cases/message-queues.md)。
+7. 排行榜查询与计数器周期/分片是两个不同问题：[`leaderboards.md:7-28`](../use-cases/leaderboards.md) 与 [`counters.md:7-20,34-49`](../use-cases/counters.md)，入口见 [`ranking-and-counting.md:3-12`](../use-cases/ranking-and-counting.md)。
+
+### C：清点和修正
+
+- `README.md:16-22` 与 `README.zh.md:16-22` 没有文档篇数或目录清单陈述，因此无错误计数/不存在目录可修；两份语言入口保持互链。
+- [`docs/advanced-topics/README.md:3`](../advanced-topics/README.md) 将过期的“第6部分”改为“本专题”，该专题在 sidebar 中是无编号补充入口。
+- sidebar 配置死条目 **0**；重要入口 [`docs/index.md`](../index.md) 已由顶栏“首页” `/` 承载（`docs/.vitepress/config.mts:26-35`），其余专题总览、附录及知识总纲均在 sidebar。
+
+### 验收结果
+
+1. `pnpm docs:build`：通过，VitePress 1.6.4；`ignoreDeadLinks: false`，构建检查死链 **0**。只有 bundle 体积提示。
+2. 死链：Markdown/VitePress 构建死链 **0**；sidebar 链接 222 条，缺失页面 **0**、重复链接 **0**。
+3. A/B/C 动作及 file:line 见上文。
+4. `git diff --diff-filter=D --name-only | wc -l`：**0**（Markdown 删除数 **0**）。
