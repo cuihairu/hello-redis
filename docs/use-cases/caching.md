@@ -82,4 +82,4 @@ Updating the database first and then deleting the cache (Cache-Aside) is the sim
 - [knowledge](/knowledge.md)
 - [README](README.md)
 - [cache](cache.md)
-- &#8203;redis-use-cases<!-- EN-LINK: redis-use-cases.md -->
+- [redis-use-cases](redis-use-cases.md)

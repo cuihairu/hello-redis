@@ -11,7 +11,7 @@ In the Redis ecosystem, besides Redis itself, there are many open source project
   - Compatible with the Redis protocol
   - Native TLS support
   - Built-in replication and failover
-- **Installation and configuration**: &#8203;Install and configure KeyDB<!-- EN-LINK: ../redis-compatible/keydb.md -->
+- **Installation and configuration**: [Install and configure KeyDB](../redis-compatible/keydb.md)
 - **Use cases**: High-performance data storage and caching
 
 ## 2. RedisGraph

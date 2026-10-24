@@ -1,6 +1,6 @@
 ### Real case: User authentication and session management
 
-This page walks through the Flask login, verification, and logout flow; for the security, expiration, and monitoring checklist see &#8203;Best practices for session storage<!-- EN-LINK: best-practices.md -->.
+This page walks through the Flask login, verification, and logout flow; for the security, expiration, and monitoring checklist see [Best practices for session storage](best-practices.md).
 
 #### Background
 

@@ -1,6 +1,6 @@
 # Message queues
 
-Redis offers two message queue implementations: a simple queue on top of lists, and the more capable Stream. The simple queue fits task dispatch; Stream adds consumer groups, message acknowledgement, and replay, which fits scenarios that require reliable consumption. For task reliability design see &#8203;task queue<!-- EN-LINK: task-queue.md --> and &#8203;task queue design<!-- EN-LINK: task-queue/design.md -->.
+Redis offers two message queue implementations: a simple queue on top of lists, and the more capable Stream. The simple queue fits task dispatch; Stream adds consumer groups, message acknowledgement, and replay, which fits scenarios that require reliable consumption. For task reliability design see [task queue](task-queue.md) and [task queue design](task-queue/design.md).
 
 ## Option 1: a list-based simple queue
 
@@ -102,6 +102,6 @@ if __name__ == '__main__':
 - [glossary](/appendix/glossary.md)
 - [knowledge](/knowledge.md)
 - [README](README.md)
-- &#8203;redis-use-cases<!-- EN-LINK: redis-use-cases.md -->
-- &#8203;task-queue<!-- EN-LINK: task-queue.md -->
-- &#8203;design<!-- EN-LINK: /use-cases/task-queue/design.md -->
+- [redis-use-cases](redis-use-cases.md)
+- [task-queue](task-queue.md)
+- [design](/use-cases/task-queue/design.md)

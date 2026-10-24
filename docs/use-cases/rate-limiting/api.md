@@ -1,6 +1,6 @@
 ### Real case: API rate limiting
 
-This page starts from the per-user fixed-window requirement of an API gateway; for multiple strategies and the trade-offs between them see [Rate limiting strategies](strategies.md), and for several rate limiter examples from development projects see &#8203;Implementing a rate limiter with Redis<!-- EN-LINK: /development/rate-limiter -->.
+This page starts from the per-user fixed-window requirement of an API gateway; for multiple strategies and the trade-offs between them see [Rate limiting strategies](strategies.md), and for several rate limiter examples from development projects see [Implementing a rate limiter with Redis](/development/rate-limiter).
 
 In modern applications, API rate limiting is an important means of protecting services from abuse and ensuring fair use. The following is an example showing how to implement API rate limiting with Redis. This example covers the fixed window strategy, since it is one of the most basic and easiest-to-understand rate limiting strategies.
 
@@ -49,9 +49,9 @@ def is_rate_limited(user_id, limit=100, window=60):
 # Example usage
 user_id = "user123"
 if is_rate_limited(user_id):
-    print("Request was rate limited")
+    print("request rate-limited")
 else:
-    print("Request was allowed")
+    print("request allowed")
 ```
 
 ##### 2.3. How it works

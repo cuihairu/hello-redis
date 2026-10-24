@@ -84,8 +84,8 @@ SETBIT bb:bitmap:setbit 4294967296 1
 ## Related pages
 
 - [GETBIT](./getbit.md): read the bit at a given offset.
-- &#8203;Other bitmap commands<!-- EN-LINK: ./other-commands.md -->: `BITCOUNT`, `BITOP`, `BITPOS`, `BITFIELD`, and so on.
-- Back to the topic index: &#8203;Redis bitmap<!-- EN-LINK: ../bitmap.md -->.
+- [Other bitmap commands](./other-commands.md): `BITCOUNT`, `BITOP`, `BITPOS`, `BITFIELD`, and so on.
+- Back to the topic index: [Redis bitmap](../bitmap.md).
 
 ## References
 
@@ -96,5 +96,5 @@ SETBIT bb:bitmap:setbit 4294967296 1
 ## Related pages
 
 - [getbit](getbit.md)
-- &#8203;other-commands<!-- EN-LINK: other-commands.md -->
+- [other-commands](other-commands.md)
 - [knowledge](/knowledge.md)

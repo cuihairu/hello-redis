@@ -114,11 +114,11 @@ Member-level operations (`SREM`, `SISMEMBER`, `SMOVE`) solve single-point proble
 
 ## Related pages
 
-- &#8203;sadd<!-- EN-LINK: sadd.md -->
-- &#8203;spop<!-- EN-LINK: spop.md -->
+- [sadd](sadd.md)
+- [spop](spop.md)
 
 <!-- BACKLINKS-AUTO -->
 ## Related pages
 
-- &#8203;sadd<!-- EN-LINK: sadd.md -->
-- &#8203;spop<!-- EN-LINK: spop.md -->
+- [sadd](sadd.md)
+- [spop](spop.md)

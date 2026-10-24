@@ -76,4 +76,4 @@ if __name__ == '__main__':
 - [glossary](/appendix/glossary.md)
 - [README](README.md)
 - [geolocation-services](geolocation-services.md)
-- &#8203;redis-use-cases<!-- EN-LINK: redis-use-cases.md -->
+- [redis-use-cases](redis-use-cases.md)

@@ -92,7 +92,7 @@ Use `GEOPOS` to read coordinates, `GEODIST` to compute distances, and `GEOHASH` 
 
 - [GEOADD](./geoadd.md): write geospatial data.
 - [GEORADIUS](./georadius.md): the traditional circular-area query command.
-- Back to the topic directory: &#8203;Redis geospatial data<!-- EN-LINK: ../geospatial.md -->.
+- Back to the topic directory: [Redis geospatial data](../geospatial.md).
 
 ## References
 

@@ -137,9 +137,9 @@ RedisJSON makes handling JSON data in Redis simple and intuitive, making it espe
 
 ## Related pages
 
-- &#8203;redisgraph<!-- EN-LINK: redisgraph.md -->
+- [redisgraph](redisgraph.md)
 
 <!-- BACKLINKS-AUTO -->
 ## Related pages
 
-- &#8203;redisgraph<!-- EN-LINK: redisgraph.md -->
+- [redisgraph](redisgraph.md)

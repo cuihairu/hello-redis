@@ -75,4 +75,4 @@ This stops deducting once the stock is 0, and returning 0 means the purchase att
 - [knowledge](/knowledge.md)
 - [README](README.md)
 - [ranking-and-counting](ranking-and-counting.md)
-- &#8203;redis-use-cases<!-- EN-LINK: redis-use-cases.md -->
+- [redis-use-cases](redis-use-cases.md)

@@ -79,9 +79,9 @@ The design points of `networking.c` can be summarized in three sentences: reads 
 
 ## Related pages
 
-- &#8203;protocol-overview<!-- EN-LINK: protocol-overview.md -->
+- [protocol-overview](protocol-overview.md)
 
 <!-- BACKLINKS-AUTO -->
 ## Related pages
 
-- &#8203;protocol-overview<!-- EN-LINK: protocol-overview.md -->
+- [protocol-overview](protocol-overview.md)

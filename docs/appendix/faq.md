@@ -3,7 +3,7 @@
 ## Persistence
 
 **Q: How do I choose between RDB and AOF?**
-RDB is a point-in-time snapshot — fast to restore and compact, but you lose any data written between two snapshots. AOF records write commands; with `appendfsync everysec` you lose at most about 1 second of data. In most cases you enable both: AOF protects your data, and RDB is used for fast recovery and backups. See &#8203;RDB snapshots<!-- EN-LINK: ../advanced/rdb-snapshot.md --> and &#8203;AOF logs<!-- EN-LINK: ../advanced/aof-log.md -->.
+RDB is a point-in-time snapshot — fast to restore and compact, but you lose any data written between two snapshots. AOF records write commands; with `appendfsync everysec` you lose at most about 1 second of data. In most cases you enable both: AOF protects your data, and RDB is used for fast recovery and backups. See [RDB snapshots](../advanced/rdb-snapshot.md) and [AOF logs](../advanced/aof-log.md).
 
 **Q: Redis lost its data after a restart?**
 First check whether persistence is enabled (`rdb_last_save_status` and `aof_enabled` in `INFO persistence`), and whether `dir` points to the persistence directory. For cache-only workloads, data loss is acceptable, and leaving persistence off is normal.
@@ -22,7 +22,7 @@ Yes. Expired keys are cleaned up by lazy deletion (a key is removed when it is f
 ## Caching
 
 **Q: What is the difference between cache penetration, breakdown, and avalanche?**
-Penetration is querying data that does not exist, bypassing the cache; breakdown is a single hot key expiring and a burst of requests going to the origin all at once; avalanche is many keys expiring at the same time, overwhelming the database. The respective countermeasures are caching empty values / Bloom filters, rebuilding under a mutex lock or keeping the key unexpired, and adding random jitter to TTLs. See &#8203;Caching<!-- EN-LINK: ../use-cases/caching.md -->.
+Penetration is querying data that does not exist, bypassing the cache; breakdown is a single hot key expiring and a burst of requests going to the origin all at once; avalanche is many keys expiring at the same time, overwhelming the database. The respective countermeasures are caching empty values / Bloom filters, rebuilding under a mutex lock or keeping the key unexpired, and adding random jitter to TTLs. See [Caching](../use-cases/caching.md).
 
 **Q: Should I update the database first or delete the cache first?**
 The recommendation is "update the database first, then delete the cache" (Cache-Aside). If the delete fails you may read a stale value; fall back to a retry queue or a short TTL.

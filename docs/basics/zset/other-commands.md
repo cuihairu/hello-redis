@@ -112,11 +112,11 @@ The score and rank commands (`ZSCORE`, `ZRANK`, `ZINCRBY`) support the core read
 
 ## Related pages
 
-- &#8203;zadd<!-- EN-LINK: zadd.md -->
+- [zadd](zadd.md)
 - [zrem](zrem.md)
 
 <!-- BACKLINKS-AUTO -->
 ## Related pages
 
-- &#8203;zadd<!-- EN-LINK: zadd.md -->
+- [zadd](zadd.md)
 - [zrem](zrem.md)

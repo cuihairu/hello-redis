@@ -40,7 +40,7 @@
 ## Installing Redis on Windows
 
 1. **Download Redis**
-   - The official Redis project does not provide a Windows installer: on Windows you typically run the Linux build through WSL, or use a community-maintained Windows port (such as [MicrosoftArchive/redis](https://github.com/microsoftarchive/redis/releases); the steps below target that version). See &#8203;Installing Redis on Windows<!-- EN-LINK: ./installation-on-windows.md --> for both approaches.
+   - The official Redis project does not provide a Windows installer: on Windows you typically run the Linux build through WSL, or use a community-maintained Windows port (such as [MicrosoftArchive/redis](https://github.com/microsoftarchive/redis/releases); the steps below target that version). See [Installing Redis on Windows](./installation-on-windows.md) for both approaches.
 
 2. **Install Redis**
    - Extract the downloaded archive, then double-click `redis-server.exe` to start the Redis server.

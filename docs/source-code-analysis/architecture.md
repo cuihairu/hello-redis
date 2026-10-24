@@ -101,7 +101,7 @@ The key words for Redis's overall architecture are "layering" and "cooperation":
 - [cluster](cluster.md)
 - [command-processing](command-processing.md)
 - [modules](modules.md)
-- &#8203;performance<!-- EN-LINK: performance.md -->
+- [performance](performance.md)
 - [persistence](persistence.md)
 
 <!-- BACKLINKS-AUTO -->
@@ -110,5 +110,5 @@ The key words for Redis's overall architecture are "layering" and "cooperation":
 - [cluster](cluster.md)
 - [command-processing](command-processing.md)
 - [modules](modules.md)
-- &#8203;performance<!-- EN-LINK: performance.md -->
+- [performance](performance.md)
 - [persistence](persistence.md)

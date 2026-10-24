@@ -305,13 +305,13 @@ The above commands are only part of Redis's basic operations; Redis provides man
 
 ## Related pages
 
-- &#8203;installation-on-macos<!-- EN-LINK: installation-on-macos.md -->
-- &#8203;other<!-- EN-LINK: other.md -->
+- [installation-on-macos](installation-on-macos.md)
+- [other](other.md)
 
 <!-- BACKLINKS-AUTO -->
 ## Related pages
 
 - [glossary](/appendix/glossary.md)
 - [README](README.md)
-- &#8203;installation-on-macos<!-- EN-LINK: installation-on-macos.md -->
-- &#8203;other<!-- EN-LINK: other.md -->
+- [installation-on-macos](installation-on-macos.md)
+- [other](other.md)

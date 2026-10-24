@@ -82,20 +82,20 @@ By effectively configuring and managing AOF logs, you can ensure the persistence
 
 ## Related pages
 
-- &#8203;data-encryption<!-- EN-LINK: data-encryption.md -->
-- &#8203;network-security<!-- EN-LINK: network-security.md -->
+- [data-encryption](data-encryption.md)
+- [network-security](network-security.md)
 - [performance-optimization](performance-optimization.md)
 - [persistence-configuration](persistence-configuration.md)
-- &#8203;security<!-- EN-LINK: security.md -->
+- [security](security.md)
 
 <!-- BACKLINKS-AUTO -->
 ## Related pages
 
-- &#8203;data-encryption<!-- EN-LINK: data-encryption.md -->
-- &#8203;network-security<!-- EN-LINK: network-security.md -->
+- [data-encryption](data-encryption.md)
+- [network-security](network-security.md)
 - [performance-optimization](performance-optimization.md)
 - [persistence-configuration](persistence-configuration.md)
-- &#8203;security<!-- EN-LINK: security.md -->
+- [security](security.md)
 - [faq](/appendix/faq.md)
 - [glossary](/appendix/glossary.md)
 - [knowledge](/knowledge.md)

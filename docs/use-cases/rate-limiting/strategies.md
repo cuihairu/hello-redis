@@ -1,6 +1,6 @@
 Rate limiting strategies are a way of controlling the use of system resources, aimed at preventing excessive requests from putting pressure on the system and thereby safeguarding its stability and availability. Redis is a common tool for rate limiting; its efficient operations and support for atomicity make it very well suited to high-concurrency scenarios. Below are the common rate limiting strategies and how they are implemented in Redis.
 
-For an overview of the four strategies see [Rate limiting](../rate-limiting.md); for the API gateway and development angles see [API rate limiting practice](api.md) and &#8203;Rate limiter development examples<!-- EN-LINK: /development/rate-limiter -->.
+For an overview of the four strategies see [Rate limiting](../rate-limiting.md); for the API gateway and development angles see [API rate limiting practice](api.md) and [Rate limiter development examples](/development/rate-limiter).
 
 ### Common rate limiting strategies
 

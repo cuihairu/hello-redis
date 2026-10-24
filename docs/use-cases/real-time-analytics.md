@@ -2,7 +2,7 @@
 
 This page lists the common data structures and commands along the dimensions of metric deduplication, ranking, and time bucketing.
 
-This page focuses on the structures and commands behind each metric; for the Streams-based event aggregation pipeline, see the &#8203;real-time analytics overview<!-- EN-LINK: real-time-analysis.md -->.
+This page focuses on the structures and commands behind each metric; for the Streams-based event aggregation pipeline, see the [real-time analytics overview](real-time-analysis.md).
 
 ## Common data structures
 

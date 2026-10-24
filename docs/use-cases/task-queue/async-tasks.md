@@ -108,5 +108,5 @@ By using Redis to implement asynchronous task processing, you can separate time-
 ## Related pages
 
 - [README](/use-cases/README.md)
-- &#8203;task-queue<!-- EN-LINK: /use-cases/task-queue.md -->
-- &#8203;design<!-- EN-LINK: design.md -->
+- [task-queue](/use-cases/task-queue.md)
+- [design](design.md)

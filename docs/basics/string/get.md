@@ -63,10 +63,10 @@ DEL ba:str:greeting ba:str:missing ba:str:queue
 
 ## Related pages
 
-- &#8203;other-commands<!-- EN-LINK: other-commands.md -->
+- [other-commands](other-commands.md)
 
 <!-- BACKLINKS-AUTO -->
 ## Related pages
 
-- &#8203;other-commands<!-- EN-LINK: other-commands.md -->
+- [other-commands](other-commands.md)
 - [knowledge](/knowledge.md)

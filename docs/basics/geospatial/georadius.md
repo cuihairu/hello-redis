@@ -97,7 +97,7 @@ GEOSEARCH bb:geo:sicily FROMLONLAT 15 37 BYRADIUS 200 km WITHDIST ASC
 
 - [GEOADD](./geoadd.md): write geospatial data.
 - [Other geospatial commands](./other-commands.md): `GEOPOS`, `GEODIST`, `GEOSEARCH`, and more.
-- Back to the topic directory: &#8203;Redis geospatial data<!-- EN-LINK: ../geospatial.md -->.
+- Back to the topic directory: [Redis geospatial data](../geospatial.md).
 
 ## References
 

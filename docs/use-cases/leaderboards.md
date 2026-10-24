@@ -80,4 +80,4 @@ Sorting can also be done with `LIST` or with `ORDER BY` in a database, but every
 - [glossary](/appendix/glossary.md)
 - [knowledge](/knowledge.md)
 - [README](README.md)
-- &#8203;redis-use-cases<!-- EN-LINK: redis-use-cases.md -->
+- [redis-use-cases](redis-use-cases.md)
