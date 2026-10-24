@@ -1,78 +1,77 @@
-# Redis的历史与发展
+# Redis History and Development
 
-Redis 是由 Salvatore Sanfilippo（别名 antirez）于 2009 年创建的开源内存数据结构存储系统。它的设计旨在提供一种简单而强大的方式来处理各种数据结构，并且具有高性能和高可用性。以下是 Redis 的历史和发展概述：
+Redis is an open-source, in-memory data structure store created by Salvatore Sanfilippo (alias antirez) in 2009. It was designed as a simple yet powerful way to work with a variety of data structures, with high performance and high availability. Here is an overview of its history and evolution.
 
-## 早期发展
+## Early development
 
-- **2009 年**:
-  - Redis 的第一个版本发布。最初，Redis 是作为一个用 C 语言编写的键值存储系统，主要针对对性能要求极高的应用场景。
+- **2009**:
+  - The first version of Redis was released. Initially, Redis was a key-value store written in C, aimed at workloads with very high performance requirements.
 
-- **2010 年**:
-  - Redis 1.0 发布，引入了支持持久化的 RDB 快照功能。
-  - 开始支持 Redis 的高级数据结构，如列表（List）和集合（Set）。
+- **2010**:
+  - Redis 1.0 was released, introducing RDB snapshots for persistence.
+  - Support began for Redis's richer data structures, such as lists (List) and sets (Set).
 
-## 版本演进
+## Version evolution
 
-- **2010 年**:
-  - Redis 2.0 发布，带来了哈希（Hash）类型、发布/订阅（Pub/Sub）功能以及阻塞弹出命令（BLPOP、BRPOP）。
+- **2010**:
+  - Redis 2.0 was released, bringing the hash (Hash) type, pub/sub (Pub/Sub), and blocking pop commands (BLPOP, BRPOP).
 
-- **2011 年**:
-  - Redis 2.2 发布，引入了基于 `WATCH` 的检查并设置（check-and-set）事务等特性。
-  - Redis 2.4 发布，将 AOF 重写移到后台子进程执行，并改进了内存管理与持久化选项。
+- **2011**:
+  - Redis 2.2 was released, introducing `WATCH`-based check-and-set transactions and similar features.
+  - Redis 2.4 was released, moving AOF rewriting into a background child process and improving memory management and persistence options.
 
-- **2012 年**:
-  - Redis 2.6 发布，内置了 Lua 脚本支持（`EVAL`、`EVALSHA`、`SCRIPT LOAD`），Lua 脚本自此成为扩展 Redis 的主要方式。
+- **2012**:
+  - Redis 2.6 was released, with built-in Lua scripting support (`EVAL`, `EVALSHA`, `SCRIPT LOAD`). Lua scripting has been the primary way to extend Redis ever since.
 
-- **2014 年**:
-  - Redis 2.8.9 引入了 HyperLogLog 数据结构（`PFADD`、`PFCOUNT`、`PFMERGE`）；2.8 系列还带来了部分重同步（PSYNC）等复制改进。
+- **2014**:
+  - Redis 2.8.9 introduced the HyperLogLog data structure (`PFADD`, `PFCOUNT`, `PFMERGE`); the 2.8 series also brought replication improvements such as partial resynchronization (PSYNC).
 
-- **2015 年**:
-  - Redis 3.0 发布，标志着 Redis 集群模式的引入。Redis 集群支持数据分片和分布式环境中的高可用性，允许用户在多个节点上自动分片数据。
+- **2015**:
+  - Redis 3.0 was released, marking the introduction of Redis Cluster mode. Redis Cluster supports data sharding and high availability in distributed environments, letting data be sharded automatically across many nodes.
 
-- **2016 年**:
-  - Redis 3.2 发布，引入了地理空间功能（`GEOADD`、`GEOPOS`、`GEODIST`、`GEOHASH`、`GEORADIUS`、`GEORADIUSBYMEMBER`），以及事务的改进和其他性能优化与新命令。注意：流（Stream）数据结构并非此版本引入，而是随 5.0 一同发布。
+- **2016**:
+  - Redis 3.2 was released, introducing geospatial features (`GEOADD`, `GEOPOS`, `GEODIST`, `GEOHASH`, `GEORADIUS`, `GEORADIUSBYMEMBER`), transaction improvements, and other performance optimizations and new commands. Note: the stream (Stream) data structure was not introduced in this version — it shipped with 5.0.
 
-- **2017 年**:
-  - Redis 4.0 发布，引入了模块系统（Modules）、惰性释放（Lazy Free）、PSYNC2 以及 RDB-AOF 混合持久化，带来了更高效的内存使用和数据持久化机制。
+- **2017**:
+  - Redis 4.0 was released, introducing the module system (Modules), lazy freeing, PSYNC2, and RDB-AOF hybrid persistence, bringing more efficient memory usage and data persistence mechanisms.
 
-- **2018 年**:
-  - Redis 5.0 发布，引入了新的数据结构（如 Stream）以及对 Redis 集群模式的更好支持，进一步提升了性能和功能。
+- **2018**:
+  - Redis 5.0 was released, introducing new data structures (such as Stream) and better support for Redis Cluster mode, further improving performance and functionality.
 
-- **2019 年**:
-  - Redis 5.0.8 发布，主要集中在错误修复和小的改进。Redis 5.x 系列继续为现有特性提供支持。
+- **2019**:
+  - Redis 5.0.8 was released, focused mainly on bug fixes and minor improvements. The Redis 5.x series continued to support the existing feature set.
 
-- **2020 年**:
-  - Redis 6.0 发布，引入了多线程网络 I/O、ACL（访问控制列表）、客户端缓存和 RESP3 协议。多线程 I/O 提高了 Redis 在高负载下的性能（模块系统早在 4.0 就已引入）。
+- **2020**:
+  - Redis 6.0 was released, introducing multithreaded network I/O, ACL (access control lists), client-side caching, and the RESP3 protocol. Multithreaded I/O improved Redis's performance under heavy load (the module system had already been introduced in 4.0).
 
-- **2021 年**:
-  - Redis 6.2 发布，引入了增强的模块支持、新的命令和改进的性能，进一步加强了 Redis 的功能和灵活性。
+- **2021**:
+  - Redis 6.2 was released, introducing enhanced module support, new commands, and improved performance, further strengthening Redis's capabilities and flexibility.
 
-- **2022 年**:
-  - Redis 7.0 发布，带来了更多的功能改进和性能优化，包括改进的模块系统和新的数据结构特性。
+- **2022**:
+  - Redis 7.0 was released, bringing further feature improvements and performance optimizations, including an improved module system and new data structure features.
 
-## 关键发展
+## Key developments
 
-1. **模块化**:
-   - Redis 从最初的简单键值存储系统逐步演变为一个功能丰富的数据库，支持模块化扩展。Redis 模块系统允许用户创建和集成自定义数据结构和功能。
+1. **Modularity**:
+   - Redis evolved from a simple key-value store into a feature-rich database with modular extension. The Redis module system lets users create and integrate custom data structures and features.
 
-2. **集群支持**:
-   - Redis 的集群模式使其能够在分布式环境中提供高可用性和数据分片支持，是其发展中的一个重要里程碑。
+2. **Cluster support**:
+   - Cluster mode lets Redis provide high availability and data sharding in distributed environments — a major milestone in its development.
 
-3. **多线程和性能优化**:
-   - Redis 的多线程 I/O 支持和其他性能优化，使其在处理高负载和复杂操作时表现出色。
+3. **Multithreading and performance optimization**:
+   - Multithreaded I/O support and other performance optimizations make Redis perform well under heavy load and with complex operations.
 
-4. **社区和生态系统**:
-   - Redis 拥有活跃的开源社区和广泛的生态系统。许多企业和开源项目都依赖于 Redis，并为其发展贡献了大量资源和代码。
+4. **Community and ecosystem**:
+   - Redis has an active open-source community and a broad ecosystem. Many enterprises and open-source projects rely on Redis and have contributed substantial resources and code to its development.
 
-Redis 的持续发展和社区支持使其成为现代软件架构中不可或缺的组件，适用于从简单的缓存到复杂的实时数据处理等各种应用场景。
+Redis's continued development and community support have made it an indispensable component of modern software architecture, suitable for everything from simple caching to complex real-time data processing.
 
-## 参考资料
+## References
 
-- [Redis 开发文档](https://redis.io/docs/latest/develop/)
-- [Redis 源码仓库](https://github.com/redis/redis)
+- [Redis development docs](https://redis.io/docs/latest/develop/)
+- [Redis source repository](https://github.com/redis/redis)
 
 <!-- BACKLINKS-AUTO -->
-## 相关页面
+## Related pages
 
 - [README](README.md)
-- [knowledge](/knowledge.md)

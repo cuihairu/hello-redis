@@ -69,19 +69,23 @@ body {
   outline-offset: 2px;
 }
 
-/* ---------- 中文正文排印：段首缩进 · 行距 · 块间距 ---------- */
-/* 缩进只在主题层做（text-indent），源文里不敲全角空格；
-   列表、引用、表格、提示容器内的段落按阅读习惯不缩进 */
-
+/* ---------- 正文排印：行距 · 块间距 ---------- */
 .vp-doc p {
-  text-indent: 2em;
   margin: 1.05em 0;
 }
-.vp-doc li p,
-.vp-doc blockquote p,
-.vp-doc th p,
-.vp-doc td p,
-.vp-doc .custom-block p {
+
+/* ---------- 中文正文段首缩进 ---------- */
+/* 缩进只在主题层做（text-indent），源文里不敲全角空格；
+   列表、引用、表格、提示容器内的段落按阅读习惯不缩进。
+   仅作用于中文语言环境（html[lang=zh-CN]），英文正文按西方排版不缩进 */
+html[lang='zh-CN'] .vp-doc p {
+  text-indent: 2em;
+}
+html[lang='zh-CN'] .vp-doc li p,
+html[lang='zh-CN'] .vp-doc blockquote p,
+html[lang='zh-CN'] .vp-doc th p,
+html[lang='zh-CN'] .vp-doc td p,
+html[lang='zh-CN'] .vp-doc .custom-block p {
   text-indent: 0;
 }
 

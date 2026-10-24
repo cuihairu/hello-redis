@@ -1,0 +1,38 @@
+# 分布式锁
+
+多个服务实例同时操作同一份数据（扣库存、生成订单号），需要一把锁保证同一时刻只有一个实例执行。Redis 的原子命令可以实现这把锁，但几个环节处理不好会锁失效。
+
+## 核心做法
+
+- 加锁用 `SET key 随机值 NX EX 30`：不存在才写入，带过期时间；值用 UUID 等随机串，标识持有者；
+- 释放用 Lua 脚本比对随机值再删除：比对与删除必须合成一个原子脚本。先 `GET` 再 `DEL` 之间有竞态，可能误删别人的锁；
+- 锁超时未完成时自动过期，持有者需要后台续期，避免业务未完成锁已释放。
+
+## 选型要点
+
+| 需求 | 做法 |
+| --- | --- |
+| 单实例、允许偶发失效 | SET NX EX + Lua 释放 |
+| 不能丢锁、跨机房 | 换 etcd/ZooKeeper 等一致性存储 |
+| 高并发抢锁 | Redlock（有争议，见下） |
+
+## Redlock 的争议
+
+Redlock 向多数节点加锁才算成功，但依赖系统时钟：时钟跳变会让锁提前过期，Martin Kleppmann 与 Redis 作者 antirez 对这一点有公开争论。对正确性要求高的场景，用分布式锁之外的一致性方案更稳。
+
+## 相关记录
+
+- 加锁、续期、Lua 释放的完整实现见[分布式锁的实现](distributed-locks/implementation.md)；
+- Redlock 争论与故障场景分析见[分布式系统中的应用](distributed-locks/distributed-systems.md)。
+
+## 参考资料
+
+- [Redis 开发文档 · 场景](https://redis.io/docs/latest/develop/use-cases/)
+- [官方模式 · 分布式锁](https://redis.io/docs/latest/develop/use/patterns/distributed-locks/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [glossary](/zh/appendix/glossary.md)
+- [knowledge](/zh/knowledge.md)
+- [README](README.md)

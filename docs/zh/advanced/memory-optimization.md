@@ -1,0 +1,120 @@
+# Redis 内存优化
+
+Redis 是一个高效的内存数据结构存储系统，优化内存使用可以显著提高 Redis 性能并降低系统成本。以下是 Redis 内存优化的详细指南：
+
+## 1. 配置最大内存
+
+**1.1 设置最大内存**
+
+通过配置 `maxmemory` 参数，限制 Redis 使用的最大内存量。这可以防止 Redis 占用过多内存，影响系统的其他进程。
+
+```plaintext
+maxmemory 2gb
+```
+
+**1.2 选择内存淘汰策略**
+
+Redis 提供多种内存淘汰策略，以确保在内存限制达到时有效释放内存。常见的策略包括：
+
+- **noeviction**: 达到最大内存后，禁止写操作。
+- **allkeys-lru**: 从所有键中删除最久未使用的键。
+- **volatile-lru**: 从设置了过期时间的键中删除最久未使用的键。
+- **allkeys-random**: 从所有键中随机删除一个键。
+- **volatile-random**: 从设置了过期时间的键中随机删除一个键。
+- **volatile-ttl**: 从设置了过期时间的键中删除那些剩余时间最短的键。
+
+```plaintext
+maxmemory-policy allkeys-lru
+```
+
+## 2. 优化数据结构
+
+**2.1 选择合适的数据类型**
+
+根据使用场景选择合适的 Redis 数据结构，以减少内存使用。例如：
+
+- **字符串**：适用于简单的键值对存储。注意大字符串可能会消耗较多内存。
+- **哈希**：适用于存储多个字段的对象，比使用多个字符串更节省内存。
+- **列表**：适用于有序的元素集合，适合消息队列等应用。
+- **集合**：适用于存储唯一元素的集合，支持集合运算。
+- **有序集合**：适用于需要排序的集合，例如排行榜。
+- **位图**：适用于大规模的布尔数据存储。
+- **HyperLogLog**：适用于估算基数的应用场景，占用内存非常少。
+
+**2.2 压缩数据**
+
+在应用层进行数据压缩，尤其是当存储大量大字符串或哈希时，可以有效减少内存占用。常见的压缩库包括 `lz4`、`zlib` 和 `gzip`。
+
+**2.3 使用适当的数据结构选项**
+
+- **哈希字段压缩**：当哈希的字段数和字段值都比较小时，Redis 会使用 listpack（旧版本为 ziplist）紧凑编码来存储哈希，可通过 `hash-max-listpack-entries` 和 `hash-max-listpack-value` 控制转换阈值（Redis 7.0 之前对应的配置名为 `hash-max-ziplist-entries` 和 `hash-max-ziplist-value`）。
+- **列表压缩**：列表在小体积时同样使用 listpack/ziplist 编码（`list-max-listpack-size`，旧名 `list-max-ziplist-size`）；对于较大的 quicklist 列表，还可以通过 `list-compress-depth`（Redis 5.0 起）用 LZF 压缩中间节点，两端节点保持未压缩以便快速访问。
+
+```plaintext
+hash-max-ziplist-entries 512
+hash-max-ziplist-value 64
+list-max-ziplist-size -2
+list-compress-depth 0
+```
+
+## 3. 内存分析和监控
+
+**3.1 使用 `MEMORY STATS` 命令**
+
+获取 Redis 内存使用的详细信息，包括内存的各种统计数据，如总内存、分配器使用的内存等。
+
+```bash
+redis-cli MEMORY STATS
+```
+
+**3.2 使用 `MEMORY USAGE` 命令**
+
+检查特定键的内存占用。这可以帮助识别高内存消耗的键。
+
+```bash
+redis-cli MEMORY USAGE <key>
+```
+
+**3.3 使用 Redis 内存分析工具**
+
+- **Redis Desktop Manager**：图形化管理工具，提供内存使用的可视化分析。
+- **RDM**：Redis Desktop Manager，可以查看和管理 Redis 数据，提供内存使用情况。
+
+## 4. 内存管理技巧
+
+**4.1 优化内存分配**
+
+Redis 使用 Jemalloc 作为默认的内存分配器，它具有较好的性能和内存利用率。如果使用默认的内存分配器，可以考虑调整 Jemalloc 配置以优化性能。
+
+**4.2 定期清理过期键**
+
+- **设置过期时间**：为不再需要的键设置合理的过期时间，Redis 会在键过期时自动删除。
+  
+```bash
+EXPIRE mykey 3600
+```
+
+- **使用过期时间策略**：Redis 支持两种过期策略：惰性删除（在访问键时检查过期时间）和定期删除（定期扫描并删除过期键）。
+
+```plaintext
+hz 10
+```
+
+**4.3 避免大键**
+
+避免存储过大的键或值。将大对象拆分成小的键值对，以减少内存压力。
+
+## 5. 总结
+
+Redis 内存优化涉及合理配置内存限制、选择合适的数据结构、使用压缩、内存分析和监控等多个方面。通过精确配置和优化 Redis，可以显著提高性能并减少内存消耗。根据实际应用需求，结合以上策略，可以实现高效的 Redis 内存管理。
+
+## 参考资料
+
+- [Redis 运维手册 · 管理](https://redis.io/docs/latest/operate/oss_and_stack/management/)
+- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis 运维手册 · 优化](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/)
+
+<!-- BACKLINKS-AUTO -->
+## 相关页面
+
+- [knowledge](/zh/knowledge.md)

@@ -1,51 +1,51 @@
-# 简介
+# Introduction
 
-Redis 是一个开源的、高性能的键值存储系统，它以其快速的读写速度和丰富的数据结构而著名。它通常被用作数据库、缓存和消息代理。Redis 的设计理念旨在提供极高的性能，同时保持数据的持久性和可靠性。以下是对 Redis 的基本介绍，包括其定义、历史和主要特点。
+Redis is an open-source, high-performance key-value store. It is known for fast reads and writes and a rich set of data structures, and is commonly used as a database, a cache, and a message broker. Redis is designed to deliver extreme performance while keeping data durable and reliable. These notes cover the essentials: what Redis is, where it came from, and what it is good at.
 
-## 什么是Redis
+## What is Redis
 
-Redis（Remote Dictionary Server）是一种开源的内存数据结构存储系统，支持多种类型的数据结构，如字符串、哈希、列表、集合和有序集合。Redis 通常被用作数据库、缓存和消息中间件。由于其高性能的特性，Redis 被广泛应用于需要快速访问数据的场景中，如实时分析、缓存系统和分布式应用。
+Redis (Remote Dictionary Server) is an open-source, in-memory data structure store that supports multiple data types — strings, hashes, lists, sets, and sorted sets among them. It is typically used as a database, cache, and message broker. Thanks to its performance characteristics, Redis is widely used wherever data must be served quickly: real-time analytics, caching layers, and distributed applications.
 
-**主要特点**:
-- **高性能**: Redis 支持每秒数百万次操作，提供毫秒级别的响应时间。
-- **持久化**: Redis 提供多种持久化机制，以确保数据在重启后不会丢失。
-- **丰富的数据结构**: Redis 支持字符串、哈希、列表、集合、有序集合、位图、地理空间数据和流等多种数据结构。
-- **内存存储**: Redis 主要将数据存储在内存中，这使得它可以提供非常快速的读写操作。
-- **支持事务**: Redis 支持多条命令的事务处理，确保操作的原子性。
-- **发布/订阅功能**: Redis 支持发布/订阅模式，用于消息广播和实时通知。
-- **高可用性与分布式**: Redis 提供主从复制、哨兵机制和集群模式来实现高可用性和分布式管理。
+**Key traits**:
+- **High performance**: Redis sustains millions of operations per second with millisecond-level response times.
+- **Persistence**: multiple persistence mechanisms keep data safe across restarts.
+- **Rich data structures**: strings, hashes, lists, sets, sorted sets, bitmaps, geospatial data, streams, and more.
+- **In-memory storage**: data lives primarily in memory, which is what makes reads and writes so fast.
+- **Transactions**: multiple commands can be grouped and executed atomically.
+- **Pub/Sub**: publish/subscribe messaging for broadcasts and real-time notifications.
+- **High availability and distribution**: master-slave replication, Sentinel, and Cluster mode.
 
-## Redis的历史与发展
+## Redis History and Development
 
-Redis 最初由 Salvatore Sanfilippo（又名 antirez）于 2009 年开发。它的初衷是作为一个轻量级的内存数据库，用于处理高性能数据访问的需求。随着 Redis 的发展，它逐渐添加了许多新特性，包括持久化、分布式系统支持和更多的数据结构。
+Redis was originally developed by Salvatore Sanfilippo (aka antirez) in 2009, starting as a lightweight in-memory database for workloads that demanded very fast data access. As it matured, Redis gained persistence, distributed-system support, and many more data structures.
 
-**重要的版本和变化**:
-- **Redis 1.0**: 初始版本，提供了基本的键值存储功能（RDB 快照与有序集合在此前后即已具备）。
-- **Redis 2.0**: 引入了哈希类型、发布/订阅以及阻塞弹出命令（BLPOP/BRPOP）。
-- **Redis 3.0**: 引入了集群模式，实现了数据的分布式存储。
-- **Redis 4.0**: 增加了模块系统，允许用户扩展 Redis 的功能。
-- **Redis 5.0**: 引入了流数据结构，增强了对实时数据流的支持。
-- **Redis 6.0**: 引入了多线程网络 I/O、ACL 访问控制、客户端缓存和 RESP3 协议。
-- **Redis 7.0**: 引入了 Functions、分片发布/订阅与多部分 AOF，提升了性能和可靠性。
+**Notable versions and changes**:
+- **Redis 1.0**: the first stable release — basic key-value storage (RDB snapshots and sorted sets were already in place around this time).
+- **Redis 2.0**: introduced the hash type, pub/sub, and the blocking pop commands (BLPOP/BRPOP).
+- **Redis 3.0**: introduced Cluster mode for distributed data storage.
+- **Redis 4.0**: added the module system, letting users extend Redis.
+- **Redis 5.0**: introduced the stream data structure, strengthening real-time data flow support.
+- **Redis 6.0**: multithreaded network I/O, ACL access control, client-side caching, and the RESP3 protocol.
+- **Redis 7.0**: Functions, sharded pub/sub, and multi-part AOF — better performance and reliability.
 
-## Redis的特点与应用场景
+## Features and Use Cases
 
-Redis 的特点使它非常适合用于多种应用场景，包括但不限于：
+These traits make Redis a fit for many workloads, including:
 
-- **缓存**: 使用 Redis 存储频繁访问的数据，以提高应用的响应速度和性能。
-- **会话存储**: 在 Web 应用中，Redis 可以存储用户会话数据，以支持分布式会话管理。
-- **排行榜和计数器**: 利用 Redis 的有序集合和计数器来实现实时的排行榜和计数功能。
-- **消息队列**: Redis 的列表和流数据结构可以用作高效的消息队列系统。
-- **实时分析**: Redis 可以存储和处理实时数据，用于实时分析和监控。
-- **地理空间索引**: Redis 提供了对地理空间数据的支持，适用于位置服务和地图应用。
+- **Caching**: keep frequently accessed data in Redis to speed up applications.
+- **Session storage**: store user session data for distributed session management in web apps.
+- **Leaderboards and counters**: sorted sets and counters power real-time rankings.
+- **Message queues**: lists and streams work well as message queue systems.
+- **Real-time analytics**: ingest and process live data for monitoring and analysis.
+- **Geospatial indexing**: built-in geospatial support for location services and mapping.
 
-Redis 的设计和功能使它在现代软件架构中扮演了重要的角色，尤其是在需要高性能和低延迟的数据访问场景中。这些笔记记录 Redis 的基本用法，以及我在实际应用中用到的能力与边界。
+By design, Redis plays an important role in modern software architecture — especially wherever data access must be fast and low-latency. These notes record the basic usage of Redis along with the capabilities and limits I have hit in real applications.
 
-## 参考资料
+## References
 
-- [Redis 开发文档](https://redis.io/docs/latest/develop/)
+- [Redis development docs](https://redis.io/docs/latest/develop/)
 
 <!-- BACKLINKS-AUTO -->
-## 相关页面
+## Related pages
 
 - [README](README.md)

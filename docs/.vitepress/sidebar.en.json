@@ -1,0 +1,1061 @@
+[
+  {
+    "text": "Basics",
+    "link": "/basics/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Introduction",
+        "link": "/basics/introduction",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "What is Redis",
+            "link": "/basics/what-is-redis"
+          },
+          {
+            "text": "Redis History and Development",
+            "link": "/basics/history-and-development"
+          },
+          {
+            "text": "Features and Use Cases",
+            "link": "/basics/features-and-use-cases"
+          },
+          {
+            "text": "Other Redis-Compatible Projects",
+            "link": "/basics/other"
+          }
+        ]
+      },
+      {
+        "text": "Installation and Configuration",
+        "link": "/basics/installation-and-configuration",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Installing Redis on Linux",
+            "link": "/basics/installation-on-linux"
+          },
+          {
+            "text": "Installing Redis on Windows",
+            "link": "/basics/installation-on-windows"
+          },
+          {
+            "text": "Installing Redis on macOS",
+            "link": "/basics/installation-on-macos"
+          },
+          {
+            "text": "Redis Configuration File Explained",
+            "link": "/basics/configuration-file"
+          }
+        ]
+      },
+      {
+        "text": "Basic Redis Operations",
+        "link": "/basics/basic-operations",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "String",
+            "link": "/basics/string",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "SET",
+                "link": "/basics/string/set"
+              },
+              {
+                "text": "GET",
+                "link": "/basics/string/get"
+              },
+              {
+                "text": "Other String Commands",
+                "link": "/basics/string/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "Hash",
+            "link": "/basics/hash",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "HSET",
+                "link": "/basics/hash/hset"
+              },
+              {
+                "text": "HGET",
+                "link": "/basics/hash/hget"
+              },
+              {
+                "text": "Other Hash Commands",
+                "link": "/basics/hash/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "List",
+            "link": "/basics/list",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "LPUSH",
+                "link": "/basics/list/lpush"
+              },
+              {
+                "text": "RPUSH",
+                "link": "/basics/list/rpush"
+              },
+              {
+                "text": "LPOP",
+                "link": "/basics/list/lpop"
+              },
+              {
+                "text": "RPOP",
+                "link": "/basics/list/rpop"
+              },
+              {
+                "text": "Other List Commands",
+                "link": "/basics/list/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "Set",
+            "link": "/basics/set",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "SADD",
+                "link": "/basics/set/sadd"
+              },
+              {
+                "text": "SMEMBERS",
+                "link": "/basics/set/smembers"
+              },
+              {
+                "text": "SPOP",
+                "link": "/basics/set/spop"
+              },
+              {
+                "text": "Other Set Commands",
+                "link": "/basics/set/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "Sorted Set",
+            "link": "/basics/zset",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "ZADD",
+                "link": "/basics/zset/zadd"
+              },
+              {
+                "text": "ZRANGE",
+                "link": "/basics/zset/zrange"
+              },
+              {
+                "text": "ZREM",
+                "link": "/basics/zset/zrem"
+              },
+              {
+                "text": "Other Sorted Set Commands",
+                "link": "/basics/zset/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "Bitmap",
+            "link": "/basics/bitmap",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "SETBIT",
+                "link": "/basics/bitmap/setbit"
+              },
+              {
+                "text": "GETBIT",
+                "link": "/basics/bitmap/getbit"
+              },
+              {
+                "text": "Other Bitmap Commands",
+                "link": "/basics/bitmap/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "Geospatial Data",
+            "link": "/basics/geospatial",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "GEOADD",
+                "link": "/basics/geospatial/geoadd"
+              },
+              {
+                "text": "GEORADIUS",
+                "link": "/basics/geospatial/georadius"
+              },
+              {
+                "text": "Other Geospatial Commands",
+                "link": "/basics/geospatial/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "HyperLogLog",
+            "link": "/basics/hyperloglog",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "PFADD",
+                "link": "/basics/hyperloglog/pfadd"
+              },
+              {
+                "text": "PFCOUNT",
+                "link": "/basics/hyperloglog/pfcount"
+              },
+              {
+                "text": "Other HyperLogLog Commands",
+                "link": "/basics/hyperloglog/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "Stream",
+            "link": "/basics/streams",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "XADD",
+                "link": "/basics/streams/xadd"
+              },
+              {
+                "text": "XREAD",
+                "link": "/basics/streams/xread"
+              },
+              {
+                "text": "Other Stream Commands",
+                "link": "/basics/streams/other-commands"
+              }
+            ]
+          },
+          {
+            "text": "Connection and Authentication",
+            "link": "/basics/connection-and-authentication"
+          },
+          {
+            "text": "Key Operations",
+            "link": "/basics/key-operations"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Redis Scripting",
+    "link": "/scripts/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Overview",
+        "link": "/scripts/introduction",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Introduction to Scripting",
+            "link": "/scripts/scripts-introduction"
+          },
+          {
+            "text": "Script Execution Principles",
+            "link": "/scripts/execution-principles"
+          },
+          {
+            "text": "Redis Modules and Script Support",
+            "link": "/scripts/modules-support"
+          }
+        ]
+      },
+      {
+        "text": "Lua Scripts",
+        "link": "/scripts/lua/README",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Lua Scripting Overview",
+            "link": "/scripts/lua/overview"
+          },
+          {
+            "text": "Basic Commands",
+            "link": "/scripts/lua/commands",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "EVAL",
+                "link": "/scripts/lua/eval"
+              },
+              {
+                "text": "EVALSHA",
+                "link": "/scripts/lua/evalsha"
+              },
+              {
+                "text": "SCRIPT LOAD",
+                "link": "/scripts/lua/script-load"
+              },
+              {
+                "text": "SCRIPT EXISTS",
+                "link": "/scripts/lua/script-exists"
+              },
+              {
+                "text": "SCRIPT FLUSH",
+                "link": "/scripts/lua/script-flush"
+              }
+            ]
+          },
+          {
+            "text": "Lua and Redis Integration",
+            "link": "/scripts/lua-redis-integration"
+          },
+          {
+            "text": "Lua Scripting Tips",
+            "link": "/scripts/lua/writing-tips"
+          },
+          {
+            "text": "Common Issues and Debugging",
+            "link": "/scripts/lua/troubleshooting"
+          },
+          {
+            "text": "Appendix: Lua Environment and Libraries",
+            "link": "/scripts/appendix"
+          }
+        ]
+      },
+      {
+        "text": "Redis Module Scripts",
+        "link": "/scripts/modules/README",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "RedisGraph",
+            "link": "/scripts/modules/redisgraph",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "Cypher Query Language Overview",
+                "link": "/scripts/modules/redisgraph/cypher-overview"
+              },
+              {
+                "text": "Basic Cypher Query Commands",
+                "link": "/scripts/modules/redisgraph/cypher-commands"
+              }
+            ]
+          },
+          {
+            "text": "RedisJSON",
+            "link": "/scripts/modules/redisjson",
+            "collapsed": true,
+            "items": [
+              {
+                "text": "JSONPath Query Language Overview",
+                "link": "/scripts/modules/redisjson/jsonpath-overview"
+              },
+              {
+                "text": "Basic JSONPath Query Commands",
+                "link": "/scripts/modules/redisjson/jsonpath-commands"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "Script Security and Performance",
+        "link": "/scripts/security-and-performance",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Script Security",
+            "link": "/scripts/security"
+          },
+          {
+            "text": "Performance Optimization",
+            "link": "/scripts/performance"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Advanced Features",
+    "link": "/advanced/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Persistence",
+        "link": "/advanced/persistence",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "RDB Snapshots",
+            "link": "/advanced/rdb-snapshot"
+          },
+          {
+            "text": "AOF Logs",
+            "link": "/advanced/aof-log"
+          },
+          {
+            "text": "Persistence Configuration and Strategy",
+            "link": "/advanced/persistence-configuration"
+          }
+        ]
+      },
+      {
+        "text": "High Availability",
+        "link": "/advanced/high-availability",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Master-Slave Replication",
+            "link": "/advanced/replication"
+          },
+          {
+            "text": "Sentinel",
+            "link": "/advanced/sentinel"
+          },
+          {
+            "text": "Cluster Mode",
+            "link": "/advanced/cluster"
+          }
+        ]
+      },
+      {
+        "text": "Performance Optimization",
+        "link": "/advanced/performance-optimization",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Memory Optimization",
+            "link": "/advanced/memory-optimization"
+          },
+          {
+            "text": "Command Optimization",
+            "link": "/advanced/command-optimization"
+          },
+          {
+            "text": "Redis Performance Monitoring and Tuning",
+            "link": "/advanced/performance-monitoring"
+          }
+        ]
+      },
+      {
+        "text": "Security",
+        "link": "/advanced/security",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Authentication and Authorization",
+            "link": "/advanced/authentication-and-authorization"
+          },
+          {
+            "text": "Network Security",
+            "link": "/advanced/network-security"
+          },
+          {
+            "text": "Data Encryption",
+            "link": "/advanced/data-encryption"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Development and Integration",
+    "link": "/development/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Using Redis in Development",
+        "link": "/development/using-redis",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis Client Libraries",
+            "link": "/development/client-libraries"
+          },
+          {
+            "text": "Redis in Python",
+            "link": "/development/redis-in-python"
+          },
+          {
+            "text": "Redis in Java",
+            "link": "/development/redis-in-java"
+          },
+          {
+            "text": "Redis in Go",
+            "link": "/development/redis-in-go"
+          }
+        ]
+      },
+      {
+        "text": "Redis with Other Technologies",
+        "link": "/development/integration",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Message Queue Integration",
+            "link": "/development/message-queue-integration"
+          },
+          {
+            "text": "Database Integration",
+            "link": "/development/database-integration"
+          },
+          {
+            "text": "Cache Integration",
+            "link": "/development/cache-integration"
+          }
+        ]
+      },
+      {
+        "text": "Practical Projects",
+        "link": "/development/practical-projects",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Building a Chat Application with Redis",
+            "link": "/development/chat-application"
+          },
+          {
+            "text": "Implementing Distributed Locks with Redis",
+            "link": "/development/distributed-lock"
+          },
+          {
+            "text": "Implementing a Rate Limiter with Redis",
+            "link": "/development/rate-limiter"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Operations and Management",
+    "link": "/operations/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Redis Operations",
+        "link": "/operations/redis-operations",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis Backup and Restore",
+            "link": "/operations/backup-and-restore"
+          },
+          {
+            "text": "Redis Logging",
+            "link": "/operations/logging"
+          },
+          {
+            "text": "Redis Cluster Management",
+            "link": "/operations/cluster-management"
+          }
+        ]
+      },
+      {
+        "text": "Monitoring and Troubleshooting",
+        "link": "/operations/monitoring-and-troubleshooting",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis Monitoring Tools",
+            "link": "/operations/monitoring-tools"
+          },
+          {
+            "text": "Common Issues and Solutions",
+            "link": "/operations/common-issues"
+          },
+          {
+            "text": "Performance Tuning and Troubleshooting",
+            "link": "/operations/performance-tuning"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Redis Source Code Analysis",
+    "link": "/source-code-analysis/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Redis Overall Architecture",
+        "link": "/source-code-analysis/architecture",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis Architecture Overview",
+            "link": "/source-code-analysis/architecture/overview"
+          },
+          {
+            "text": "Main Components and Modules",
+            "link": "/source-code-analysis/architecture/components"
+          }
+        ]
+      },
+      {
+        "text": "Memory Management",
+        "link": "/source-code-analysis/memory-management",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Memory Allocation and Deallocation",
+            "link": "/source-code-analysis/memory-management/allocating"
+          },
+          {
+            "text": "Memory Optimization Strategies",
+            "link": "/source-code-analysis/memory-management/optimization"
+          }
+        ]
+      },
+      {
+        "text": "Data Structures and Algorithms",
+        "link": "/source-code-analysis/data-structures",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis Data Structures Overview",
+            "link": "/source-code-analysis/data-structures/overview"
+          },
+          {
+            "text": "Data Structure Implementations",
+            "link": "/source-code-analysis/data-structures/implementation"
+          }
+        ]
+      },
+      {
+        "text": "Persistence Mechanism",
+        "link": "/source-code-analysis/persistence",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "RDB Persistence Implementation",
+            "link": "/source-code-analysis/persistence/rdb"
+          },
+          {
+            "text": "AOF Persistence Implementation",
+            "link": "/source-code-analysis/persistence/aof"
+          }
+        ]
+      },
+      {
+        "text": "Network Protocol",
+        "link": "/source-code-analysis/network-protocol",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Redis Protocol Overview",
+            "link": "/source-code-analysis/network-protocol/protocol-overview"
+          },
+          {
+            "text": "Implementation Details",
+            "link": "/source-code-analysis/network-protocol/implementation"
+          }
+        ]
+      },
+      {
+        "text": "Command Processing Flow",
+        "link": "/source-code-analysis/command-processing",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Command Parsing",
+            "link": "/source-code-analysis/command-processing/parsing"
+          },
+          {
+            "text": "Command Execution",
+            "link": "/source-code-analysis/command-processing/execution"
+          }
+        ]
+      },
+      {
+        "text": "Multithreading and Concurrency Control",
+        "link": "/source-code-analysis/multithreading",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Thread Model",
+            "link": "/source-code-analysis/multithreading/model"
+          },
+          {
+            "text": "Concurrency Control Mechanisms",
+            "link": "/source-code-analysis/multithreading/concurrency"
+          }
+        ]
+      },
+      {
+        "text": "Module System",
+        "link": "/source-code-analysis/modules",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Module System Overview",
+            "link": "/source-code-analysis/modules/overview"
+          },
+          {
+            "text": "Custom Module Implementation",
+            "link": "/source-code-analysis/modules/implementation"
+          }
+        ]
+      },
+      {
+        "text": "Redis Cluster Implementation",
+        "link": "/source-code-analysis/cluster",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Cluster Architecture",
+            "link": "/source-code-analysis/cluster/architecture"
+          },
+          {
+            "text": "Data Sharding and Replication",
+            "link": "/source-code-analysis/cluster/sharding-replication"
+          }
+        ]
+      },
+      {
+        "text": "Performance Optimization",
+        "link": "/source-code-analysis/performance",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Performance Bottleneck Analysis",
+            "link": "/source-code-analysis/performance/bottlenecks"
+          },
+          {
+            "text": "Optimization Strategies",
+            "link": "/source-code-analysis/performance/strategies"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Use Cases",
+    "link": "/use-cases/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Use Case Overview",
+        "link": "/use-cases/redis-use-cases"
+      },
+      {
+        "text": "Caching",
+        "link": "/use-cases/cache",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Cache-Aside and the Three Caching Pitfalls",
+            "link": "/use-cases/caching"
+          },
+          {
+            "text": "Caching Strategies in Practice",
+            "link": "/use-cases/cache/strategies"
+          },
+          {
+            "text": "Case Study: Web Application Caching",
+            "link": "/use-cases/cache/web-app"
+          }
+        ]
+      },
+      {
+        "text": "Session Management",
+        "link": "/use-cases/session-management",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Session Storage",
+            "link": "/use-cases/session-storage"
+          },
+          {
+            "text": "Best Practices for Session Storage",
+            "link": "/use-cases/session-management/best-practices"
+          },
+          {
+            "text": "Case Study: User Authentication and Sessions",
+            "link": "/use-cases/session-management/authentication"
+          }
+        ]
+      },
+      {
+        "text": "Real-Time Analytics",
+        "link": "/use-cases/real-time-analysis",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "UV Statistics and Hotspot Counting",
+            "link": "/use-cases/real-time-analytics"
+          },
+          {
+            "text": "Real-Time Data Processing",
+            "link": "/use-cases/real-time-analysis/data-processing"
+          },
+          {
+            "text": "Case Study: Real-Time Data Dashboards",
+            "link": "/use-cases/real-time-analysis/dashboard"
+          }
+        ]
+      },
+      {
+        "text": "Task Queue",
+        "link": "/use-cases/task-queue",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Message Queues: List and Stream",
+            "link": "/use-cases/message-queues"
+          },
+          {
+            "text": "Task Queue Design and Implementation",
+            "link": "/use-cases/task-queue/design"
+          },
+          {
+            "text": "Case Study: Asynchronous Task Processing",
+            "link": "/use-cases/task-queue/async-tasks"
+          }
+        ]
+      },
+      {
+        "text": "Leaderboards and Counters",
+        "link": "/use-cases/ranking-and-counting",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Leaderboard Implementation",
+            "link": "/use-cases/leaderboards"
+          },
+          {
+            "text": "Counters",
+            "link": "/use-cases/counters"
+          },
+          {
+            "text": "Global ID",
+            "link": "/use-cases/global-id"
+          },
+          {
+            "text": "Leaderboard Implementation Methods",
+            "link": "/use-cases/ranking-and-counting/ranking"
+          }
+        ]
+      },
+      {
+        "text": "Chat System",
+        "link": "/use-cases/chat-system",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Chat Message Storage and Processing",
+            "link": "/use-cases/chat-system/message-storage"
+          },
+          {
+            "text": "Case Study: Real-Time Chat Application",
+            "link": "/use-cases/chat-system/real-time-chat"
+          }
+        ]
+      },
+      {
+        "text": "Geolocation Services",
+        "link": "/use-cases/geolocation-services",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Geospatial Indexing",
+            "link": "/use-cases/geospatial-indexing"
+          },
+          {
+            "text": "Case Study: Location-Based Services",
+            "link": "/use-cases/geolocation-services/location-based"
+          }
+        ]
+      },
+      {
+        "text": "Distributed Locks",
+        "link": "/use-cases/distributed-locks",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Distributed Lock Implementation Methods",
+            "link": "/use-cases/distributed-locks/implementation"
+          },
+          {
+            "text": "Case Study: Locks in Distributed Systems",
+            "link": "/use-cases/distributed-locks/distributed-systems"
+          }
+        ]
+      },
+      {
+        "text": "Rate Limiting",
+        "link": "/use-cases/rate-limiting",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Rate Limiting Strategies and Implementation",
+            "link": "/use-cases/rate-limiting/strategies"
+          },
+          {
+            "text": "Case Study: API Rate Limiting",
+            "link": "/use-cases/rate-limiting/api"
+          }
+        ]
+      },
+      {
+        "text": "Likes",
+        "link": "/use-cases/likes"
+      },
+      {
+        "text": "Lottery",
+        "link": "/use-cases/lottery"
+      },
+      {
+        "text": "Shopping Cart",
+        "link": "/use-cases/shopping-cart"
+      },
+      {
+        "text": "Product Tags",
+        "link": "/use-cases/product-tags"
+      },
+      {
+        "text": "Product Filtering",
+        "link": "/use-cases/product-filtering"
+      },
+      {
+        "text": "Check-in",
+        "link": "/use-cases/check-ins"
+      },
+      {
+        "text": "Clock-in",
+        "link": "/use-cases/clock-ins"
+      },
+      {
+        "text": "Bit Statistics",
+        "link": "/use-cases/bitmap-operations"
+      },
+      {
+        "text": "User Follows and Friendships",
+        "link": "/use-cases/user-follow-recommendation-relationships"
+      },
+      {
+        "text": "User Message Timeline",
+        "link": "/use-cases/user-message-timeline"
+      }
+    ]
+  },
+  {
+    "text": "Compatible Implementations",
+    "link": "/redis-compatible/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Compatible Project Landscape",
+        "link": "/redis-compatible/open-source-projects"
+      },
+      {
+        "text": "Valkey",
+        "link": "/redis-compatible/valkey"
+      },
+      {
+        "text": "KeyDB",
+        "link": "/redis-compatible/keydb"
+      },
+      {
+        "text": "Dragonfly",
+        "link": "/redis-compatible/dragonfly"
+      },
+      {
+        "text": "Pika",
+        "link": "/redis-compatible/pika"
+      },
+      {
+        "text": "SSDB",
+        "link": "/redis-compatible/ssdb"
+      },
+      {
+        "text": "Ardb",
+        "link": "/redis-compatible/ardb"
+      },
+      {
+        "text": "Tile38",
+        "link": "/redis-compatible/tile38"
+      },
+      {
+        "text": "Predis",
+        "link": "/redis-compatible/predis"
+      },
+      {
+        "text": "Medis",
+        "link": "/redis-compatible/medis"
+      }
+    ]
+  },
+  {
+    "text": "Advanced Topics",
+    "link": "/advanced-topics/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Redis Architecture and Design",
+        "link": "/advanced-topics/architecture-and-design"
+      },
+      {
+        "text": "Core Data Structures and Algorithms",
+        "link": "/advanced-topics/core-data-structures"
+      },
+      {
+        "text": "Command Execution and Event Handling",
+        "link": "/advanced-topics/command-execution"
+      },
+      {
+        "text": "New Features in Redis 6",
+        "link": "/advanced-topics/redis-6-features"
+      },
+      {
+        "text": "Redis 7 Outlook",
+        "link": "/advanced-topics/redis-7-outlook"
+      },
+      {
+        "text": "Redis Ecosystem",
+        "link": "/advanced-topics/ecosystem"
+      },
+      {
+        "text": "Redis Future Development",
+        "link": "/advanced-topics/future-development"
+      }
+    ]
+  },
+  {
+    "text": "Appendix",
+    "link": "/appendix/README",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Command Reference",
+        "link": "/appendix/command-reference"
+      },
+      {
+        "text": "FAQ",
+        "link": "/appendix/faq"
+      },
+      {
+        "text": "Glossary",
+        "link": "/appendix/glossary"
+      },
+      {
+        "text": "References",
+        "link": "/appendix/references"
+      }
+    ]
+  },
+  {
+    "text": "Knowledge Overview",
+    "link": "/knowledge"
+  }
+]

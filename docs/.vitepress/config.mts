@@ -1,11 +1,33 @@
 import { defineConfig } from 'vitepress'
-import sidebar from './sidebar.json'
+import sidebarEn from './sidebar.en.json'
+import sidebarZh from './sidebar.zh.json'
+
+// English (root) nav — section hubs only, so the top bar stays readable.
+const navEn = [
+  { text: 'Home', link: '/' },
+  { text: 'Basics', link: '/basics/README' },
+  { text: 'Scripting', link: '/scripts/README' },
+  { text: 'Advanced', link: '/advanced/README' },
+  { text: 'Development', link: '/development/README' },
+  { text: 'Source Code', link: '/source-code-analysis/README' },
+  { text: 'Use Cases', link: '/use-cases/README' },
+  { text: 'Knowledge', link: '/knowledge' }
+]
+
+// 简体中文 nav — same shape, links routed under /zh/.
+const navZh = [
+  { text: '首页', link: '/zh/' },
+  { text: '基础知识', link: '/zh/basics/README' },
+  { text: '脚本功能', link: '/zh/scripts/README' },
+  { text: '进阶功能', link: '/zh/advanced/README' },
+  { text: '开发与集成', link: '/zh/development/README' },
+  { text: '源码分析', link: '/zh/source-code-analysis/README' },
+  { text: '使用场景', link: '/zh/use-cases/README' },
+  { text: '知识点', link: '/zh/knowledge' }
+]
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  lang: 'zh-CN',
-  title: 'Hello Redis',
-  description: 'Redis 知识手册——数据类型、Lua 脚本、持久化与高可用、源码分析与使用场景',
   base: '/hello-redis/',
   cleanUrls: true,
   lastUpdated: true,
@@ -19,23 +41,72 @@ export default defineConfig({
 
   ignoreDeadLinks: false,
 
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en-US',
+      title: 'Hello Redis',
+      description: 'A Redis developer notebook — data structures, Lua scripting, persistence and high availability, source code analysis, and real-world use cases.',
+      themeConfig: {
+        nav: navEn,
+        sidebar: sidebarEn as never
+      }
+    },
+
+    zh: {
+      label: '简体中文',
+      lang: 'zh-CN',
+      link: '/zh/',
+      title: 'Hello Redis',
+      description: 'Redis 知识手册——数据类型、Lua 脚本、持久化与高可用、源码分析与使用场景',
+      themeConfig: {
+        nav: navZh,
+        sidebar: sidebarZh as never,
+
+        search: {
+          provider: 'local',
+          options: {
+            translations: {
+              button: { buttonText: '搜索文档', buttonAriaLabel: '搜索' },
+              modal: {
+                noResultsText: '没有找到结果',
+                resetButtonTitle: '清除查询条件',
+                footer: { selectText: '选择', navigateText: '切换', closeText: '关闭' }
+              }
+            }
+          }
+        },
+
+        outline: {
+          label: '页面导航',
+          level: [2, 3]
+        },
+
+        docFooter: {
+          prev: '上一篇',
+          next: '下一篇'
+        },
+
+        lastUpdated: {
+          text: '最后更新'
+        },
+
+        returnToTopLabel: '回到顶部',
+        sidebarMenuLabel: '菜单',
+        darkModeSwitchLabel: '外观',
+        lightModeSwitchTitle: '切换到浅色模式',
+        darkModeSwitchTitle: '切换到深色模式'
+      }
+    }
+  },
+
   themeConfig: {
-    logo: '/logo.svg',
     siteTitle: 'Hello Redis',
+    logo: '/logo.svg',
 
-    nav: [
-      { text: '首页', link: '/' },
-      { text: '基础知识', link: '/basics/README' },
-      { text: '脚本功能', link: '/scripts/README' },
-      { text: '进阶功能', link: '/advanced/README' },
-      { text: '开发与集成', link: '/development/README' },
-      { text: '源码分析', link: '/source-code-analysis/README' },
-      { text: '使用场景', link: '/use-cases/README' },
-      { text: '知识点', link: '/knowledge' }
-    ],
-
-    // sidebar.json 是侧栏唯一编辑源；8 个编号部分及进阶话题、附录、知识点总纲均在此维护。
-    sidebar: sidebar as never,
+    search: {
+      provider: 'local'
+    },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/cuihairu/hello-redis' }
@@ -44,41 +115,7 @@ export default defineConfig({
     footer: {
       message: 'Hello Redis',
       copyright: '© 2025 cuihairu'
-    },
-
-    search: {
-      provider: 'local',
-      options: {
-        translations: {
-          button: { buttonText: '搜索文档', buttonAriaLabel: '搜索' },
-          modal: {
-            noResultsText: '没有找到结果',
-            resetButtonTitle: '清除查询条件',
-            footer: { selectText: '选择', navigateText: '切换', closeText: '关闭' }
-          }
-        }
-      }
-    },
-
-    outline: {
-      label: '页面导航',
-      level: [2, 3]
-    },
-
-    docFooter: {
-      prev: '上一篇',
-      next: '下一篇'
-    },
-
-    lastUpdated: {
-      text: '最后更新'
-    },
-
-    returnToTopLabel: '回到顶部',
-    sidebarMenuLabel: '菜单',
-    darkModeSwitchLabel: '外观',
-    lightModeSwitchTitle: '切换到浅色模式',
-    darkModeSwitchTitle: '切换到深色模式'
+    }
   },
 
   markdown: {
