@@ -13,7 +13,7 @@
   <img src="docs/public/badges/langs.svg" alt="langs" />
 </p>
 
-Redis 知识手册 · [在线阅读](https://cuihairu.github.io/hello-redis/zh//) <a href="https://cuihairu.github.io/hello-redis/zh/"><img src="https://img.shields.io/badge/%E6%96%87%E6%A1%A3-blue" alt="docs"></a>
+Redis 知识手册 · [在线阅读](https://cuihairu.github.io/hello-redis/zh/) <a href="https://cuihairu.github.io/hello-redis/zh/"><img src="https://img.shields.io/badge/%E6%96%87%E6%A1%A3-blue" alt="docs"></a>
 </div>
 
 ---
